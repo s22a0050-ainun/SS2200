@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
 # 1. Configuration (Optional but good practice)
 st.set_page_config(layout="wide", page_title="Data Loading Example")
@@ -33,3 +34,51 @@ if not arts_df_from_url.empty:
 
     # Optional: Displaying basic info
     st.info(f"The DataFrame has {arts_df_from_url.shape[0]} rows and {arts_df_from_url.shape[1]} columns.")
+
+
+
+
+# 1. --- Data Preparation (Replaces the first two lines of your original code) ---
+# Assuming 'arts_df' is loaded and processed somewhere above this.
+# We will use a mock 'arts_df' and 'gender_counts' for a runnable example.
+
+# MOCK DATA: Replace this section with your actual data loading and processing
+data = {'Gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Other', 'Female', 'Male', 'Female', 'Female']}
+arts_df = pd.DataFrame(data)
+
+# Count the occurrences of each gender (Uses your exact logic)
+gender_counts = arts_df['Gender'].value_counts()
+
+# The gender_counts Series now has the indices (labels) and values (counts)
+
+# 2. --- Plotly Chart Creation (Replaces the Matplotlib code) ---
+
+# Plotly Express is the easiest way to create the chart
+fig = px.pie(
+    names=gender_counts.index,     # These are the labels (e.g., 'Female', 'Male')
+    values=gender_counts.values,   # These are the counts
+    title='Gender Distribution in Arts Faculty',
+    hole=0.3                       # Optional: You can make it a donut chart
+)
+
+# Optional: Customize the appearance for a cleaner look
+fig.update_traces(
+    textposition='inside',         # Position the text inside the slices
+    textinfo='percent+label'       # Show both percentage and label
+)
+
+# Optional: Adjust the title font and size
+fig.update_layout(
+    title_x=0.5,                   # Center the title
+    title_font_size=20
+)
+
+# 3. --- Streamlit Display (Replaces plt.show()) ---
+
+# Display the interactive Plotly chart in the Streamlit app
+st.header("Arts Faculty Data Visualization")
+st.plotly_chart(fig, use_container_width=True)
+
+# You can also show the raw data
+st.subheader("Gender Counts Data")
+st.dataframe(gender_counts)
