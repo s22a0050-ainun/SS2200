@@ -37,48 +37,42 @@ if not arts_df_from_url.empty:
 
 
 
+# 1. --- Data Preparation (Using mock data for a runnable example) ---
+# NOTE: In a real app, you would load your data here, for example:
+# arts_df_url = pd.read_csv('your_data_url_here.csv') 
 
-# 1. --- Data Preparation (Replaces the first two lines of your original code) ---
-# Assuming 'arts_df' is loaded and processed somewhere above this.
-# We will use a mock 'arts_df' and 'gender_counts' for a runnable example.
-
-# MOCK DATA: Replace this section with your actual data loading and processing
+# MOCK DATA: Create a dummy DataFrame to simulate your 'arts_df_url'
 data = {'Gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Other', 'Female', 'Male', 'Female', 'Female']}
-arts_df = pd.DataFrame(data)
+arts_df_url = pd.DataFrame(data)
 
 # Count the occurrences of each gender (Uses your exact logic)
-gender_counts = arts_df['Gender'].value_counts()
+gender_counts = arts_df_url['Gender'].value_counts()
+st.title('Arts Faculty Data Visualization')
 
-# The gender_counts Series now has the indices (labels) and values (counts)
-
-# 2. --- Plotly Chart Creation (Replaces the Matplotlib code) ---
+# 2. --- Plotly Chart Creation (Replaces Matplotlib code) ---
 
 # Plotly Express is the easiest way to create the chart
 fig = px.pie(
-    names=gender_counts.index,     # These are the labels (e.g., 'Female', 'Male')
-    values=gender_counts.values,   # These are the counts
-    title='Gender Distribution in Arts Faculty',
-    hole=0.3                       # Optional: You can make it a donut chart
+    # The 'names' are your labels (gender_counts.index)
+    names=gender_counts.index,     
+    # The 'values' are your counts (gender_counts.values)
+    values=gender_counts.values,   
+    title='Gender Distribution in Arts Faculty'
 )
 
-# Optional: Customize the appearance for a cleaner look
+# Customize the traces for a better visual display (optional)
 fig.update_traces(
-    textposition='inside',         # Position the text inside the slices
-    textinfo='percent+label'       # Show both percentage and label
+    textposition='inside',        # Puts the label/percentage inside the slice
+    textinfo='percent+label',     # Displays both percentage and the label
+    hovertemplate="%{label}: %{value} (%{percent})<extra></extra>" # Custom hover text
 )
 
-# Optional: Adjust the title font and size
+# Adjust the layout for centered title
 fig.update_layout(
-    title_x=0.5,                   # Center the title
-    title_font_size=20
+    title_x=0.5
 )
 
 # 3. --- Streamlit Display (Replaces plt.show()) ---
 
-# Display the interactive Plotly chart in the Streamlit app
-st.header("Arts Faculty Data Visualization")
+# st.plotly_chart displays the interactive Plotly figure
 st.plotly_chart(fig, use_container_width=True)
-
-# You can also show the raw data
-st.subheader("Gender Counts Data")
-st.dataframe(gender_counts)
