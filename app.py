@@ -42,7 +42,7 @@ if not arts_df_url.empty:
 # arts_df_url = pd.read_csv('your_url_here.csv') 
 
 # MOCK DATA: Using dummy data to make the example runnable
-data = {'Gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Other', 'Female', 'Male', 'Female', 'Female']}
+data = {'Gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Female', 'Male', 'Female', 'Female']}
 arts_df_url = pd.DataFrame(data)
 
 # Count the occurrences of each gender (Your original logic)
