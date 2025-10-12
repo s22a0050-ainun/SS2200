@@ -37,42 +37,40 @@ if not arts_df_from_url.empty:
 
 
 
-# 1. --- Data Preparation (Using mock data for a runnable example) ---
-# NOTE: In a real app, you would load your data here, for example:
-# arts_df_url = pd.read_csv('your_data_url_here.csv') 
 
-# MOCK DATA: Create a dummy DataFrame to simulate your 'arts_df_url'
+# 1. Data Preparation
+# NOTE: Replace this with your actual data loading. 
+# We use mock data for a complete, runnable Streamlit example.
 data = {'Gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Other', 'Female', 'Male', 'Female', 'Female']}
 arts_df_url = pd.DataFrame(data)
 
 # Count the occurrences of each gender (Uses your exact logic)
 gender_counts = arts_df_url['Gender'].value_counts()
-st.title('Arts Faculty Data Visualization')
 
-# 2. --- Plotly Chart Creation (Replaces Matplotlib code) ---
+st.title('Gender Distribution Visualization')
 
-# Plotly Express is the easiest way to create the chart
+# 2. Plotly Chart Creation (Replaces Matplotlib)
+
+# Use Plotly Express to create the pie chart
 fig = px.pie(
-    # The 'names' are your labels (gender_counts.index)
+    # The 'names' are the labels (e.g., 'Female', 'Male')
     names=gender_counts.index,     
-    # The 'values' are your counts (gender_counts.values)
+    # The 'values' are the counts 
     values=gender_counts.values,   
     title='Gender Distribution in Arts Faculty'
 )
 
-# Customize the traces for a better visual display (optional)
+# Optional: Customize the appearance
 fig.update_traces(
-    textposition='inside',        # Puts the label/percentage inside the slice
-    textinfo='percent+label',     # Displays both percentage and the label
-    hovertemplate="%{label}: %{value} (%{percent})<extra></extra>" # Custom hover text
+    textposition='inside',      # Position text inside slices
+    textinfo='percent+label'    # Show both percentage and label
 )
 
-# Adjust the layout for centered title
 fig.update_layout(
-    title_x=0.5
+    title_x=0.5 # Center the title
 )
 
-# 3. --- Streamlit Display (Replaces plt.show()) ---
+# 3. Streamlit Display (Replaces plt.show())
 
-# st.plotly_chart displays the interactive Plotly figure
+# Display the interactive Plotly figure in the Streamlit app
 st.plotly_chart(fig, use_container_width=True)
