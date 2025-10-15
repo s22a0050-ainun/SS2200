@@ -77,34 +77,27 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# Assuming 'df' is already loaded with your data
+import matplotlib.pyplot as plt
+import pandas as pd
+import streamlit as st
 
-def get_academic_year_chart(df: pd.DataFrame):
-    # 1. Prepare data
-    bachelor = df['Bachelor Academic Year in EU'].value_counts()
-    masters = df['Masters Academic Year in EU'].value_counts()
-    academic_years_df = pd.DataFrame({
-        'Bachelor': bachelor,
-        'Masters': masters
-    }).fillna(0).reset_index()
-    academic_years_df.columns = ['Academic Year', 'Bachelor', 'Masters']
+# Load dataset
+df = pd.read_csv("arts_faculty_data.csv")
 
-    # 2. Melt to long format for Plotly Express
-    df_melted = academic_years_df.melt(
-        id_vars='Academic Year',
-        value_vars=['Bachelor', 'Masters'],
-        var_name='Degree Type',
-        value_name='Number of Students'
-    )
+# Count academic years for Bachelor and Masters
+bachelor = df['Bachelor  Academic Year in EU'].value_counts()
+masters = df['Masters Academic Year in EU'].value_counts()
 
-    # 3. Create Plotly chart
-    degree_colors = {'Bachelor': '#1f77b4', 'Masters': '#ff7f0e'}
-    fig = px.bar(
-        df_melted,
-        x='Academic Year',
-        y='Number of Students',
-        color='Degree Type',
-        title='Academic Year Distribution by Degree Type',
-        color_discrete_map=degree_colors
-    )
-    return fig 
+# Combine into one DataFrame
+academic_years = pd.DataFrame({'Bachelor': bachelor, 'Masters': masters}).fillna(0)
+
+# Create the plot
+fig, ax = plt.subplots(figsize=(8,6))
+academic_years.plot(kind='bar', stacked=True, color=['#1f77b4', '#ff7f0e'], ax=ax)
+ax.set_title('Academic Year Distribution by Degree Type')
+ax.set_xlabel('Academic Year')
+ax.set_ylabel('Number of Students')
+plt.xticks(rotation=45)
+
+# Display in Streamlit
+st.pyplot(fig)
