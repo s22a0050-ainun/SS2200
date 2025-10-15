@@ -77,7 +77,7 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# Load dataset
+# Load your dataset
 df = pd.read_csv("arts_faculty_data.csv")
 
 # Count academic years for Bachelor and Masters
@@ -85,15 +85,25 @@ bachelor = df['Bachelor  Academic Year in EU'].value_counts()
 masters = df['Masters Academic Year in EU'].value_counts()
 
 # Combine into one DataFrame
-academic_years = pd.DataFrame({'Bachelor': bachelor, 'Masters': masters}).fillna(0)
+academic_years = pd.DataFrame({'Bachelor': bachelor, 'Masters': masters}).fillna(0).reset_index()
+academic_years.rename(columns={'index': 'Academic Year'}, inplace=True)
 
-# Create the plot
-fig, ax = plt.subplots(figsize=(8,6))
-academic_years.plot(kind='bar', stacked=True, color=['#1f77b4', '#ff7f0e'], ax=ax)
-ax.set_title('Academic Year Distribution by Degree Type')
-ax.set_xlabel('Academic Year')
-ax.set_ylabel('Number of Students')
-plt.xticks(rotation=45)
+# Melt data for easier plotting in Plotly
+academic_years_melted = academic_years.melt(id_vars='Academic Year', 
+                                            value_vars=['Bachelor', 'Masters'], 
+                                            var_name='Degree', 
+                                            value_name='Count')
+
+# Create interactive stacked bar chart
+fig = px.bar(
+    academic_years_melted,
+    x='Academic Year',
+    y='Count',
+    color='Degree',
+    color_discrete_map={'Bachelor': '#1f77b4', 'Masters': '#ff7f0e'},
+    title='Academic Year Distribution by Degree Type',
+    barmode='stack'
+)
 
 # Display in Streamlit
-st.pyplot(fig)
+st.plotly_chart(fig, use_container_width=True)
