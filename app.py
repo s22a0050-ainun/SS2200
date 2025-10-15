@@ -109,20 +109,59 @@ fig = px.bar(
 st.plotly_chart(fig, use_container_width=True)
 
 
-import streamlit as st
-import plotly.express as px
+# df = pd.read_csv("your_data.csv")
 
-# Assuming arts_df is already loaded
-# Example of counting and converting the Series to a DataFrame suitable for Plotly
-arts_program_counts = arts_df['Arts Program'].value_counts().reset_index()
-arts_program_counts.columns = ['Program', 'Count']
+# Calculate the mean S.S.C and H.S.C GPA for each gender
+gender_gpa = df.groupby('Gender')[['S.S.C (GPA)', 'H.S.C (GPA)']].mean().reset_index()
 
-# Create and display the Plotly chart
-fig = px.pie(
-    arts_program_counts, 
-    values='Count', 
-    names='Program', 
-    title='Distribution of Students by Arts Program'
+# Melt the DataFrame to long format for easier plotting
+gender_gpa_melted = gender_gpa.melt(
+    id_vars='Gender',
+    var_name='Exam Type',
+    value_name='Average GPA'
 )
 
+# Create a grouped bar chart using Plotly
+fig = px.bar(
+    gender_gpa_melted,
+    x='Gender',
+    y='Average GPA',
+    color='Exam Type',
+    barmode='group',
+    title='Average S.S.C and H.S.C GPA by Gender'
+)
+
+# Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+
+# arts_df = pd.read_csv("your_data.csv")
+
+# Count the occurrences of each Arts Program by Gender
+program_gender_counts = (
+    arts_df.groupby(['Gender', 'Arts Program'])
+    .size()
+    .reset_index(name='Count')
+)
+
+# Create a grouped bar chart using Plotly
+fig = px.bar(
+    program_gender_counts,
+    x='Arts Program',
+    y='Count',
+    color='Gender',
+    barmode='group',
+    title='Preferred Arts Program by Gender'
+)
+
+# Improve layout for readability
+fig.update_layout(
+    xaxis_title='Arts Program',
+    yaxis_title='Number of Students',
+    xaxis_tickangle=-45
+)
+
+# Display the chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
+
