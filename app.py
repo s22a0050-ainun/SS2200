@@ -109,49 +109,20 @@ fig = px.bar(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# --- Assuming 'arts_df' is already loaded or created ---
-# Example DataFrame structure (Replace with your actual data loading)
-# This dummy DataFrame allows the example to run without external data
-data = {
-    'Arts Program': ['Music', 'Drama', 'Visual Arts', 'Music', 'Drama', 'Visual Arts', 'Music', 'Visual Arts', 'Drama', 'Music']
-}
-arts_df = pd.DataFrame(data)
-# --- End of Assumption ---
+# arts_df = pd.read_csv("your_data.csv")
 
-def create_arts_program_pie_chart(df):
-    """
-    Calculates program distribution and creates an interactive Plotly pie chart.
-    """
-    # Count the occurrences of each Arts Program
-    arts_program_counts = df['Arts Program'].value_counts().reset_index()
-    arts_program_counts.columns = ['Arts Program', 'Count']
-    
-    # Create a Plotly Express pie chart
-    fig = px.pie(
-        arts_program_counts, 
-        values='Count', 
-        names='Arts Program', 
-        title='Distribution of Students by Arts Program',
-        # Optional: Customize the hover information or labels
-        # hover_data=['Count'], 
-        # labels={'Arts Program':'Program'}
-    )
-    
-    # Optional: Customize the appearance (e.g., uniform color, text position)
-    fig.update_traces(textposition='inside', textinfo='percent+label')
-    fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
-    
-    return fig
+# Count the occurrences of each Arts Program
+arts_program_counts = arts_df['Arts Program'].value_counts().reset_index()
+arts_program_counts.columns = ['Arts Program', 'Count']
 
-# --- Streamlit App Layout ---
+# Create a Plotly pie chart
+fig = px.pie(
+    arts_program_counts,
+    names='Arts Program',
+    values='Count',
+    title='Distribution of Students by Arts Program',
+    hole=0  # set >0 (e.g. 0.4) for a donut chart
+)
 
-st.title("🎨 Arts Program Distribution Dashboard")
-
-if 'Arts Program' in arts_df.columns:
-    # Generate and display the chart
-    plotly_figure = create_arts_program_pie_chart(arts_df)
-    
-    # Use st.plotly_chart to display the interactive Plotly figure
-    st.plotly_chart(plotly_figure, use_container_width=True)
-else:
-    st.error("The DataFrame must contain an 'Arts Program' column.")
+# Display in Streamlit
+st.plotly_chart(fig, use_container_width=True)
