@@ -136,32 +136,54 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 
+import streamlit as st
+import plotly.graph_objects as go
+import pandas as pd
+
+# Example dataframe (replace this with your actual data)
 # arts_df = pd.read_csv("your_data.csv")
 
-# Count the occurrences of each Arts Program by Gender
+# Sample data (delete this if you’re loading your own CSV)
+arts_df = pd.DataFrame({
+    'Gender': ['Male', 'Female', 'Male', 'Female', 'Male', 'Female'],
+    'Arts Program': ['Music', 'Music', 'Drama', 'Drama', 'Dance', 'Dance']
+})
+
+# Count occurrences of each Arts Program by Gender
 program_gender_counts = (
-    arts_df.groupby(['Gender', 'Arts Program'])
+    arts_df.groupby(['Arts Program', 'Gender'])
     .size()
     .reset_index(name='Count')
 )
 
-# Create a grouped bar chart using Plotly
-fig = px.bar(
-    program_gender_counts,
-    x='Arts Program',
-    y='Count',
-    color='Gender',
-    barmode='group',
-    title='Preferred Arts Program by Gender'
-)
+# Create separate bars for each gender
+genders = program_gender_counts['Gender'].unique()
+fig = go.Figure()
 
-# Improve layout for readability
+for gender in genders:
+    gender_data = program_gender_counts[program_gender_counts['Gender'] == gender]
+    fig.add_trace(
+        go.Bar(
+            x=gender_data['Arts Program'],
+            y=gender_data['Count'],
+            name=gender,
+            text=gender_data['Count'],
+            textposition='auto'
+        )
+    )
+
+# Update layout
 fig.update_layout(
+    title='Preferred Arts Program by Gender',
     xaxis_title='Arts Program',
     yaxis_title='Number of Students',
-    xaxis_tickangle=-45
+    barmode='group',
+    xaxis_tickangle=-45,
+    plot_bgcolor='rgba(0,0,0,0)',
+    paper_bgcolor='rgba(0,0,0,0)',
+    legend_title_text='Gender'
 )
 
-# Display the chart in Streamlit
+# Display in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
