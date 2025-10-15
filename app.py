@@ -107,4 +107,4 @@ def get_academic_year_chart(df: pd.DataFrame):
         title='Academic Year Distribution by Degree Type',
         color_discrete_map=degree_colors
     )
-    return fig
+    return fig 
