@@ -175,5 +175,35 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
+# Load dataset
+df = pd.read_csv("arts_faculty_data.csv")
+
+# Create grouped count for Arts Program and Gender
+program_gender_counts = df.groupby(['Arts Program', 'Gender']).size().reset_index(name='Count')
+
+# Create interactive bar chart
+fig = px.bar(
+    program_gender_counts,
+    x='Arts Program',
+    y='Count',
+    color='Gender',
+    barmode='group',
+    color_discrete_map={'Female': '#1f77b4', 'Male': '#ff7f0e'},
+    title='Preferred Arts Program by Gender'
+)
+
+# Customize layout
+fig.update_layout(
+    xaxis_title='Arts Program',
+    yaxis_title='Number of Students',
+    legend_title='Gender',
+    xaxis_tickangle=45
+)
+
+# Show in Streamlit
+st.plotly_chart(fig, use_container_width=True)
+
+
+
 
 
