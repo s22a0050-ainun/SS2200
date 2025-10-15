@@ -175,35 +175,42 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# Load dataset
-df = pd.read_csv("arts_faculty_data.csv")
+# Count each gender’s preference per program
+program_gender = df.groupby(['Gender', 'Arts Program']).size().reset_index(name='Count')
 
-# Create grouped count for Arts Program and Gender
-program_gender_counts = df.groupby(['Arts Program', 'Gender']).size().reset_index(name='Count')
+# Define colors
+female_colors = ['#1f77b4', '#5aa0d8', '#8cbfe7', '#b3d9f2']
+male_colors = ['#ff7f0e', '#ffa94d', '#ffc285', '#ffe0bf']
 
-# Create interactive bar chart
-fig = px.bar(
-    program_gender_counts,
-    x='Arts Program',
-    y='Count',
-    color='Gender',
-    barmode='group',
-    color_discrete_map={'Female': '#1f77b4', 'Male': '#ff7f0e'},
-    title='Preferred Arts Program by Gender'
+# Create subplot (2 pie charts side by side)
+fig = make_subplots(rows=1, cols=2, specs=[[{'type':'domain'}, {'type':'domain'}]],
+                    subplot_titles=['Female Students', 'Male Students'])
+
+# Female chart
+female_data = program_gender[program_gender['Gender'] == 'Female']
+fig.add_trace(
+    go.Pie(labels=female_data['Arts Program'], values=female_data['Count'],
+           name="Female", marker=dict(colors=female_colors[:len(female_data)])),
+    1, 1
 )
 
-# Customize layout
+# Male chart
+male_data = program_gender[program_gender['Gender'] == 'Male']
+fig.add_trace(
+    go.Pie(labels=male_data['Arts Program'], values=male_data['Count'],
+           name="Male", marker=dict(colors=male_colors[:len(male_data)])),
+    1, 2
+)
+
+# Layout
 fig.update_layout(
-    xaxis_title='Arts Program',
-    yaxis_title='Number of Students',
-    legend_title='Gender',
-    xaxis_tickangle=45
+    title_text='Preferred Arts Program by Gender',
+    annotations=[
+        dict(text='Female', x=0.18, y=0.5, font_size=14, showarrow=False),
+        dict(text='Male', x=0.82, y=0.5, font_size=14, showarrow=False)
+    ],
+    showlegend=True
 )
 
-# Show in Streamlit
+# Display in Streamlit
 st.plotly_chart(fig, use_container_width=True)
-
-
-
-
-
