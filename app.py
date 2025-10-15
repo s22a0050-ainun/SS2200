@@ -109,20 +109,20 @@ fig = px.bar(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# arts_df = pd.read_csv("your_data.csv")
+import streamlit as st
+import plotly.express as px
 
-# Count the occurrences of each Arts Program
+# Assuming arts_df is already loaded
+# Example of counting and converting the Series to a DataFrame suitable for Plotly
 arts_program_counts = arts_df['Arts Program'].value_counts().reset_index()
-arts_program_counts.columns = ['Arts Program', 'Count']
+arts_program_counts.columns = ['Program', 'Count']
 
-# Create a Plotly pie chart
+# Create and display the Plotly chart
 fig = px.pie(
-    arts_program_counts,
-    names='Arts Program',
-    values='Count',
-    title='Distribution of Students by Arts Program',
-    hole=0  # set >0 (e.g. 0.4) for a donut chart
+    arts_program_counts, 
+    values='Count', 
+    names='Program', 
+    title='Distribution of Students by Arts Program'
 )
 
-# Display in Streamlit
 st.plotly_chart(fig, use_container_width=True)
