@@ -75,3 +75,39 @@ fig.update_layout(
 
 # Display the interactive Plotly figure in the Streamlit app
 st.plotly_chart(fig, use_container_width=True)
+
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+# Assuming 'df' is already loaded with your data
+
+def get_academic_year_chart(df: pd.DataFrame):
+    # 1. Prepare data
+    bachelor = df['Bachelor Academic Year in EU'].value_counts()
+    masters = df['Masters Academic Year in EU'].value_counts()
+    academic_years_df = pd.DataFrame({
+        'Bachelor': bachelor,
+        'Masters': masters
+    }).fillna(0).reset_index()
+    academic_years_df.columns = ['Academic Year', 'Bachelor', 'Masters']
+
+    # 2. Melt to long format for Plotly Express
+    df_melted = academic_years_df.melt(
+        id_vars='Academic Year',
+        value_vars=['Bachelor', 'Masters'],
+        var_name='Degree Type',
+        value_name='Number of Students'
+    )
+
+    # 3. Create Plotly chart
+    degree_colors = {'Bachelor': '#1f77b4', 'Masters': '#ff7f0e'}
+    fig = px.bar(
+        df_melted,
+        x='Academic Year',
+        y='Number of Students',
+        color='Degree Type',
+        title='Academic Year Distribution by Degree Type',
+        color_discrete_map=degree_colors
+    )
+    return fig
