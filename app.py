@@ -109,36 +109,23 @@ fig = px.bar(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# Load dataset
-df = pd.read_csv("arts_faculty_data.csv")
+# Count occurrences of each Arts Program
+arts_program_counts = arts_df['Arts Program'].value_counts().reset_index()
+arts_program_counts.columns = ['Arts Program', 'Count']
 
-# Count each program
-program_counts = df['Arts Program'].value_counts().reset_index()
-program_counts.columns = ['Arts Program', 'Number of Students']
-
-# Define alternating colors (blue + orange)
-colors = ['#1f77b4', '#ff7f0e'] * (len(program_counts)//2 + 1)
-colors = colors[:len(program_counts)]
-
-# Create interactive bar chart
-fig = px.bar(
-    program_counts,
-    x='Arts Program',
-    y='Number of Students',
-    title='Distribution of Students by Arts Program',
+# Create an interactive pie chart
+fig = px.pie(
+    arts_program_counts,
+    names='Arts Program',
+    values='Count',
     color='Arts Program',
-    color_discrete_sequence=colors
+    color_discrete_sequence=['#1f77b4', '#ff7f0e', '#5aa0d8', '#ffa94d'],  # blue & orange tones
+    title='Distribution of Students by Arts Program'
 )
 
-# Customize layout
-fig.update_layout(
-    xaxis_title='Arts Program',
-    yaxis_title='Number of Students',
-    showlegend=False
-)
-
-# Show in Streamlit
+# Display in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 # Load your dataset
