@@ -76,9 +76,6 @@ fig.update_layout(
 # Display the interactive Plotly figure in the Streamlit app
 st.plotly_chart(fig, use_container_width=True)
 
-import streamlit as st
-import pandas as pd
-import plotly.express as px
 
 # Assuming 'df' is already loaded with your data
 
