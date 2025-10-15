@@ -107,3 +107,73 @@ fig = px.bar(
 
 # Display in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+# Load dataset
+df = pd.read_csv("arts_faculty_data.csv")
+
+# Count each program
+program_counts = df['Arts Program'].value_counts().reset_index()
+program_counts.columns = ['Arts Program', 'Number of Students']
+
+# Define alternating colors (blue + orange)
+colors = ['#1f77b4', '#ff7f0e'] * (len(program_counts)//2 + 1)
+colors = colors[:len(program_counts)]
+
+# Create interactive bar chart
+fig = px.bar(
+    program_counts,
+    x='Arts Program',
+    y='Number of Students',
+    title='Distribution of Students by Arts Program',
+    color='Arts Program',
+    color_discrete_sequence=colors
+)
+
+# Customize layout
+fig.update_layout(
+    xaxis_title='Arts Program',
+    yaxis_title='Number of Students',
+    showlegend=False
+)
+
+# Show in Streamlit
+st.plotly_chart(fig, use_container_width=True)
+
+
+# Load your dataset
+df = pd.read_csv("arts_faculty_data.csv")
+
+# Calculate average GPA by gender
+avg_gpa = df.groupby('Gender')[['S.S.C (GPA)', 'H.S.C (GPA)']].mean().reset_index()
+
+# Convert to long format for Plotly
+avg_gpa_melted = avg_gpa.melt(id_vars='Gender', 
+                              value_vars=['S.S.C (GPA)', 'H.S.C (GPA)'], 
+                              var_name='GPA Type', 
+                              value_name='Average GPA')
+
+# Create interactive bar chart
+fig = px.bar(
+    avg_gpa_melted,
+    x='Gender',
+    y='Average GPA',
+    color='GPA Type',
+    barmode='group',
+    color_discrete_sequence=['#1f77b4', '#ff7f0e'],
+    title='Average S.S.C and H.S.C GPA by Gender'
+)
+
+# Customize layout
+fig.update_layout(
+    xaxis_title='Gender',
+    yaxis_title='Average GPA',
+    legend_title='GPA Type'
+)
+
+# Display in Streamlit
+st.plotly_chart(fig, use_container_width=True)
+
+
+
+
