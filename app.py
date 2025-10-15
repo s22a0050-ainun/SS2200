@@ -175,42 +175,27 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# Count each gender’s preference per program
+# Sample data
+df = pd.DataFrame({
+    'Gender': ['Female', 'Female', 'Male', 'Male', 'Female', 'Male'],
+    'Arts Program': ['Music', 'Dance', 'Music', 'Painting', 'Painting', 'Dance']
+})
+
 program_gender = df.groupby(['Gender', 'Arts Program']).size().reset_index(name='Count')
 
-# Define colors
 female_colors = ['#1f77b4', '#5aa0d8', '#8cbfe7', '#b3d9f2']
 male_colors = ['#ff7f0e', '#ffa94d', '#ffc285', '#ffe0bf']
 
-# Create subplot (2 pie charts side by side)
 fig = make_subplots(rows=1, cols=2, specs=[[{'type':'domain'}, {'type':'domain'}]],
                     subplot_titles=['Female Students', 'Male Students'])
 
-# Female chart
 female_data = program_gender[program_gender['Gender'] == 'Female']
-fig.add_trace(
-    go.Pie(labels=female_data['Arts Program'], values=female_data['Count'],
-           name="Female", marker=dict(colors=female_colors[:len(female_data)])),
-    1, 1
-)
+fig.add_trace(go.Pie(labels=female_data['Arts Program'], values=female_data['Count'],
+                     name="Female", marker=dict(colors=female_colors[:len(female_data)])), 1, 1)
 
-# Male chart
 male_data = program_gender[program_gender['Gender'] == 'Male']
-fig.add_trace(
-    go.Pie(labels=male_data['Arts Program'], values=male_data['Count'],
-           name="Male", marker=dict(colors=male_colors[:len(male_data)])),
-    1, 2
-)
+fig.add_trace(go.Pie(labels=male_data['Arts Program'], values=male_data['Count'],
+                     name="Male", marker=dict(colors=male_colors[:len(male_data)])), 1, 2)
 
-# Layout
-fig.update_layout(
-    title_text='Preferred Arts Program by Gender',
-    annotations=[
-        dict(text='Female', x=0.18, y=0.5, font_size=14, showarrow=False),
-        dict(text='Male', x=0.82, y=0.5, font_size=14, showarrow=False)
-    ],
-    showlegend=True
-)
-
-# Display in Streamlit
+fig.update_layout(title_text='Preferred Arts Program by Gender')
 st.plotly_chart(fig, use_container_width=True)
