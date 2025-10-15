@@ -109,77 +109,49 @@ fig = px.bar(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# Count occurrences of each Arts Program
-arts_program_counts = arts_df['Arts Program'].value_counts().reset_index()
-arts_program_counts.columns = ['Arts Program', 'Count']
+# --- Assuming 'arts_df' is already loaded or created ---
+# Example DataFrame structure (Replace with your actual data loading)
+# This dummy DataFrame allows the example to run without external data
+data = {
+    'Arts Program': ['Music', 'Drama', 'Visual Arts', 'Music', 'Drama', 'Visual Arts', 'Music', 'Visual Arts', 'Drama', 'Music']
+}
+arts_df = pd.DataFrame(data)
+# --- End of Assumption ---
 
-# Create an interactive pie chart
-fig = px.pie(
-    arts_program_counts,
-    names='Arts Program',
-    values='Count',
-    color='Arts Program',
-    color_discrete_sequence=['#1f77b4', '#ff7f0e', '#5aa0d8', '#ffa94d'],  # blue & orange tones
-    title='Distribution of Students by Arts Program'
-)
-
-# Display in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
-
-
-# Load your dataset
-df = pd.read_csv("arts_faculty_data.csv")
-
-# Calculate average GPA by gender
-avg_gpa = df.groupby('Gender')[['S.S.C (GPA)', 'H.S.C (GPA)']].mean().reset_index()
-
-# Convert to long format for Plotly
-avg_gpa_melted = avg_gpa.melt(id_vars='Gender', 
-                              value_vars=['S.S.C (GPA)', 'H.S.C (GPA)'], 
-                              var_name='GPA Type', 
-                              value_name='Average GPA')
-
-# Create interactive bar chart
-fig = px.bar(
-    avg_gpa_melted,
-    x='Gender',
-    y='Average GPA',
-    color='GPA Type',
-    barmode='group',
-    color_discrete_sequence=['#1f77b4', '#ff7f0e'],
-    title='Average S.S.C and H.S.C GPA by Gender'
-)
-
-# Customize layout
-fig.update_layout(
-    xaxis_title='Gender',
-    yaxis_title='Average GPA',
-    legend_title='GPA Type'
-)
-
-# Display in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
-
-# Example dataframe (replace this with your actual data)
-# arts_df = pd.read_csv("arts_faculty_data.csv")
-
-# Group by Gender and Arts Program and count occurrences
-program_gender = arts_df.groupby(['Gender', 'Arts Program']).size().reset_index(name='Count')
-
-# Get unique genders
-genders = program_gender['Gender'].unique()
-
-# Loop through genders and create a pie chart for each
-for gender in genders:
-    gender_data = program_gender[program_gender['Gender'] == gender]
+def create_arts_program_pie_chart(df):
+    """
+    Calculates program distribution and creates an interactive Plotly pie chart.
+    """
+    # Count the occurrences of each Arts Program
+    arts_program_counts = df['Arts Program'].value_counts().reset_index()
+    arts_program_counts.columns = ['Arts Program', 'Count']
+    
+    # Create a Plotly Express pie chart
     fig = px.pie(
-        gender_data,
-        names='Arts Program',
-        values='Count',
-        color='Arts Program',
-        color_discrete_sequence=['#1f77b4', '#ff7f0e', '#5aa0d8', '#ffa94d'],  # blue & orange shades
-        title=f'Preferred Arts Program Distribution for {gender}'
+        arts_program_counts, 
+        values='Count', 
+        names='Arts Program', 
+        title='Distribution of Students by Arts Program',
+        # Optional: Customize the hover information or labels
+        # hover_data=['Count'], 
+        # labels={'Arts Program':'Program'}
     )
-    st.plotly_chart(fig, use_container_width=True)
+    
+    # Optional: Customize the appearance (e.g., uniform color, text position)
+    fig.update_traces(textposition='inside', textinfo='percent+label')
+    fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
+    
+    return fig
+
+# --- Streamlit App Layout ---
+
+st.title("🎨 Arts Program Distribution Dashboard")
+
+if 'Arts Program' in arts_df.columns:
+    # Generate and display the chart
+    plotly_figure = create_arts_program_pie_chart(arts_df)
+    
+    # Use st.plotly_chart to display the interactive Plotly figure
+    st.plotly_chart(plotly_figure, use_container_width=True)
+else:
+    st.error("The DataFrame must contain an 'Arts Program' column.")
