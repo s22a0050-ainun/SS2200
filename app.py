@@ -175,27 +175,24 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# Sample data
-df = pd.DataFrame({
-    'Gender': ['Female', 'Female', 'Male', 'Male', 'Female', 'Male'],
-    'Arts Program': ['Music', 'Dance', 'Music', 'Painting', 'Painting', 'Dance']
-})
+# Example dataframe (replace this with your actual data)
+# arts_df = pd.read_csv("your_dataset.csv")
 
-program_gender = df.groupby(['Gender', 'Arts Program']).size().reset_index(name='Count')
+# Group by Gender and Arts Program and count occurrences
+program_gender = arts_df.groupby(['Gender', 'Arts Program']).size().reset_index(name='Count')
 
-female_colors = ['#1f77b4', '#5aa0d8', '#8cbfe7', '#b3d9f2']
-male_colors = ['#ff7f0e', '#ffa94d', '#ffc285', '#ffe0bf']
+# Get unique genders
+genders = program_gender['Gender'].unique()
 
-fig = make_subplots(rows=1, cols=2, specs=[[{'type':'domain'}, {'type':'domain'}]],
-                    subplot_titles=['Female Students', 'Male Students'])
-
-female_data = program_gender[program_gender['Gender'] == 'Female']
-fig.add_trace(go.Pie(labels=female_data['Arts Program'], values=female_data['Count'],
-                     name="Female", marker=dict(colors=female_colors[:len(female_data)])), 1, 1)
-
-male_data = program_gender[program_gender['Gender'] == 'Male']
-fig.add_trace(go.Pie(labels=male_data['Arts Program'], values=male_data['Count'],
-                     name="Male", marker=dict(colors=male_colors[:len(male_data)])), 1, 2)
-
-fig.update_layout(title_text='Preferred Arts Program by Gender')
-st.plotly_chart(fig, use_container_width=True)
+# Loop through genders and create a pie chart for each
+for gender in genders:
+    gender_data = program_gender[program_gender['Gender'] == gender]
+    fig = px.pie(
+        gender_data,
+        names='Arts Program',
+        values='Count',
+        color='Arts Program',
+        color_discrete_sequence=['#1f77b4', '#ff7f0e', '#5aa0d8', '#ffa94d'],  # blue & orange shades
+        title=f'Preferred Arts Program Distribution for {gender}'
+    )
+    st.plotly_chart(fig, use_container_width=True)
