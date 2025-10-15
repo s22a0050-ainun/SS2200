@@ -77,10 +77,6 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-import matplotlib.pyplot as plt
-import pandas as pd
-import streamlit as st
-
 # Load dataset
 df = pd.read_csv("arts_faculty_data.csv")
 
