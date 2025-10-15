@@ -176,7 +176,7 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 # Example dataframe (replace this with your actual data)
-# arts_df = pd.read_csv("your_dataset.csv")
+# arts_df = pd.read_csv("arts_faculty_data.csv")
 
 # Group by Gender and Arts Program and count occurrences
 program_gender = arts_df.groupby(['Gender', 'Arts Program']).size().reset_index(name='Count')
