@@ -77,22 +77,41 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# arts_df = pd.read_csv("/content/arts_faculty_data.csv")
+# Example dataframe (replace with your actual dataset)
+# df = pd.read_csv("your_data.csv")
 
-# Count the occurrences of each Arts Program
-arts_program_counts = arts_df['Arts Program'].value_counts().reset_index()
-arts_program_counts.columns = ['Arts Program', 'Count']
-
-# Create a pie chart using Plotly
-fig = px.pie(
-    arts_program_counts,
-    names='Arts Program',
-    values='Count',
-    title='Distribution of Students by Arts Program',
-    hole=0,  # set to 0 for full pie, 0.4 for donut style
-    color_discrete_sequence=px.colors.qualitative.Set2
+# Calculate the mean S.S.C and H.S.C GPA for each gender
+gender_gpa = (
+    df.groupby('Gender')[['S.S.C (GPA)', 'H.S.C (GPA)']]
+    .mean()
+    .reset_index()
 )
 
-# Show chart in Streamlit
+# Melt the DataFrame to long format for easier plotting
+gender_gpa_melted = gender_gpa.melt(
+    id_vars='Gender',
+    var_name='Exam Type',
+    value_name='Average GPA'
+)
+
+# Create a grouped bar chart using Plotly
+fig = px.bar(
+    gender_gpa_melted,
+    x='Gender',
+    y='Average GPA',
+    color='Exam Type',
+    barmode='group',
+    title='Average S.S.C and H.S.C GPA by Gender',
+    text_auto='.2f'
+)
+
+# Customize layout
+fig.update_layout(
+    xaxis_title='Gender',
+    yaxis_title='Average GPA',
+    template='plotly_white'
+)
+
+# Display in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
