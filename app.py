@@ -77,31 +77,6 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# --- Assume 'arts_df' is your loaded DataFrame ---
-# For demonstration, creating a dummy DataFrame that matches the structure:
-data = {'Did you ever attend a Coaching center?': ['Yes', 'No', 'Yes', 'No', 'Yes', 'No', 'No', 'Yes', 'No']}
-arts_df = pd.DataFrame(data)
-# --- End of dummy DataFrame creation ---
-
-## 🥧 Streamlit Plotly Pie Chart
-
-# 1. Count the occurrences of each response
-coaching_counts = arts_df['Did you ever attend a Coaching center?'].value_counts().reset_index()
-coaching_counts.columns = ['Response', 'Count']
-
-# 2. Create the Plotly Pie Chart
-fig = px.pie(coaching_counts,
-             values='Count',
-             names='Response',
-             title='Did students attend a Coaching Center?')
-
-# Optional: Ensure text labels are visible inside the slices
-fig.update_traces(textposition='inside', textinfo='percent+label')
-
-# 3. Display the chart in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
-
 
 # --- Assume 'arts_df' is your loaded DataFrame ---
 # For demonstration, creating a dummy DataFrame that matches the structure:
@@ -137,6 +112,31 @@ fig.update_layout(showlegend=False) # Legend is redundant since facet_col is use
 fig.update_xaxes(matches=None) # Allow x-axes to have independent ranges (if needed)
 
 # 4. Display the chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
+
+
+# --- Assume 'arts_df' is your loaded DataFrame ---
+# For demonstration, creating a dummy DataFrame that matches the structure:
+data = {'Did you ever attend a Coaching center?': ['Yes', 'No', 'Yes', 'No', 'Yes', 'No', 'No', 'Yes', 'No']}
+arts_df = pd.DataFrame(data)
+# --- End of dummy DataFrame creation ---
+
+## 🥧 Streamlit Plotly Pie Chart
+
+# 1. Count the occurrences of each response
+coaching_counts = arts_df['Did you ever attend a Coaching center?'].value_counts().reset_index()
+coaching_counts.columns = ['Response', 'Count']
+
+# 2. Create the Plotly Pie Chart
+fig = px.pie(coaching_counts,
+             values='Count',
+             names='Response',
+             title='Did students attend a Coaching Center?')
+
+# Optional: Ensure text labels are visible inside the slices
+fig.update_traces(textposition='inside', textinfo='percent+label')
+
+# 3. Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
 
