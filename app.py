@@ -142,35 +142,6 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 
-
-# --- Assume 'arts_df' is your loaded DataFrame ---
-# For demonstration, creating a dummy DataFrame that matches the structure:
-data = {'Gender': ['Male', 'Female', 'Male', 'Female', 'Male', 'Female'],
-        'Arts Program': ['Music', 'Drama', 'Music', 'Visual Arts', 'Drama', 'Music']}
-arts_df = pd.DataFrame(data)
-# --- End of dummy DataFrame creation ---
-
-## 📊 Streamlit Plotly Grouped Bar Chart
-
-# 1. Count the occurrences of each Arts Program by Gender
-# This is already in a good "long" format for Plotly, just need to rename the count column.
-program_gender_counts = arts_df.groupby(['Gender', 'Arts Program']).size().reset_index(name='Count')
-
-# 2. Create the Plotly Grouped Bar Chart
-fig = px.bar(program_gender_counts,
-             x='Arts Program',
-             y='Count',
-             color='Gender', # Used for grouping the bars
-             barmode='group', # Puts the 'Gender' bars side-by-side
-             title='Arts Program by Gender',
-             labels={'Count': 'Number of Students', 'Arts Program': 'Arts Program'})
-
-# Optional: Customize layout for better appearance
-fig.update_layout(xaxis_tickangle=45) # Rotate x-axis labels
-
-# 3. Display the chart in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
 # --- Assume 'arts_df' is your loaded DataFrame ---
 # For demonstration, creating a dummy DataFrame that matches the structure:
 data = {'S.S.C (GPA)': [4.5, 4.8, 4.2, 4.9, 3.5, 4.0],
@@ -205,6 +176,32 @@ fig.update_layout(showlegend=False) # Legend is redundant since facet_col is use
 fig.update_xaxes(matches=None) # Allow x-axes to have independent ranges (if needed)
 
 # 4. Display the chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
+
+
+
+# --- Assume 'arts_df' is your loaded DataFrame ---
+# For demonstration, creating a dummy DataFrame that matches the structure:
+data = {'H.S.C or Equivalent study medium': ['Bangla', 'English', 'Bangla', 'English', 'Bangla']}
+arts_df = pd.DataFrame(data)
+# --- End of dummy DataFrame creation ---
+
+## 🥧 Streamlit Plotly Pie Chart
+
+# 1. Count the occurrences and format the data for Plotly
+study_medium_counts = arts_df['H.S.C or Equivalent study medium'].value_counts().reset_index()
+study_medium_counts.columns = ['Study Medium', 'Count']
+
+# 2. Create the Plotly Pie Chart
+fig = px.pie(study_medium_counts,
+             values='Count',
+             names='Study Medium',
+             title='Distribution of H.S.C or Equivalent Study Medium')
+
+# Optional: Customize text formatting
+fig.update_traces(textposition='inside', textinfo='percent+label')
+
+# 3. Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
 
