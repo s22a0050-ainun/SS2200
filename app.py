@@ -205,3 +205,26 @@ fig.update_traces(textposition='inside', textinfo='percent+label')
 st.plotly_chart(fig, use_container_width=True)
 
 
+# --- 1. Create DataFrame based on the graph values ---
+data = {
+    'Arts Program': ['B.A. in English', 'M. A. in ELT (1.4 Year)', 'M. A. in ELT (2 Year)', 'M.A. in English'],
+    # Approximate values read from the graph
+    'Number of Students': [69, 13, 3, 2]
+}
+df_arts = pd.DataFrame(data)
+
+# --- 2. Create the Plotly Bar Chart ---
+fig = px.bar(df_arts,
+             x='Arts Program',
+             y='Number of Students',
+             title='Distribution of Arts Programs',
+             # Optional: Set a consistent color for the bars
+             color_discrete_sequence=['#1f77b4'])
+
+# Optional: Customize layout to match the rotation of the x-axis labels
+fig.update_layout(xaxis_tickangle=45)
+
+# --- 3. Display the chart in Streamlit ---
+st.plotly_chart(fig, use_container_width=True)
+
+
