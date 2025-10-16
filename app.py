@@ -77,37 +77,38 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# Example dataframe (replace this with your actual dataset)
-# df = pd.read_csv("/content/arts_faculty_data.csv")
+# --- Assume 'df' is your loaded DataFrame ---
+# For demonstration, creating a dummy DataFrame that matches the structure:
+data = {'Gender': ['Male', 'Female', 'Male', 'Female'],
+        'S.S.C (GPA)': [4.5, 4.8, 4.2, 4.9],
+        'H.S.C (GPA)': [4.0, 4.7, 3.8, 4.6]}
+df = pd.DataFrame(data)
+# --- End of dummy DataFrame creation ---
 
-# Calculate average S.S.C and H.S.C GPA by gender
+## 📊 Streamlit Plotly Chart
+
+# 1. Calculate the average GPA by Gender
 avg_gpa = df.groupby('Gender')[['S.S.C (GPA)', 'H.S.C (GPA)']].mean().reset_index()
 
-# Melt the DataFrame for Plotly
-avg_gpa_melted = avg_gpa.melt(
-    id_vars='Gender',
-    var_name='Exam Type',
-    value_name='Average GPA'
-)
+# 2. Reshape the data for Plotly (from wide to long format)
+# This makes plotting multiple columns as separate bars easier with Plotly Express
+avg_gpa_long = pd.melt(avg_gpa,
+                       id_vars='Gender',
+                       value_vars=['S.S.C (GPA)', 'H.S.C (GPA)'],
+                       var_name='Exam Level',
+                       value_name='Average GPA')
 
-# Create grouped bar chart with Plotly
-fig = px.bar(
-    avg_gpa_melted,
-    x='Gender',
-    y='Average GPA',
-    color='Exam Type',
-    barmode='group',
-    title='Average S.S.C and H.S.C GPA by Gender',
-    color_discrete_sequence=['#1f77b4', '#ff7f0e'],
-    text_auto='.2f'
-)
+# 3. Create the Plotly Bar Chart
+fig = px.bar(avg_gpa_long,
+             x='Gender',
+             y='Average GPA',
+             color='Exam Level',
+             barmode='group', # Group bars side-by-side
+             title='Average S.S.C and H.S.C GPA by Gender',
+             labels={'Average GPA': 'Average GPA', 'Gender': 'Gender'})
 
-# Customize layout
-fig.update_layout(
-    xaxis_title='Gender',
-    yaxis_title='Average GPA',
-    template='plotly_white'
-)
+# Optional: Customize layout for better appearance (like setting fixed x-tick rotation)
+fig.update_layout(xaxis_tickangle=0)
 
-# Display chart in Streamlit
+# 4. Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
