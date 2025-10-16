@@ -78,42 +78,59 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 
-# --- Assume 'df' is your loaded DataFrame ---
-# For demonstration, creating a dummy DataFrame that matches the structure:
-data = {'Gender': ['Male', 'Female', 'Male', 'Female'],
-        'S.S.C (GPA)': [4.5, 4.8, 4.2, 4.9],
-        'H.S.C (GPA)': [4.0, 4.7, 3.8, 4.6]}
-df = pd.DataFrame(data)
+# --- 1. Create a statistically representative dummy DataFrame ---
+# The distributions appear highly negatively skewed (most data points are high).
+np.random.seed(42)
+
+# S.S.C (Left Graph): High frequency around 4.5-5.0
+ssc_data = np.concatenate([
+    np.random.uniform(4.0, 5.0, size=70), # Majority high scores
+    np.random.uniform(3.0, 4.0, size=20),
+    np.random.uniform(1.0, 3.0, size=10)
+])
+
+# H.S.C (Right Graph): High frequency around 4.5-5.0, slightly fewer total points
+hsc_data = np.concatenate([
+    np.random.uniform(4.0, 5.0, size=50), # Majority high scores
+    np.random.uniform(3.5, 4.5, size=25),
+    np.random.uniform(1.0, 3.5, size=15)
+])
+
+# Create the DataFrame
+df_hist = pd.DataFrame({
+    'S.S.C (GPA)': ssc_data,
+    'H.S.C (GPA)': hsc_data
+})
 # --- End of dummy DataFrame creation ---
 
-## 📊 Streamlit Plotly Chart
+## 📊 Streamlit Plotly Histograms
 
-# 1. Calculate the average GPA by Gender
-avg_gpa = df.groupby('Gender')[['S.S.C (GPA)', 'H.S.C (GPA)']].mean().reset_index()
-
-# 2. Reshape the data for Plotly (from wide to long format)
-# This makes plotting multiple columns as separate bars easier with Plotly Express
-avg_gpa_long = pd.melt(avg_gpa,
-                       id_vars='Gender',
+# 2. Reshape the data from Wide to Long using pd.melt()
+# This creates a single 'GPA Value' column and a 'GPA Type' column for faceting.
+df_hist_long = pd.melt(df_hist,
                        value_vars=['S.S.C (GPA)', 'H.S.C (GPA)'],
-                       var_name='Exam Level',
-                       value_name='Average GPA')
+                       var_name='GPA Type',
+                       value_name='GPA Value').dropna() # Drop NA values if any
 
-# 3. Create the Plotly Bar Chart
-fig = px.bar(avg_gpa_long,
-             x='Gender',
-             y='Average GPA',
-             color='Exam Level',
-             barmode='group', # Group bars side-by-side
-             title='Average S.S.C and H.S.C GPA by Gender',
-             labels={'Average GPA': 'Average GPA', 'Gender': 'Gender'})
+# 3. Create the Plotly Faceted Histograms
+fig = px.histogram(df_hist_long,
+                   x='GPA Value',
+                   # 'GPA Type' is used to create separate plots (columns)
+                   facet_col='GPA Type',
+                   # Optional: Adds the KDE-like line (Density)
+                   histnorm='probability density',
+                   marginal='box', # or 'violin', 'rug' for marginal plot
+                   title='Distribution of S.S.C and H.S.C GPA')
 
-# Optional: Customize layout for better appearance (like setting fixed x-tick rotation)
-fig.update_layout(xaxis_tickangle=0)
+# 4. Customize the plot to match the appearance
+# Update titles and ensure independent axes for better comparison
+fig.for_each_annotation(lambda a: a.update(text=a.text.replace("GPA Type=", "Distribution of ")))
+fig.update_xaxes(title_text="GPA")
+fig.update_yaxes(title_text="Frequency")
+fig.update_layout(bargap=0.05) # Add space between bars
 
-# 4. Display the chart in Streamlit
+# 5. Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
-
 
 
 # --- Assume 'arts_df' is your loaded DataFrame ---
