@@ -194,58 +194,41 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 
-# --- 1. Create a statistically representative dummy DataFrame ---
-# The distributions appear highly negatively skewed (most data points are high).
-np.random.seed(42)
+# --- 1. Create DataFrame based on the graph values ---
+data = {
+    'Arts Program': [
+        'B.A. in English', 'B.A. in English',
+        'M. A. in ELT (1.4 Year)', 'M. A. in ELT (1.4 Year)',
+        'M. A. in ELT (2 Year)', 'M. A. in ELT (2 Year)',
+        'M.A. in English', 'M.A. in English'
+    ],
+    'Gender': [
+        'Female', 'Male',
+        'Female', 'Male',
+        'Female', 'Male',
+        'Female', 'Male'
+    ],
+    # Approximate values read from the graph
+    'Count': [
+        52, 17, # B.A. in English
+        11, 2,  # M. A. in ELT (1.4 Year)
+        2, 1,   # M. A. in ELT (2 Year)
+        0, 1    # M.A. in English
+    ]
+}
+program_gender_counts = pd.DataFrame(data)
 
-# S.S.C (Left Graph): High frequency around 4.5-5.0
-ssc_data = np.concatenate([
-    np.random.uniform(4.0, 5.0, size=70), # Majority high scores
-    np.random.uniform(3.0, 4.0, size=20),
-    np.random.uniform(1.0, 3.0, size=10)
-])
+# 2. Create the Plotly Grouped Bar Chart
+fig = px.bar(program_gender_counts,
+             x='Arts Program',
+             y='Count',
+             color='Gender',
+             barmode='group', # Puts the 'Gender' bars side-by-side
+             title='Arts Program by Gender',
+             labels={'Count': 'Number of Students', 'Arts Program': 'Arts Program'})
 
-# H.S.C (Right Graph): High frequency around 4.5-5.0, slightly fewer total points
-hsc_data = np.concatenate([
-    np.random.uniform(4.0, 5.0, size=50), # Majority high scores
-    np.random.uniform(3.5, 4.5, size=25),
-    np.random.uniform(1.0, 3.5, size=15)
-])
+# Optional: Customize layout to match the rotation of the x-axis labels
+fig.update_layout(xaxis_tickangle=45)
 
-# Create the DataFrame
-df_hist = pd.DataFrame({
-    'S.S.C (GPA)': ssc_data,
-    'H.S.C (GPA)': hsc_data
-})
-# --- End of dummy DataFrame creation ---
-
-## 📊 Streamlit Plotly Histograms
-
-# 2. Reshape the data from Wide to Long using pd.melt()
-# This creates a single 'GPA Value' column and a 'GPA Type' column for faceting.
-df_hist_long = pd.melt(df_hist,
-                       value_vars=['S.S.C (GPA)', 'H.S.C (GPA)'],
-                       var_name='GPA Type',
-                       value_name='GPA Value').dropna() # Drop NA values if any
-
-# 3. Create the Plotly Faceted Histograms
-fig = px.histogram(df_hist_long,
-                   x='GPA Value',
-                   # 'GPA Type' is used to create separate plots (columns)
-                   facet_col='GPA Type',
-                   # Optional: Adds the KDE-like line (Density)
-                   histnorm='probability density',
-                   marginal='box', # or 'violin', 'rug' for marginal plot
-                   title='Distribution of S.S.C and H.S.C GPA')
-
-# 4. Customize the plot to match the appearance
-# Update titles and ensure independent axes for better comparison
-fig.for_each_annotation(lambda a: a.update(text=a.text.replace("GPA Type=", "Distribution of ")))
-fig.update_xaxes(title_text="GPA")
-fig.update_yaxes(title_text="Frequency")
-fig.update_layout(bargap=0.05) # Add space between bars
-
-# 5. Display the chart in Streamlit
+# 3. Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
-
-
