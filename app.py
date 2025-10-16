@@ -77,113 +77,22 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# Load your dataset
-df = pd.read_csv("arts_faculty_data.csv")
+# arts_df = pd.read_csv("/content/arts_faculty_data.csv")
 
-# Count academic years for Bachelor and Masters
-bachelor = df['Bachelor  Academic Year in EU'].value_counts()
-masters = df['Masters Academic Year in EU'].value_counts()
+# Count the occurrences of each Arts Program
+arts_program_counts = arts_df['Arts Program'].value_counts().reset_index()
+arts_program_counts.columns = ['Arts Program', 'Count']
 
-# Combine into one DataFrame
-academic_years = pd.DataFrame({'Bachelor': bachelor, 'Masters': masters}).fillna(0).reset_index()
-academic_years.rename(columns={'index': 'Academic Year'}, inplace=True)
-
-# Melt data for easier plotting in Plotly
-academic_years_melted = academic_years.melt(id_vars='Academic Year', 
-                                            value_vars=['Bachelor', 'Masters'], 
-                                            var_name='Degree', 
-                                            value_name='Count')
-
-# Create interactive stacked bar chart
-fig = px.bar(
-    academic_years_melted,
-    x='Academic Year',
-    y='Count',
-    color='Degree',
-    color_discrete_map={'Bachelor': '#1f77b4', 'Masters': '#ff7f0e'},
-    title='Academic Year Distribution by Degree Type',
-    barmode='stack'
+# Create a pie chart using Plotly
+fig = px.pie(
+    arts_program_counts,
+    names='Arts Program',
+    values='Count',
+    title='Distribution of Students by Arts Program',
+    hole=0,  # set to 0 for full pie, 0.4 for donut style
+    color_discrete_sequence=px.colors.qualitative.Set2
 )
 
-# Display in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
-
-# df = pd.read_csv("your_data.csv")
-
-# Calculate the mean S.S.C and H.S.C GPA for each gender
-gender_gpa = df.groupby('Gender')[['S.S.C (GPA)', 'H.S.C (GPA)']].mean().reset_index()
-
-# Melt the DataFrame to long format for easier plotting
-gender_gpa_melted = gender_gpa.melt(
-    id_vars='Gender',
-    var_name='Exam Type',
-    value_name='Average GPA'
-)
-
-# Create a grouped bar chart using Plotly
-fig = px.bar(
-    gender_gpa_melted,
-    x='Gender',
-    y='Average GPA',
-    color='Exam Type',
-    barmode='group',
-    title='Average S.S.C and H.S.C GPA by Gender'
-)
-
-# Display the chart in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
-
-
-import streamlit as st
-import plotly.graph_objects as go
-import pandas as pd
-
-# Example dataframe (replace this with your actual data)
-# arts_df = pd.read_csv("your_data.csv")
-
-# Sample data (delete this if you’re loading your own CSV)
-arts_df = pd.DataFrame({
-    'Gender': ['Male', 'Female', 'Male', 'Female', 'Male', 'Female'],
-    'Arts Program': ['Music', 'Music', 'Drama', 'Drama', 'Dance', 'Dance']
-})
-
-# Count occurrences of each Arts Program by Gender
-program_gender_counts = (
-    arts_df.groupby(['Arts Program', 'Gender'])
-    .size()
-    .reset_index(name='Count')
-)
-
-# Create separate bars for each gender
-genders = program_gender_counts['Gender'].unique()
-fig = go.Figure()
-
-for gender in genders:
-    gender_data = program_gender_counts[program_gender_counts['Gender'] == gender]
-    fig.add_trace(
-        go.Bar(
-            x=gender_data['Arts Program'],
-            y=gender_data['Count'],
-            name=gender,
-            text=gender_data['Count'],
-            textposition='auto'
-        )
-    )
-
-# Update layout
-fig.update_layout(
-    title='Preferred Arts Program by Gender',
-    xaxis_title='Arts Program',
-    yaxis_title='Number of Students',
-    barmode='group',
-    xaxis_tickangle=-45,
-    plot_bgcolor='rgba(0,0,0,0)',
-    paper_bgcolor='rgba(0,0,0,0)',
-    legend_title_text='Gender'
-)
-
-# Display in Streamlit
+# Show chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
