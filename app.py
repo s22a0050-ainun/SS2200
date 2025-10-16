@@ -116,24 +116,28 @@ st.plotly_chart(fig, use_container_width=True)
 
 # --- Assume 'arts_df' is your loaded DataFrame ---
 # For demonstration, creating a dummy DataFrame that matches the structure:
-data = {'Arts Program': ['Music', 'Drama', 'Music', 'Visual Arts', 'Drama', 'Music', 'Visual Arts']}
+data = {'Gender': ['Male', 'Female', 'Male', 'Female', 'Male', 'Female'],
+        'Arts Program': ['Music', 'Drama', 'Music', 'Visual Arts', 'Drama', 'Music']}
 arts_df = pd.DataFrame(data)
 # --- End of dummy DataFrame creation ---
 
-## 🎨 Streamlit Plotly Pie Chart
+## 📊 Streamlit Plotly Grouped Bar Chart
 
-# 1. Count the occurrences of each Arts Program (Plotly Express often takes the DataFrame directly)
-arts_program_counts = arts_df['Arts Program'].value_counts().reset_index()
-arts_program_counts.columns = ['Arts Program', 'Count']
+# 1. Count the occurrences of each Arts Program by Gender
+# This is already in a good "long" format for Plotly, just need to rename the count column.
+program_gender_counts = arts_df.groupby(['Gender', 'Arts Program']).size().reset_index(name='Count')
 
-# 2. Create the Plotly Pie Chart
-fig = px.pie(arts_program_counts,
-             values='Count',
-             names='Arts Program',
-             title='Distribution of Students by Arts Program')
+# 2. Create the Plotly Grouped Bar Chart
+fig = px.bar(program_gender_counts,
+             x='Arts Program',
+             y='Count',
+             color='Gender', # Used for grouping the bars
+             barmode='group', # Puts the 'Gender' bars side-by-side
+             title='Arts Program by Gender',
+             labels={'Count': 'Number of Students', 'Arts Program': 'Arts Program'})
 
-# Optional: Customize text formatting to show percentage and value on hover
-fig.update_traces(textposition='inside', textinfo='percent+label')
+# Optional: Customize layout for better appearance
+fig.update_layout(xaxis_tickangle=45) # Rotate x-axis labels
 
 # 3. Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
