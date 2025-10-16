@@ -182,7 +182,7 @@ st.plotly_chart(fig, use_container_width=True)
 
 # --- Assume 'arts_df' is your loaded DataFrame ---
 # For demonstration, creating a dummy DataFrame that matches the structure:
-data = {'H.S.C or Equivalent study medium': ['Bangla', 'English', 'Madrasa', 'Bangla', 'English', 'Madrasa', 'Bangla']}
+data = {'H.S.C or Equivalent study medium': ['Bangla', 'English', 'Madrasa', 'Bangla', 'Bangla', 'Bangla', 'Bangla']}
 arts_df = pd.DataFrame(data)
 # --- End of dummy DataFrame creation ---
 
