@@ -112,3 +112,28 @@ fig.update_layout(xaxis_tickangle=0)
 
 # 4. Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+# --- Assume 'arts_df' is your loaded DataFrame ---
+# For demonstration, creating a dummy DataFrame that matches the structure:
+data = {'Arts Program': ['Music', 'Drama', 'Music', 'Visual Arts', 'Drama', 'Music', 'Visual Arts']}
+arts_df = pd.DataFrame(data)
+# --- End of dummy DataFrame creation ---
+
+## 🎨 Streamlit Plotly Pie Chart
+
+# 1. Count the occurrences of each Arts Program (Plotly Express often takes the DataFrame directly)
+arts_program_counts = arts_df['Arts Program'].value_counts().reset_index()
+arts_program_counts.columns = ['Arts Program', 'Count']
+
+# 2. Create the Plotly Pie Chart
+fig = px.pie(arts_program_counts,
+             values='Count',
+             names='Arts Program',
+             title='Distribution of Students by Arts Program')
+
+# Optional: Customize text formatting to show percentage and value on hover
+fig.update_traces(textposition='inside', textinfo='percent+label')
+
+# 3. Display the chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
