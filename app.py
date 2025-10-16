@@ -77,6 +77,72 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+# --- Assume 'df' is your loaded DataFrame ---
+# For demonstration, creating a dummy DataFrame that matches the structure:
+data = {'Gender': ['Male', 'Female', 'Male', 'Female'],
+        'S.S.C (GPA)': [4.5, 4.8, 4.2, 4.9],
+        'H.S.C (GPA)': [4.0, 4.7, 3.8, 4.6]}
+df = pd.DataFrame(data)
+# --- End of dummy DataFrame creation ---
+
+## 📊 Streamlit Plotly Chart
+
+# 1. Calculate the average GPA by Gender
+avg_gpa = df.groupby('Gender')[['S.S.C (GPA)', 'H.S.C (GPA)']].mean().reset_index()
+
+# 2. Reshape the data for Plotly (from wide to long format)
+# This makes plotting multiple columns as separate bars easier with Plotly Express
+avg_gpa_long = pd.melt(avg_gpa,
+                       id_vars='Gender',
+                       value_vars=['S.S.C (GPA)', 'H.S.C (GPA)'],
+                       var_name='Exam Level',
+                       value_name='Average GPA')
+
+# 3. Create the Plotly Bar Chart
+fig = px.bar(avg_gpa_long,
+             x='Gender',
+             y='Average GPA',
+             color='Exam Level',
+             barmode='group', # Group bars side-by-side
+             title='Average S.S.C and H.S.C GPA by Gender',
+             labels={'Average GPA': 'Average GPA', 'Gender': 'Gender'})
+
+# Optional: Customize layout for better appearance (like setting fixed x-tick rotation)
+fig.update_layout(xaxis_tickangle=0)
+
+# 4. Display the chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
+
+
+# --- Assume 'arts_df' is your loaded DataFrame ---
+# For demonstration, creating a dummy DataFrame that matches the structure:
+data = {'Did you ever attend a Coaching center?': ['Yes', 'No', 'Yes', 'No', 'Yes', 'No', 'No', 'Yes', 'No']}
+arts_df = pd.DataFrame(data)
+# --- End of dummy DataFrame creation ---
+
+## 🥧 Streamlit Plotly Pie Chart
+
+# 1. Count the occurrences of each response
+coaching_counts = arts_df['Did you ever attend a Coaching center?'].value_counts().reset_index()
+coaching_counts.columns = ['Response', 'Count']
+
+# 2. Create the Plotly Pie Chart
+fig = px.pie(coaching_counts,
+             values='Count',
+             names='Response',
+             title='Did students attend a Coaching Center?')
+
+# Optional: Ensure text labels are visible inside the slices
+fig.update_traces(textposition='inside', textinfo='percent+label')
+
+# 3. Display the chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
+
+
 
 # --- 1. Create a statistically representative dummy DataFrame ---
 # The distributions appear highly negatively skewed (most data points are high).
@@ -130,69 +196,6 @@ fig.update_yaxes(title_text="Frequency")
 fig.update_layout(bargap=0.05) # Add space between bars
 
 # 5. Display the chart in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
-
-# --- Assume 'arts_df' is your loaded DataFrame ---
-# For demonstration, creating a dummy DataFrame that matches the structure:
-data = {'Did you ever attend a Coaching center?': ['Yes', 'No', 'Yes', 'No', 'Yes', 'No', 'No', 'Yes', 'No']}
-arts_df = pd.DataFrame(data)
-# --- End of dummy DataFrame creation ---
-
-## 🥧 Streamlit Plotly Pie Chart
-
-# 1. Count the occurrences of each response
-coaching_counts = arts_df['Did you ever attend a Coaching center?'].value_counts().reset_index()
-coaching_counts.columns = ['Response', 'Count']
-
-# 2. Create the Plotly Pie Chart
-fig = px.pie(coaching_counts,
-             values='Count',
-             names='Response',
-             title='Did students attend a Coaching Center?')
-
-# Optional: Ensure text labels are visible inside the slices
-fig.update_traces(textposition='inside', textinfo='percent+label')
-
-# 3. Display the chart in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
-
-
-# --- Assume 'arts_df' is your loaded DataFrame ---
-# For demonstration, creating a dummy DataFrame that matches the structure:
-data =  {'S.S.C (GPA)': [4.5, 4.8, 4.2, 4.9, 3.5, 4.0],
-        'H.S.C (GPA)': [4.0, 4.7, 3.8, 4.6, 3.2, 3.9],
-        'Other Column': ['A', 'B', 'A', 'B', 'C', 'C']}
-arts_df = pd.DataFrame(data)
-# --- End of dummy DataFrame creation ---
-
-## 📈 Streamlit Plotly Histograms (Faceted)
-
-# 1. Identify the GPA columns
-gpa_columns = [col for col in arts_df.columns if 'GPA' in col]
-
-# 2. Reshape the data from Wide to Long using pd.melt()
-# This stacks the GPA columns, creating a single column of GPA values and a column
-# indicating which type of GPA (e.g., S.S.C or H.S.C) it is.
-arts_df_long = pd.melt(arts_df,
-                       value_vars=gpa_columns,
-                       var_name='GPA Type',
-                       value_name='GPA Value')
-
-# 3. Create the Plotly Faceted Histograms
-fig = px.histogram(arts_df_long.dropna(), # Drop NA values for clean plotting
-                   x='GPA Value',
-                   color='GPA Type', # Optional: Color the bars based on GPA Type
-                   facet_col='GPA Type', # Create a separate column/plot for each GPA Type
-                   title='Distribution of GPA Scores',
-                   labels={'GPA Value': 'GPA Score', 'count': 'Frequency'})
-
-# Optional: Customize layout for better appearance
-fig.update_layout(showlegend=False) # Legend is redundant since facet_col is used
-fig.update_xaxes(matches=None) # Allow x-axes to have independent ranges (if needed)
-
-# 4. Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
 
