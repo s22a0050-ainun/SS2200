@@ -169,38 +169,62 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 
-# --- Assume 'arts_df' is your loaded DataFrame ---
-# For demonstration, creating a dummy DataFrame that matches the structure:
-data = {'S.S.C (GPA)': [4.5, 4.8, 4.2, 4.9, 3.5, 4.0],
-        'H.S.C (GPA)': [4.0, 4.7, 3.8, 4.6, 3.2, 3.9],
-        'Other Column': ['A', 'B', 'A', 'B', 'C', 'C']}
+# --- Configuration ---
+st.set_page_config(layout="wide")
+st.title("GPA Distribution Visualization")
+
+# --- Sample Data (Replace with your actual data loading) ---
+# NOTE: This creates a simplified placeholder DataFrame 'arts_df'
+# with columns 'S.S.C (GPA)' and 'H.S.C (GPA)' for demonstration.
+# You MUST replace this with your actual data loading (e.g., pd.read_csv('your_data.csv')).
+data = {
+    'S.S.C (GPA)': [1.0, 1.5, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0] * 5 + [4.8] * 15 + [5.0] * 20,
+    'H.S.C (GPA)': [1.0, 1.5, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0] * 4 + [3.8] * 10 + [4.5] * 10 + [5.0] * 15
+}
 arts_df = pd.DataFrame(data)
-# --- End of dummy DataFrame creation ---
+arts_df = arts_df.melt(var_name='GPA Type', value_name='GPA') # Reshape for easy plotting
 
-## 📈 Streamlit Plotly Histograms (Faceted)
+# --- Visualization using Plotly Express ---
+gpa_columns = ['S.S.C (GPA)', 'H.S.C (GPA)']
 
-# 1. Identify the GPA columns
-gpa_columns = [col for col in arts_df.columns if 'GPA' in col]
+# Use a multi-column layout for side-by-side plots
+col1, col2 = st.columns(2)
 
-# 2. Reshape the data from Wide to Long using pd.melt()
-# This stacks the GPA columns, creating a single column of GPA values and a column
-# indicating which type of GPA (e.g., S.S.C or H.S.C) it is.
-arts_df_long = pd.melt(arts_df,
-                       value_vars=gpa_columns,
-                       var_name='GPA Type',
-                       value_name='GPA Value')
+for i, col in enumerate(gpa_columns):
+    # Filter the data for the specific GPA type
+    df_filtered = arts_df[arts_df['GPA Type'] == col].dropna()
 
-# 3. Create the Plotly Faceted Histograms
-fig = px.histogram(arts_df_long.dropna(), # Drop NA values for clean plotting
-                   x='GPA Value',
-                   color='GPA Type', # Optional: Color the bars based on GPA Type
-                   facet_col='GPA Type', # Create a separate column/plot for each GPA Type
-                   title='Distribution of GPA Scores',
-                   labels={'GPA Value': 'GPA Score', 'count': 'Frequency'})
+    # Create the Plotly Histogram with a Kernel Density Estimate (KDE) curve
+    # Plotly's 'histnorm'='probability density' is used with 'marginal'='box'
+    # or 'marginal'='rug' or 'marginal'='violin'. 'kde' is not a direct
+    # marginal option for standard hist plots in px.histogram.
+    # To mimic KDE, you can use the density plot directly or use 'marginal'
+    # for secondary info, or use a combination (more complex).
+    # The image shows a 'density' curve overlaid on a histogram.
 
-# Optional: Customize layout for better appearance
-fig.update_layout(showlegend=False) # Legend is redundant since facet_col is used
-fig.update_xaxes(matches=None) # Allow x-axes to have independent ranges (if needed)
+    # A simpler approach that provides both histogram and smooth curve:
+    fig = px.histogram(
+        df_filtered,
+        x='GPA',
+        nbins=7, # Adjust the number of bins to match the image
+        title=f'Distribution of {col}',
+        labels={'GPA': 'GPA', 'count': 'Frequency'}, # Set labels
+        height=400,
+        opacity=0.6,
+    )
 
-# 4. Display the chart in Streamlit
-st.plotly_chart(fig, use_container_width=True)
+    # To add the smooth curve (KDE/Density plot) using Plotly Graph Objects (go):
+    # This part can be more complex to exactly replicate the Seaborn KDE overlay.
+    # Plotly Express doesn't have a direct 'kde=True' for histogram.
+    # We will stick to the histogram for simplicity and speed, as requested (short code).
+
+    # To mimic the KDE curve, you could consider using a Density plot *instead*
+    # fig = px.density_heatmap(df_filtered, x='GPA', marginal_y="histogram")
+
+    # Display the plot in the corresponding column
+    if i == 0:
+        with col1:
+            st.plotly_chart(fig, use_container_width=True)
+    else:
+        with col2:
+            st.plotly_chart(fig, use_container_width=True)
