@@ -144,8 +144,8 @@ st.plotly_chart(fig, use_container_width=True)
 
 # --- Assume 'arts_df' is your loaded DataFrame ---
 # For demonstration, creating a dummy DataFrame that matches the structure:
-data = {'S.S.C (GPA)': [4.5, 4.8, 4.2, 4.9, 3.5, 4.0],
-        'H.S.C (GPA)': [4.0, 4.7, 3.8, 4.6, 3.2, 3.9],
+data = {'S.S.C (GPA)': [1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0],
+        'H.S.C (GPA)': [1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0],
         'Other Column': ['A', 'B', 'A', 'B', 'C', 'C']}
 arts_df = pd.DataFrame(data)
 # --- End of dummy DataFrame creation ---
@@ -182,7 +182,7 @@ st.plotly_chart(fig, use_container_width=True)
 
 # --- Assume 'arts_df' is your loaded DataFrame ---
 # For demonstration, creating a dummy DataFrame that matches the structure:
-data = {'H.S.C or Equivalent study medium': ['Bangla', 'English', 'Madrasa', 'Bangla', 'Bangla', 'Bangla', 'Bangla']}
+data = {'H.S.C or Equivalent study medium': ['English', 'Madrasa', 'Bangla', 'Bangla', 'Bangla', 'Bangla', 'Bangla']}
 arts_df = pd.DataFrame(data)
 # --- End of dummy DataFrame creation ---
 
