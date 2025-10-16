@@ -77,31 +77,28 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# Example dataframe (replace with your actual dataset)
-# df = pd.read_csv("your_data.csv")
+# Example dataframe (replace this with your actual dataset)
+# df = pd.read_csv("/content/arts_faculty_data.csv")
 
-# Calculate the mean S.S.C and H.S.C GPA for each gender
-gender_gpa = (
-    df.groupby('Gender')[['S.S.C (GPA)', 'H.S.C (GPA)']]
-    .mean()
-    .reset_index()
-)
+# Calculate average S.S.C and H.S.C GPA by gender
+avg_gpa = df.groupby('Gender')[['S.S.C (GPA)', 'H.S.C (GPA)']].mean().reset_index()
 
-# Melt the DataFrame to long format for easier plotting
-gender_gpa_melted = gender_gpa.melt(
+# Melt the DataFrame for Plotly
+avg_gpa_melted = avg_gpa.melt(
     id_vars='Gender',
     var_name='Exam Type',
     value_name='Average GPA'
 )
 
-# Create a grouped bar chart using Plotly
+# Create grouped bar chart with Plotly
 fig = px.bar(
-    gender_gpa_melted,
+    avg_gpa_melted,
     x='Gender',
     y='Average GPA',
     color='Exam Type',
     barmode='group',
     title='Average S.S.C and H.S.C GPA by Gender',
+    color_discrete_sequence=['#1f77b4', '#ff7f0e'],
     text_auto='.2f'
 )
 
@@ -112,6 +109,5 @@ fig.update_layout(
     template='plotly_white'
 )
 
-# Display in Streamlit
+# Display chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
-
