@@ -22,10 +22,13 @@ col2.metric(label="PLO 3", value=f"3.5", help="PLO 3: Digital Skill", border=Tru
 col3.metric(label="PLO 4", value=f"4.0", help="PLO 4: Interpersonal Skill", border=True)
 col4.metric(label="PLO 5", value=f"4.3", help="PLO 5: Communication Skill", border=True)
 
+# Data Loading Function with Caching 
+@st.cache_data
 def load_data(data_url):
     try:
         data_frame = pd.read_csv(data_url)
-        st.success
+        # st.success replaces print() for a styled success message
+        st.success("DataFrame loaded successfully from URL! 🎉")
         return data_frame
     except Exception as e:
         # st.error replaces print() for error handling
@@ -34,6 +37,7 @@ def load_data(data_url):
 
 arts_df_url = load_data(url)
 
+# Streamlit Display
 if not arts_df_url.empty:
     st.subheader("Preview of Arts Faculty Data")
     # st.dataframe() replaces the display() function, providing an interactive table
@@ -48,8 +52,9 @@ arts_df_url = pd.DataFrame(data)
 # Count the occurrences of each gender 
 gender_counts = arts_df_url['Gender'].value_counts()
 
-st.title('Visualization Tutorial 3 📊')
+st.title('Tutorial 3 📊')
 
+# Plotly Chart Creation 
 
 # Use Plotly Express to create the interactive pie chart
 fig = px.pie(
@@ -60,17 +65,17 @@ fig = px.pie(
     title='Gender Distribution in Arts Faculty'
 )
 
-
+# Customize the appearance for better readability
 fig.update_traces(
-    textposition='inside',      # Position text inside slices
-    textinfo='percent+label'    # Show both percentage and label
+    textposition='inside',      
+    textinfo='percent+label'    
 )
 
 fig.update_layout(
-    title_x=0.5 # Center the title
+    title_x=0.5 
 )
 
-
+# Streamlit Display 
 
 # Display the interactive Plotly figure in the Streamlit app
 st.plotly_chart(fig, use_container_width=True)
@@ -81,16 +86,20 @@ data = {'Gender': ['Male', 'Female', 'Male', 'Female'],
         'H.S.C (GPA)': [4.0, 4.7, 3.8, 4.6]}
 df = pd.DataFrame(data)
 
+## 📊 Streamlit Plotly Chart
 
-
+# Calculate the average GPA by Gender
 avg_gpa = df.groupby('Gender')[['S.S.C (GPA)', 'H.S.C (GPA)']].mean().reset_index()
 
+# Reshape the data for Plotly 
+# This makes plotting multiple columns as separate bars easier with Plotly Express
 avg_gpa_long = pd.melt(avg_gpa,
                        id_vars='Gender',
                        value_vars=['S.S.C (GPA)', 'H.S.C (GPA)'],
                        var_name='Exam Level',
                        value_name='Average GPA')
 
+# Create the Plotly Bar Chart
 fig = px.bar(avg_gpa_long,
              x='Gender',
              y='Average GPA',
@@ -99,26 +108,32 @@ fig = px.bar(avg_gpa_long,
              title='Average S.S.C and H.S.C GPA by Gender',
              labels={'Average GPA': 'Average GPA', 'Gender': 'Gender'})
 
+# Customize layout for better appearance (like setting fixed x-tick rotation)
 fig.update_layout(xaxis_tickangle=0)
 
+# Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
 
 data = {'Did you ever attend a Coaching center?': ['Yes', 'No', 'Yes', 'No', 'Yes', 'No', 'No', 'Yes', 'No']}
-arts_df = pd.DataFrame(data)
+arts_df = pd.DataFrame(data) 
 
+## 🥧 Streamlit Plotly Pie Chart
 
+# Count the occurrences of each response
 coaching_counts = arts_df['Did you ever attend a Coaching center?'].value_counts().reset_index()
 coaching_counts.columns = ['Response', 'Count']
 
+# Create the Plotly Pie Chart
 fig = px.pie(coaching_counts,
              values='Count',
              names='Response',
              title='Did students attend a Coaching Center?')
 
+# Ensure text labels are visible inside the slices
 fig.update_traces(textposition='inside', textinfo='percent+label')
 
-# 3. Display the chart in Streamlit
+# Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
 
@@ -130,16 +145,18 @@ data = {
 }
 df_arts = pd.DataFrame(data)
 
-# Create the Plotly Bar Chart
+# Create the Plotly Bar Chart 
 fig = px.bar(df_arts,
              x='Arts Program',
              y='Number of Students',
              title='Distribution of Arts Programs',
+             # Optional: Set a consistent color for the bars
              color_discrete_sequence=['#1f77b4'])
 
+# Customize layout to match the rotation of the x-axis labels
 fig.update_layout(xaxis_tickangle=45)
 
-# Display the chart in Streamlit ---
+# Display the chart in Streamlit 
 st.plotly_chart(fig, use_container_width=True)
 
 
@@ -159,6 +176,7 @@ fig = px.pie(study_medium_counts,
              names='Study Medium',
              title='Distribution of H.S.C or Equivalent Study Medium')
 
+# Customize text formatting
 fig.update_traces(textposition='inside', textinfo='percent+label')
 
 # Display the chart in Streamlit
@@ -199,6 +217,7 @@ fig = px.bar(program_gender_counts,
              title='Arts Program by Gender',
              labels={'Count': 'Number of Students', 'Arts Program': 'Arts Program'})
 
+# Customize layout to match the rotation of the x-axis labels
 fig.update_layout(xaxis_tickangle=45)
 
 # Display the chart in Streamlit
