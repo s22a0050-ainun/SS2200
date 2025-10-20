@@ -52,7 +52,7 @@ arts_df_url = pd.DataFrame(data)
 # Count the occurrences of each gender 
 gender_counts = arts_df_url['Gender'].value_counts()
 
-st.title('Tutorial 3 📊')
+st.title('Tutorial 3 Scientific Visualization 📊')
 
 # Plotly Chart Creation 
 
@@ -62,7 +62,7 @@ fig = px.pie(
     names=gender_counts.index,     
     # 'values' are the counts 
     values=gender_counts.values,   
-    title='Gender Distribution in Arts Faculty'
+    title='Pie Chart of Gender in Arts Faculty'
 )
 
 # Customize the appearance for better readability
@@ -105,7 +105,7 @@ fig = px.bar(avg_gpa_long,
              y='Average GPA',
              color='Exam Level',
              barmode='group', # Group bars side-by-side
-             title='Average S.S.C and H.S.C GPA by Gender',
+             title='Bar Chart of Average S.S.C and H.S.C GPA by Gender',
              labels={'Average GPA': 'Average GPA', 'Gender': 'Gender'})
 
 # Customize layout for better appearance (like setting fixed x-tick rotation)
@@ -128,7 +128,7 @@ coaching_counts.columns = ['Response', 'Count']
 fig = px.pie(coaching_counts,
              values='Count',
              names='Response',
-             title='Did students attend a Coaching Center?')
+             title='Pie Chart of Did students attend a Coaching Center?')
 
 # Ensure text labels are visible inside the slices
 fig.update_traces(textposition='inside', textinfo='percent+label')
@@ -149,7 +149,7 @@ df_arts = pd.DataFrame(data)
 fig = px.bar(df_arts,
              x='Arts Program',
              y='Number of Students',
-             title='Distribution of Arts Programs',
+             title='Bar Chart of Arts Programs',
              # Optional: Set a consistent color for the bars
              color_discrete_sequence=['#1f77b4'])
 
@@ -174,7 +174,7 @@ study_medium_counts.columns = ['Study Medium', 'Count']
 fig = px.pie(study_medium_counts,
              values='Count',
              names='Study Medium',
-             title='Distribution of H.S.C or Equivalent Study Medium')
+             title='Pie Chart of H.S.C or Equivalent Study Medium')
 
 # Customize text formatting
 fig.update_traces(textposition='inside', textinfo='percent+label')
@@ -214,7 +214,7 @@ fig = px.bar(program_gender_counts,
              y='Count',
              color='Gender',
              barmode='group', # Puts the 'Gender' bars side-by-side
-             title='Arts Program by Gender',
+             title='Bar Chart of Arts Program by Gender',
              labels={'Count': 'Number of Students', 'Arts Program': 'Arts Program'})
 
 # Customize layout to match the rotation of the x-axis labels
