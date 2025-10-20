@@ -40,7 +40,7 @@ arts_df_url = pd.DataFrame(data)
 # Count the occurrences of each gender 
 gender_counts = arts_df_url['Gender'].value_counts()
 
-st.title('Gender Distribution Visualization 📊')
+st.title('Visualization Tutorial 3 📊')
 
 
 # Use Plotly Express to create the interactive pie chart
