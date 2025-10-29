@@ -31,23 +31,33 @@ except Exception as e:
     st.stop()
 
 
-# Create a dummy DataFrame that mimics the structure of mental_df
+# Create a dummy DataFrame that matches the plot's data distribution
 data = {
-    'Choose your gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Male', 'Female', 'Male', 'Female']
+    'Do you have Depression?': ['No', 'No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes'],
+    'Choose your gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Female', 'Female', 'Female']
 }
 mental_df = pd.DataFrame(data)
 
-# Count the occurrences of each gender and convert to a DataFrame for Plotly
-gender_counts = mental_df['Choose your gender'].value_counts().reset_index()
-gender_counts.columns = ['Gender', 'Count'] # Rename columns for clarity
+# Simulate the approximate counts from the image:
+# Female/No: ~46, Male/No: ~20
+# Female/Yes: ~29, Male/Yes: ~6
 
-# Create a pie chart using Plotly Express
-fig = px.pie(
-    gender_counts,
-    values='Count',
-    names='Gender', # This provides the labels for the slices
-    title='Overall Gender Proportion',
+# Count the occurrences and convert to a DataFrame for Plotly
+depression_gender_counts = mental_df.groupby(['Do you have Depression?', 'Choose your gender']).size().reset_index(name='Count')
+depression_gender_counts.rename(columns={'Choose your gender': 'Gender'}, inplace=True) # Rename for cleaner legend
+
+# Create a grouped bar chart using Plotly Express
+fig = px.bar(
+    depression_gender_counts,
+    x='Do you have Depression?', # The primary x-axis categories (No/Yes)
+    y='Count',
+    color='Gender', # The variable that determines the bar groups (Female/Male)
+    barmode='group', # Set mode for side-by-side bars
+    category_orders={'Gender': ['Female', 'Male']}, # Ensure correct legend order if needed
+    color_discrete_map={'Female': 'blue', 'Male': 'orange'}, # Match colors to the original image
+    title='Count of Students with Depression by Gender',
+    labels={'Do you have Depression?': 'Do you have Depression?', 'Count': 'Number of Students'}
 )
 
-# Display the Plotly chart in Streamlit
+# 3. Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
