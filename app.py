@@ -1,11 +1,13 @@
 import streamlit as st
 
+# --- Page Configuration ---
 st.set_page_config(
     page_title="Student Dashboard",
     page_icon=":material/menu_book:",
     layout="wide"
 )
 
+# --- Define Pages ---
 home = st.Page(
     'home.py',
     title='🏠 Homepage',
@@ -25,11 +27,13 @@ mental_health = st.Page(
     icon=":material/psychology:"
 )
 
+# --- Navigation Menu ---
 pg = st.navigation(
     {
         "Menu": [home, tutorial3, mental_health]
     }
 )
 
+# --- Run Navigation ---
 pg.run()
 
