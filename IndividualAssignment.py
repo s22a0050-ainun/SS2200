@@ -250,41 +250,44 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 # Create dummy data that simulates the distribution 
+courses = ['BIT', 'Diploma Nursing', 'Engineering', 'Human Resources', 'IT', 'Law', 'Pendidikan Islam', 'Psychology']
+genders = ['Female', 'Male']
 data = {
-    'What is your CGPA?': ['0 - 1.99', '0 - 1.99', '2.00 - 2.49', '2.00 - 2.49', '2.50 - 2.99', '3.00 - 3.49', '3.00 - 3.49', '3.50 - 4.00', '3.50 - 4.00', '3.50 - 4.00'],
-    'Choose your gender': ['Female', 'Male', 'Female', 'Male', 'Female', 'Female', 'Male', 'Female', 'Male', 'Female']
+    'What is your course?': ['BIT'] * 10 + ['Diploma Nursing'] * 10 + ['Engineering'] * 10 + ['Human Resources'] * 10 + ['IT'] * 10 + ['Law'] * 10 + ['Pendidikan Islam'] * 10 + ['Psychology'] * 10,
+    'Choose your gender': (['Female'] * 6 + ['Male'] * 4) + (['Female'] * 10) + (['Female'] * 7 + ['Male'] * 3) + (['Female'] * 10) + (['Female'] * 10) + (['Female'] * 10) + (['Female'] * 10) + (['Female'] * 10)
 }
 mental_df = pd.DataFrame(data)
 
+# List of courses to filter by (Your original logic)
+desired_courses = [
+    'Engineering', 'IT', 'Law', 'Human Resources',
+    'Diploma Nursing', 'Pendidikan Islam', 'BIT', 'Psychology'
+]
 
-mental_df = pd.concat([
-    mental_df,
-    pd.DataFrame({'What is your CGPA?': ['3.50 - 4.00'] * 30 + ['3.00 - 3.49'] * 20 + ['2.50 - 2.99'] * 3, 'Choose your gender': ['Female'] * 30 + ['Male'] * 10 + ['Female'] * 3})
-])
+# Filter the DataFrame for the desired courses
+filtered_courses_df = mental_df[mental_df['What is your course?'].isin(desired_courses)].copy()
 
+# Count occurrences and convert to a long DataFrame
+course_gender_counts = filtered_courses_df.groupby(
+    ['What is your course?', 'Choose your gender']
+).size().reset_index(name='Count')
 
-# Count the occurrences and convert to a long DataFrame for Plotly
-cgpa_gender_counts_df = mental_df.groupby(
-    ['What is your CGPA?', 'Choose your gender']
-).size().reset_index(name='Number of Students')
-cgpa_gender_counts_df.rename(columns={'Choose your gender': 'Gender'}, inplace=True) # Rename for cleaner legend
+# Calculate the percentage within each course group
+total_counts = course_gender_counts.groupby('What is your course?')['Count'].transform('sum')
+course_gender_counts['Percentage'] = (course_gender_counts['Count'] / total_counts) * 100
+course_gender_counts.rename(columns={'Choose your gender': 'Gender'}, inplace=True)
 
-# Define the category order for the x-axis to match the plot's order
-cgpa_order = ['0 - 1.99', '2.00 - 2.49', '2.50 - 2.99', '3.00 - 3.49', '3.50 - 4.00', '3.50 - 4.00'] # Note: The last category '3.50 - 4.00' seems like an error in the original plot's labels, usually it's just one category
-
-# Create a grouped bar chart using Plotly Express
+# Create a stacked bar chart using Plotly Express
 fig = px.bar(
-    cgpa_gender_counts_df,
-    x='What is your CGPA?', # The primary x-axis categories
-    y='Number of Students',
-    color='Gender', # The variable that determines the bar groups
-    barmode='group', # Set mode for side-by-side bars
-    title='Count of Students per CGPA by Gender',
-    labels={'What is your CGPA?': 'CGPA', 'Number of Students': 'Number of Students'},
-    # Manually map colors to match the image (blue for Female, orange for Male)
-    color_discrete_map={'Female': 'blue', 'Male': 'orange'},
-    # Apply category order to the x-axis
-    category_orders={'What is your CGPA?': cgpa_order}
+    course_gender_counts,
+    x='What is your course?',
+    y='Percentage',
+    color='Gender', # This creates the stack segments
+    title='Percentage of Male vs. Female Students in Selected Courses',
+    labels={'What is your course?': 'Course', 'Percentage': 'Percentage of Students'},
+    # Ensure Female is the base (blue) and Male is the top (orange)
+    category_orders={'Gender': ['Female', 'Male']},
+    color_discrete_map={'Female': 'blue', 'Male': 'orange'}
 )
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
