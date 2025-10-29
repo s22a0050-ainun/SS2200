@@ -1,7 +1,6 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Tutorial 3",
 
     page_title="Student Mental Health"
 )
