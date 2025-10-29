@@ -336,9 +336,6 @@ cgpa_gender_counts['CGPA'] = pd.Categorical(
 )
 cgpa_gender_counts = cgpa_gender_counts.sort_values('CGPA')
 
-# Plotly Visualization (Replaces Matplotlib/Seaborn) ---
-st.title("📊 Student CGPA Analysis by Gender")
-
 fig = px.bar(
     cgpa_gender_counts, 
     x='CGPA',        
