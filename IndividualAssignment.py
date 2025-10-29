@@ -31,24 +31,24 @@ except Exception as e:
     st.stop()
 
 
+# Create a dummy DataFrame that mimics the structure of mental_df
+data = {
+    'Choose your gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Male', 'Female', 'Male', 'Other', 'Female']
+}
+mental_df = pd.DataFrame(data)
 
-# Load dataset
-url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/main/Student_Mental_Health.csv'
-mental_df = pd.read_csv(url)
-
-# Count occurrences of each gender
+# Count the occurrences of each gender and convert to a DataFrame for Plotly
 gender_counts = mental_df['Choose your gender'].value_counts().reset_index()
-gender_counts.columns = ['Gender', 'Count']
+gender_counts.columns = ['Gender', 'Count'] # Rename columns for clarity
 
-# Plotly pie chart
+# Create a pie chart using Plotly Express
 fig = px.pie(
     gender_counts,
-    names='Gender',
     values='Count',
+    names='Gender', # This provides the labels for the slices
     title='Overall Gender Proportion',
-    hole=0.0
+    hole=.3, # Optional: Create a donut chart
 )
 
-# Display in Streamlit
-st.plotly_chart(fig)
-
+# Display the Plotly chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
