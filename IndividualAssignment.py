@@ -1,26 +1,16 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
-def student_mental_health():
-    st.title("📊 Student Mental Health Dataset")
+st.set_page_config(page_title="Student Mental Health Dashboard", layout="wide"
+                   
+st.title("🎓 Student Mental Health Dashboard")
+st.write("Explore and visualize data about student mental health.")
 
-    url = "https://raw.githubusercontent.com/s22a0050-ainun/SS2200/main/Student_Mental_Health.csv"
+uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
 
-    @st.cache_data
-    def load_data(data_url):
-        try:
-            df = pd.read_csv(data_url)
-            st.success("✅ Data loaded successfully from GitHub!")
-            return df
-        except Exception as e:
-            st.error(f"❌ Error loading data: {e}")
-            return pd.DataFrame()
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
 
-    df = load_data(url)
-
-    if not df.empty:
-        st.subheader("Preview of Dataset")
-        st.dataframe(df.head())
-
-        st.info(f"Dataset Shape: {df.shape[0]} rows × {df.shape[1]} columns")
-
+    st.subheader("📊 Dataset Preview")
+    st.dataframe(df.head())
