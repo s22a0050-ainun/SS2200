@@ -33,7 +33,7 @@ except Exception as e:
 
 # Create a dummy DataFrame that mimics the structure of mental_df
 data = {
-    'Choose your gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Male', 'Female', 'Male', 'Other', 'Female']
+    'Choose your gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Male', 'Female', 'Male', 'Female']
 }
 mental_df = pd.DataFrame(data)
 
@@ -47,7 +47,6 @@ fig = px.pie(
     values='Count',
     names='Gender', # This provides the labels for the slices
     title='Overall Gender Proportion',
-    hole=.3, # Optional: Create a donut chart
 )
 
 # Display the Plotly chart in Streamlit
