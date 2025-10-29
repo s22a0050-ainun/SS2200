@@ -1,39 +1,34 @@
 import streamlit as st
 
-# --- Page Configuration ---
 st.set_page_config(
-    page_title="Student Dashboard",
-    page_icon=":material/menu_book:",
-    layout="wide"
+    page_title="Tutorial 3"
 )
 
-# --- Define Pages ---
-home = st.Page(
-    'home.py',
-    title='🏠 Homepage',
-    default=True,
-    icon=":material/home:"
-)
+visualise = st.Page('tutorial3.py', title='Pencapaian Akademik Pelajar', icon=":material/school:")
 
-tutorial3 = st.Page(
-    'tutorial3.py',
-    title='📘 Tutorial 3: Pencapaian Akademik Pelajar',
-    icon=":material/school:"
-)
+home = st.Page('home.py', title='Homepage', default=True, icon=":material/home:")
 
-mental_health = st.Page(
-    'student_mental_health.py',
-    title='🧠 Student Mental Health',
-    icon=":material/psychology:"
-)
-
-# --- Navigation Menu ---
 pg = st.navigation(
-    {
-        "Menu": [home, tutorial3, mental_health]
-    }
+        {
+            "Menu": [home, visualise]
+        }
+    )
+
+pg.run()
+
+st.set_page_config(
+    page_title="Student Mental Health"
 )
 
-# --- Run Navigation ---
+visualise = st.Page('IndividualAssignment.py', title='Student Mental Health', icon=":material/school:")
+
+home = st.Page('home.py', title='Homepage', default=True, icon=":material/home:")
+
+pg = st.navigation(
+        {
+            "Menu": [home, visualise]
+        }
+    )
+
 pg.run()
 
