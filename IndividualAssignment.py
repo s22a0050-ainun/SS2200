@@ -146,3 +146,43 @@ fig = px.pie(
 
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+
+# Create dummy data that simulates the distribution shown in the image
+courses = ['BIT'] * 10 + ['Diploma Nursing'] * 1 + ['Engineering'] * 17 + ['Human Resources'] * 1 + ['IT'] * 1 + ['Law'] * 1 + ['Pendidikan Islam'] * 1 + ['Psychology'] * 1
+panic_attacks = ['No'] * 6 + ['Yes'] * 4 + ['No'] * 1 + ['No'] * 12 + ['Yes'] * 5 + ['No'] * 1 + ['Yes'] * 1 + ['No'] * 1 + ['No'] * 1 + ['No'] * 1
+
+mental_df = pd.DataFrame({
+    'What is your course?': courses,
+    'Do you have Panic attack?': panic_attacks
+})
+
+desired_courses = [
+    'Engineering', 'IT', 'Law', 'Human Resources',
+    'Diploma Nursing', 'Pendidikan Islam', 'BIT', 'Psychology'
+]
+
+# Filter the DataFrame for the desired courses (Your original logic)
+filtered_mental_df = mental_df[mental_df['What is your course?'].isin(desired_courses)].copy()
+
+# Group the data and prepare for Plotly
+# Group by Course and Panic Attack response, then convert to a clean DataFrame
+panic_attack_course_counts_df = filtered_mental_df.groupby(
+    ['What is your course?', 'Do you have Panic attack?']
+).size().reset_index(name='Number of Students')
+
+# Create the stacked bar chart using Plotly Express
+fig = px.bar(
+    panic_attack_course_counts_df,
+    x='What is your course?',
+    y='Number of Students',
+    color='Do you have Panic attack?', # This creates the stack segments and legend
+    title='Panic Attack Cases Across Selected Courses',
+    labels={'What is your course?': 'Course', 'Do you have Panic attack?': 'Panic Attack'},
+    # Ensure 'No' is the base (bottom) and 'Yes' is the top, and match colors
+    category_orders={'Do you have Panic attack?': ['No', 'Yes']},
+    color_discrete_map={'No': 'blue', 'Yes': 'orange'}
+)
+# Display the Plotly chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
