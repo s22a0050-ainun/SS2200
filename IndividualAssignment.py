@@ -6,6 +6,22 @@ st.set_page_config(
 
 st.header("Scientific Visualization", divider="gray")
 
+st.set_page_config(
+    page_title="Indivual Assignment"
+)
+
+visualise = st.Page('IndividualAssignment.py', title='Student Mental Health', icon=":material/school:")
+
+home = st.Page('home.py', title='Homepage', default=True, icon=":material/home:")
+
+pg = st.navigation(
+        {
+            "Menu": [home, visualise]
+        }
+    )
+
+pg.run()
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
