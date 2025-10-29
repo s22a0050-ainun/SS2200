@@ -309,3 +309,34 @@ fig = px.pie(
 
 # Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+
+
+## 📊 Plotly Grouped Bar Chart for Streamlit
+# Aggregate the data for plotting
+cgpa_gender_counts = mental_df.groupby(['What is your CGPA?', 'Choose your gender']).size().reset_index(name='Count')
+cgpa_gender_counts.columns = ['CGPA', 'Gender', 'Count']
+
+# Define the order for CGPA categories (optional, but good practice for ordered data)
+cgpa_order = ['0 - 1.99', '2.00 - 2.49', '2.50 - 2.99', '3.00 - 3.49', '3.50 - 4.00']
+cgpa_gender_counts['CGPA'] = pd.Categorical(
+    cgpa_gender_counts['CGPA'], 
+    categories=cgpa_order, 
+    ordered=True
+)
+cgpa_gender_counts = cgpa_gender_counts.sort_values('CGPA')
+
+
+# Create the Plotly figure
+fig = px.bar(
+    cgpa_gender_counts, 
+    x='CGPA',        # Categories for the x-axis
+    y='Count',       # Values for the y-axis (bar height)
+    color='Gender',  # Column to create the groups/bars for (Gender)
+    barmode='group', # Puts bars next to each other
+    title='Count of Students per CGPA by Gender',
+    labels={'CGPA': 'CGPA', 'Count': 'Number of Students'}
+)
+# Display the chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
