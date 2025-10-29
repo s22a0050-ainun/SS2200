@@ -32,22 +32,23 @@ except Exception as e:
 
 
 
-# Load your dataset
+# Load dataset
 url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/main/Student_Mental_Health.csv'
 mental_df = pd.read_csv(url)
 
-# Group data
-cgpa_gender_counts = mental_df.groupby(['What is your CGPA?', 'Choose your gender']).size().reset_index(name='Count')
+# Count occurrences of each gender
+gender_counts = mental_df['Choose your gender'].value_counts().reset_index()
+gender_counts.columns = ['Gender', 'Count']
 
-# Plotly grouped bar chart
-fig = px.bar(
-    cgpa_gender_counts,
-    x='What is your CGPA?',
-    y='Count',
-    color='Choose your gender',
-    barmode='group',
-    title='Count of Students per CGPA Range by Gender'
+# Plotly pie chart
+fig = px.pie(
+    gender_counts,
+    names='Gender',
+    values='Count',
+    title='Overall Gender Proportion',
+    hole=0.0
 )
 
-# Show in Streamlit
+# Display in Streamlit
 st.plotly_chart(fig)
+
