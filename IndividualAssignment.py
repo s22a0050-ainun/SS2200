@@ -283,7 +283,7 @@ fig = px.bar(
     x='What is your course?',
     y='Percentage',
     color='Gender', # This creates the stack segments
-    title='Percentage of Male vs. Female Students in Selected Courses',
+    title='Stacked Bar Chart : Percentage of Male vs. Female Students in Selected Courses',
     labels={'What is your course?': 'Course', 'Percentage': 'Percentage of Students'},
     # Ensure Female is the base (blue) and Male is the top (orange)
     category_orders={'Gender': ['Female', 'Male']},
@@ -302,7 +302,7 @@ fig = px.pie(
     gender_counts, 
     values='Count', 
     names='Gender', 
-    title='Overall Gender Proportion',
+    title='Pie Chart : Overall Gender Proportion',
     # Optional: Customize colors and text
     color_discrete_sequence=px.colors.qualitative.Safe
 )
@@ -342,7 +342,7 @@ fig = px.bar(
     y='Count',       
     color='Gender',  
     barmode='group', # Displays bars side-by-side
-    title='Count of Students per CGPA by Gender',
+    title='Group Bar Chart : Count of Students per CGPA by Gender',
     labels={'CGPA': 'CGPA', 'Count': 'Number of Students'}
 )
 # Streamlit Display (Fixes plt.show() issue) ---
