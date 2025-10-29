@@ -9,7 +9,7 @@ st.set_page_config(
 st.header("Scientific Visualization", divider="gray")
 
 st.set_page_config(page_title="GitHub Data Loader", layout="wide")
-st.title("Dataset of Student Mental Health")
+st.title("Individual Assignment")
 
 url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Student_Mental_Health.csv'
 
@@ -22,7 +22,7 @@ url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/main/Student_Ment
 try:
     df = pd.read_csv(url)
     st.success("✅ Data loaded successfully from GitHub!")
-    st.write("### Preview of Dataset")
+    st.write("Dataset of Student Mental Health")
     st.dataframe(df.head())
 except Exception as e:
     st.error(f"An error occurred while loading data: {e}")
@@ -52,7 +52,7 @@ fig = px.bar(
     barmode='group', # Set mode for side-by-side bars
     category_orders={'Gender': ['Female', 'Male']}, # Ensure correct legend order if needed
     color_discrete_map={'Female': 'blue', 'Male': 'orange'}, # Match colors to the original image
-    title='Count of Students with Depression by Gender',
+    title='Bar Chart : Count of Students with Depression by Gender',
     labels={'Do you have Depression?': 'Do you have Depression?', 'Count': 'Number of Students'}
 )
 
@@ -95,7 +95,7 @@ fig = px.bar(
     conditions_yes,
     x='Condition',
     color='Choose your gender', # This creates the stack segments and legend
-    title='Distribution of Mental Health Conditions by Gender',
+    title='Stacked Bar Chart : Distribution of Mental Health Conditions by Gender',
     labels={'Condition': 'Condition', 'Choose your gender': 'Gender', 'count': 'Number of Students with Condition'},
     # Manually map colors to match the image (blue for Female, orange for Male)
     color_discrete_map={'Female': 'blue', 'Male': 'orange'}
@@ -137,7 +137,7 @@ fig = px.pie(
     gender_with_issues_counts,
     values='Count',
     names='Gender', # This provides the labels for the slices
-    title='Overall Proportion of Students with Mental Health Issues by Gender',
+    title='Pie Chart : Overall Proportion of Students with Mental Health Issues by Gender',
     # Match the colors of the original plot: Blue for Female, Orange for Male
     color_discrete_map={'Female': 'blue', 'Male': 'orange'}
 )
@@ -176,7 +176,7 @@ fig = px.bar(
     x='What is your course?',
     y='Number of Students',
     color='Do you have Panic attack?', # This creates the stack segments and legend
-    title='Panic Attack Cases Across Selected Courses',
+    title='Stacked Bar Chart : Panic Attack Cases Across Selected Courses',
     labels={'What is your course?': 'Course', 'Do you have Panic attack?': 'Panic Attack'},
     # Ensure 'No' is the base (bottom) and 'Yes' is the top, and match colors
     category_orders={'Do you have Panic attack?': ['No', 'Yes']},
@@ -206,7 +206,7 @@ fig = px.pie(
     panic_attack_counts_df,
     values='Count',
     names='Panic Attack', # This provides the labels for the slices
-    title='Overall Percentage of Students with Panic Attacks',
+    title='Pie Chart : Overall Percentage of Students with Panic Attacks',
     # Match the colors of the original plot: Blue for No, Orange for Yes
     color_discrete_map={'No': 'blue', 'Yes': 'orange'}
 )
@@ -237,7 +237,7 @@ fig = px.bar(
     y='Number of Students',
     color='Gender', # The variable that determines the bar groups (Female/Male)
     barmode='group', # Set mode for side-by-side bars
-    title='Count of Students Experiencing Panic Attacks by Gender',
+    title='Bar Chart : Count of Students Experiencing Panic Attacks by Gender',
     labels={'Do you have Panic attack?': 'Do you have Panic attack?', 'Number of Students': 'Number of Students'},
     # Manually map colors to match the image (blue for Female, orange for Male)
     color_discrete_map={'Female': 'blue', 'Male': 'orange'},
