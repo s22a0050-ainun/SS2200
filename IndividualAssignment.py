@@ -6,7 +6,7 @@ st.set_page_config(
     page_title="Scientific Visualization : Individual Assignment"
 )
 
-st.header("Scientific Visualization", divider="gray")
+st.header("Scientific Visualization : Individual Assignment", divider="gray")
 
 st.set_page_config(page_title="GitHub Data Loader", layout="wide")
 st.title("Student Mental Health")
