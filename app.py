@@ -1,17 +1,16 @@
 import streamlit as st
+from home import homepage
+from student_data import student_mental_health
 
-st.set_page_config(
-    page_title="Tutorial 3"
-)
+# Page setup
+st.set_page_config(page_title="Student Mental Health Dashboard", layout="wide")
 
-visualise = st.Page('tutorial3.py', title='Pencapaian Akademik Pelajar', icon=":material/school:")
+# Sidebar menu
+st.sidebar.title("Menu")
+page = st.sidebar.radio("Go to", ["Homepage", "Student Mental Health"])
 
-home = st.Page('home.py', title='Homepage', default=True, icon=":material/home:")
-
-pg = st.navigation(
-        {
-            "Menu": [home, visualise]
-        }
-    )
-
-pg.run()
+# Navigation logic
+if page == "Homepage":
+    homepage()
+elif page == "Student Mental Health":
+    student_mental_health()
