@@ -186,3 +186,31 @@ fig = px.bar(
 )
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+
+# Create dummy data that simulates the 67.3% No and 32.7% Yes split
+total_students = 100
+num_no = int(total_students * 0.673)
+num_yes = total_students - num_no
+
+mental_df = pd.DataFrame({
+    'Do you have Panic attack?': ['No'] * num_no + ['Yes'] * num_yes
+})
+
+# Count the occurrences and prepare for Plotly
+# Convert the value_counts Series to a DataFrame
+panic_attack_counts_df = mental_df['Do you have Panic attack?'].value_counts().reset_index()
+panic_attack_counts_df.columns = ['Panic Attack', 'Count'] # Rename columns for clarity
+
+# Create a pie chart using Plotly Express
+fig = px.pie(
+    panic_attack_counts_df,
+    values='Count',
+    names='Panic Attack', # This provides the labels for the slices
+    title='Overall Percentage of Students with Panic Attacks',
+    # Match the colors of the original plot: Blue for No, Orange for Yes
+    color_discrete_map={'No': 'blue', 'Yes': 'orange'}
+)
+# Display the Plotly chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
