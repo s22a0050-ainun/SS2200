@@ -105,3 +105,44 @@ fig = px.bar(
 
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+
+# Create dummy data that simulates students with and without mental health issues
+data = {
+    'Choose your gender': (['Female'] * 75 + ['Male'] * 25) + (['Female', 'Male'] * 50),
+    'Do you have Depression?': ['Yes'] * 100 + ['No'] * 100,
+    'Do you have Anxiety?': ['Yes'] * 50 + ['No'] * 50 + ['Yes'] * 50 + ['No'] * 50,
+    'Do you have Panic attack?': ['No'] * 200
+}
+mental_df = pd.DataFrame({
+    'Choose your gender': ['Female'] * 75 + ['Male'] * 25 + ['Female'] * 10 + ['Male'] * 10, # 120 total students
+    'Do you have Depression?': ['Yes'] * 75 + ['Yes'] * 25 + ['No'] * 20,
+    'Do you have Anxiety?': ['Yes'] * 75 + ['Yes'] * 25 + ['No'] * 20,
+    'Do you have Panic attack?': ['No'] * 120
+})
+
+# Identify students with at least one mental health issue (Your original logic)
+mental_health_issues = mental_df[
+    (mental_df['Do you have Depression?'] == 'Yes') |
+    (mental_df['Do you have Anxiety?'] == 'Yes') |
+    (mental_df['Do you have Panic attack?'] == 'Yes')
+].copy()
+
+# Count the occurrences of gender and prepare for Plotly
+# Convert the value_counts Series to a DataFrame
+gender_with_issues_counts = mental_health_issues['Choose your gender'].value_counts().reset_index()
+gender_with_issues_counts.columns = ['Gender', 'Count'] # Rename columns
+
+# Create a pie chart using Plotly Express
+fig = px.pie(
+    gender_with_issues_counts,
+    values='Count',
+    names='Gender', # This provides the labels for the slices
+    title='Overall Proportion of Students with Mental Health Issues by Gender',
+    # Match the colors of the original plot: Blue for Female, Orange for Male
+    color_discrete_map={'Female': 'blue', 'Male': 'orange'}
+)
+
+# Display the Plotly chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
