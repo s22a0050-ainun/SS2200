@@ -36,17 +36,3 @@ except Exception as e:
     st.error(f"An error occurred while loading data: {e}")
     st.stop()
 
-# --- Plotly Visualization Example ---
-st.subheader("📊 Visualization Example")
-
-# Dropdowns for column selection
-numeric_cols = df.select_dtypes(include=['number']).columns.tolist()
-categorical_cols = df.select_dtypes(exclude=['number']).columns.tolist()
-
-x_col = st.selectbox("Select X-axis (categorical)", categorical_cols, index=0)
-y_col = st.selectbox("Select Y-axis (numeric)", numeric_cols, index=0)
-
-# Plot using Plotly
-fig = px.box(df, x=x_col, y=y_col, color=x_col, title=f"{y_col} by {x_col}")
-st.plotly_chart(fig, use_container_width=True)
-
