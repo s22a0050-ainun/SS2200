@@ -291,3 +291,21 @@ fig = px.bar(
 )
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+
+## 📊 Plotly Pie Chart for Streamlit
+gender_counts = mental_df['Choose your gender'].value_counts().reset_index()
+gender_counts.columns = ['Gender', 'Count']
+
+fig = px.pie(
+    gender_counts, 
+    values='Count', 
+    names='Gender', 
+    title='Overall Gender Proportion',
+    # Optional: Customize colors and text
+    color_discrete_sequence=px.colors.qualitative.Safe
+)
+
+# Display the chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
