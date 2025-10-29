@@ -214,3 +214,37 @@ fig = px.pie(
 )
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+
+# Create dummy data that simulates the distribution shown in the image (approximate counts)
+# Female/No: ~50, Male/No: ~18
+# Female/Yes: ~25, Male/Yes: ~8
+data = {
+    'Do you have Panic attack?': (['No'] * 50) + (['Yes'] * 25) + (['No'] * 18) + (['Yes'] * 8),
+    'Choose your gender': (['Female'] * 50) + (['Female'] * 25) + (['Male'] * 18) + (['Male'] * 8)
+}
+mental_df = pd.DataFrame(data)
+
+# Count the occurrences and convert to a long DataFrame for Plotly
+panic_attack_gender_counts_df = mental_df.groupby(
+    ['Do you have Panic attack?', 'Choose your gender']
+).size().reset_index(name='Number of Students')
+panic_attack_gender_counts_df.rename(columns={'Choose your gender': 'Gender'}, inplace=True) # Rename for cleaner legend
+
+# Create a grouped bar chart using Plotly Express
+fig = px.bar(
+    panic_attack_gender_counts_df,
+    x='Do you have Panic attack?', # The primary x-axis categories (No/Yes)
+    y='Number of Students',
+    color='Gender', # The variable that determines the bar groups (Female/Male)
+    barmode='group', # Set mode for side-by-side bars
+    title='Count of Students Experiencing Panic Attacks by Gender',
+    labels={'Do you have Panic attack?': 'Do you have Panic attack?', 'Number of Students': 'Number of Students'},
+    # Manually map colors to match the image (blue for Female, orange for Male)
+    color_discrete_map={'Female': 'blue', 'Male': 'orange'},
+    # Ensure the x-axis categories are in the correct order
+    category_orders={'Do you have Panic attack?': ['No', 'Yes']}
+)
+# Display the Plotly chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
