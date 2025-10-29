@@ -16,6 +16,8 @@ pg = st.navigation(
 
 pg.run()
 
+import streamlit as st
+
 st.set_page_config(
     page_title="Student Mental Health"
 )
