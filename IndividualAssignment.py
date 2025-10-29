@@ -38,7 +38,6 @@ data = {
 }
 mental_df = pd.DataFrame(data)
 
-# Simulate the approximate counts from the image:
 # Female/No: ~46, Male/No: ~20
 # Female/Yes: ~29, Male/Yes: ~6
 
@@ -60,4 +59,49 @@ fig = px.bar(
 )
 
 # 3. Display the Plotly chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
+
+
+
+
+# Create dummy data that simulates the long-format data needed for the plot
+data = {
+    'Choose your gender': (['Female'] * 29 + ['Male'] * 6) * 3, # Simulating ~35 Female and ~18 Male overall
+    'Do you have Depression?': ['Yes'] * 29 + ['No'] * 6 + ['Yes'] * 29 + ['No'] * 6 + ['Yes'] * 29 + ['No'] * 6,
+    'Do you have Anxiety?': ['Yes'] * 24 + ['No'] * 5 + ['Yes'] * 9 + ['No'] * 0 + ['Yes'] * 29 + ['No'] * 6,
+    'Do you have Panic attack?': ['Yes'] * 25 + ['No'] * 4 + ['Yes'] * 8 + ['No'] * 1 + ['Yes'] * 29 + ['No'] * 6
+}
+# A proper mental_df would have many rows, this is just for demonstration structure
+mental_df = pd.DataFrame({
+    'Choose your gender': ['Female', 'Male', 'Female', 'Male', 'Female', 'Male', 'Female', 'Male'],
+    'Do you have Depression?': ['Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'Yes'],
+    'Do you have Anxiety?': ['Yes', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No'],
+    'Do you have Panic attack?': ['No', 'Yes', 'Yes', 'No', 'Yes', 'Yes', 'No', 'Yes']
+})
+
+
+# Melt the DataFrame to long format (same as your original logic)
+conditions_melted = mental_df.melt(
+    id_vars='Choose your gender',
+    value_vars=['Do you have Depression?', 'Do you have Anxiety?', 'Do you have Panic attack?'],
+    var_name='Condition',
+    value_name='Response'
+)
+
+# Filter for 'Yes' responses (same as your original logic)
+conditions_yes = conditions_melted[conditions_melted['Response'] == 'Yes']
+
+# Create the stacked bar chart using Plotly Express
+# Plotly automatically counts the occurrences when mapping 'Condition' to x and 'Choose your gender' to color
+fig = px.bar(
+    conditions_yes,
+    x='Condition',
+    color='Choose your gender', # This creates the stack segments and legend
+    title='Distribution of Mental Health Conditions by Gender',
+    labels={'Condition': 'Condition', 'Choose your gender': 'Gender', 'count': 'Number of Students with Condition'},
+    # Manually map colors to match the image (blue for Female, orange for Male)
+    color_discrete_map={'Female': 'blue', 'Male': 'orange'}
+)
+
+# Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
