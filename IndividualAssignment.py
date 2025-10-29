@@ -246,3 +246,45 @@ fig = px.bar(
 )
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+
+# Create dummy data that simulates the distribution 
+data = {
+    'What is your CGPA?': ['0 - 1.99', '0 - 1.99', '2.00 - 2.49', '2.00 - 2.49', '2.50 - 2.99', '3.00 - 3.49', '3.00 - 3.49', '3.50 - 4.00', '3.50 - 4.00', '3.50 - 4.00'],
+    'Choose your gender': ['Female', 'Male', 'Female', 'Male', 'Female', 'Female', 'Male', 'Female', 'Male', 'Female']
+}
+mental_df = pd.DataFrame(data)
+
+
+mental_df = pd.concat([
+    mental_df,
+    pd.DataFrame({'What is your CGPA?': ['3.50 - 4.00'] * 30 + ['3.00 - 3.49'] * 20 + ['2.50 - 2.99'] * 3, 'Choose your gender': ['Female'] * 30 + ['Male'] * 10 + ['Female'] * 3})
+])
+
+
+# Count the occurrences and convert to a long DataFrame for Plotly
+cgpa_gender_counts_df = mental_df.groupby(
+    ['What is your CGPA?', 'Choose your gender']
+).size().reset_index(name='Number of Students')
+cgpa_gender_counts_df.rename(columns={'Choose your gender': 'Gender'}, inplace=True) # Rename for cleaner legend
+
+# Define the category order for the x-axis to match the plot's order
+cgpa_order = ['0 - 1.99', '2.00 - 2.49', '2.50 - 2.99', '3.00 - 3.49', '3.50 - 4.00', '3.50 - 4.00'] # Note: The last category '3.50 - 4.00' seems like an error in the original plot's labels, usually it's just one category
+
+# Create a grouped bar chart using Plotly Express
+fig = px.bar(
+    cgpa_gender_counts_df,
+    x='What is your CGPA?', # The primary x-axis categories
+    y='Number of Students',
+    color='Gender', # The variable that determines the bar groups
+    barmode='group', # Set mode for side-by-side bars
+    title='Count of Students per CGPA by Gender',
+    labels={'What is your CGPA?': 'CGPA', 'Number of Students': 'Number of Students'},
+    # Manually map colors to match the image (blue for Female, orange for Male)
+    color_discrete_map={'Female': 'blue', 'Male': 'orange'},
+    # Apply category order to the x-axis
+    category_orders={'What is your CGPA?': cgpa_order}
+)
+# Display the Plotly chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
