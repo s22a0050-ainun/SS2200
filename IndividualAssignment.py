@@ -9,14 +9,12 @@ st.set_page_config(
 st.header("Scientific Visualization", divider="gray")
 
 st.set_page_config(page_title="GitHub Data Loader", layout="wide")
-st.title("Student Mental Health")
+st.title("Dataset of Student Mental Health")
 
 url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Student_Mental_Health.csv'
 
 # Streamlit page setup
 st.set_page_config(page_title="Student Mental Health Dashboard")
-
-st.title("🧠 Student Mental Health Data")
 
 # Load data from GitHub
 url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/main/Student_Mental_Health.csv'
