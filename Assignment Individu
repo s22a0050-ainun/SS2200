@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Student Mental Health"
+    page_title="Scientific Visualization"
 )
 
-st.header("Student Mental Health", divider="gray")
+st.header("Scientific Visualization", divider="gray")
