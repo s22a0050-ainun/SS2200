@@ -1,17 +1,16 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Individual Assignment"
+    page_title="Scientific Visualization"
 )
 
-visualise = st.Page('IndividualAssignment.py', title='Student Mental Health', icon=":material/school:")
+st.header("Scientific Visualization", divider="gray")
 
-home = st.Page('home.py', title='Homepage', default=True, icon=":material/home:")
+import streamlit as st
+import pandas as pd
+import plotly.express as px
 
-pg = st.navigation(
-        {
-            "Menu": [home, visualise]
-        }
-    )
+st.set_page_config(page_title="GitHub Data Loader", layout="wide")
+st.title("Student Mental Health")
 
-pg.run()
+url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/arts_faculty_data.csv'
