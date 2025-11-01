@@ -128,3 +128,18 @@ fig = px.pie(
 
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+# --- Summary Box ---
+st.markdown("### 🧾 Summary")
+st.success("""
+Although the Pie Chart reveals that **75% of students who have overall mental health problems are female**, 
+the Stacked Bar Chart offers a more complicated structure of particular aspects. The second chart shows that 
+**4 females and 2 males experienced Depression**, **4 females and 1 male experienced Anxiety**, and 
+**2 females and 3 males experienced a Panic Attack**. This shows females gave more answers to the questions 
+about **Depression** and **Anxiety**, while males gave slightly more responses to the question about **Panic Attack**.  
+This trend is indeed verified by the third chart, which specifically dealt with Depression, and the results 
+showed that of the students who responded “Yes” to having Depression, there were **3 female students and 1 male student**.  
+On the whole, there is a much higher percentage of **mental health cases in females**, mainly due to increased cases of 
+**Depression and Anxiety**.
+""")
