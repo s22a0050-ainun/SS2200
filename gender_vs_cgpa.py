@@ -110,3 +110,17 @@ fig = px.bar(
 )
 # Streamlit Display (Fixes plt.show() issue) ---
 st.plotly_chart(fig, use_container_width=True)
+
+# --- Summary Box ---
+st.markdown("### 🧾 Summary")
+st.success("""
+The surveyed student population shows that **female students make up 91.3%** of the total gender ratio, 
+while **male students form only 8.7%**. This gender imbalance is reflected across all courses, with females 
+representing **100% of students** in **Diploma Nursing, Human Resources, IT, Law, Pendidikan Islam, and Psychology**, 
+and also being the majority in **BIT (60%)** and **Engineering (70%)**.
+
+In terms of academic achievement, female students also dominate the higher CGPA ranges. In the **top CGPA range of 3.50–4.00**, 
+there are **40 female students** compared to only **10 male students**. In the **3.00–3.49 CGPA range**, there are 
+**30 female students** to **14 male students**. This indicates that **female students outperform their male peers** 
+academically and represent the stronger academic group overall.
+""")
