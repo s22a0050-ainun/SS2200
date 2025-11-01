@@ -6,9 +6,6 @@ st.title("Gender vs CGPA")
 
 df = pd.read_csv("Student_Mental_Health.csv")
 
-fig = px.box(df, x="Choose your gender", y="What is your CGPA?")
-st.plotly_chart(fig)
-
 st.markdown("### 🎯 Objective 3")
 st.info("""
 To analyze how students of different genders are distributed across various academic courses.
