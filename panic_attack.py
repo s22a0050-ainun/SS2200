@@ -8,8 +8,7 @@ df = pd.read_csv("Student_Mental_Health.csv")
 
 st.markdown("### 🎯 Objective 2")
 st.info("""
-To explore the frequency of panic attacks among students and how it relates 
-to **gender** or **course type**.
+To explore the frequency of panic attacks among students and relates to gender or course type
 """)
 
 
