@@ -27,7 +27,7 @@ try:
 except Exception as e:
     st.error(f"An error occurred while loading data: {e}")
     st.stop()
-
+    st.write("To analyze the relationship between gender and the type of mental health issues such as depression, anxiety and panic attacks among students.")
 
 # Create a dummy DataFrame that matches the plot's data distribution
 data = {
