@@ -5,6 +5,8 @@ st.set_page_config(
     page_title="Student Mental Health"
 )
 
+visualise = st.Page('tutorial3.py', title='Pencapaian Akademik Pelajar', icon=":material/school:"),
+
 visualise = st.Page('IndividualAssignment.py', title='Student Mental Health', icon=":material/school:")
 
 home = st.Page('home.py', title='Homepage', default=True, icon=":material/home:")
@@ -38,7 +40,7 @@ home = st.Page(
 
 # Navigation
 pg = st.navigation({
-    "Main Menu": [home, page1, page2, page3]
+    "Main Menu": [home, IndividualAssignment, page1, page2, page3]
 })
 
 pg.run()
