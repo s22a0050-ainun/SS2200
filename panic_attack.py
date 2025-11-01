@@ -6,9 +6,6 @@ st.title("Panic Attack Among Students")
 
 df = pd.read_csv("Student_Mental_Health.csv")
 
-fig = px.pie(df, names="Do you have panic attacks?", title="Panic Attack Distribution")
-st.plotly_chart(fig)
-
 st.markdown("### 🎯 Objective 2")
 st.info("""
 To explore the frequency of panic attacks among students and how it relates 
