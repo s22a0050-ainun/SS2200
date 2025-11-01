@@ -40,6 +40,13 @@ st.markdown("""
 **Objective 1:** To analyze the relationship between gender and the type of mental health issues such as depression, anxiety, and panic attacks among students.  
 *(This objective is visualized in the first three charts.)*
 
+**Objective 2:** To explore the frequency of panic attacks among students and how it relates to gender or course type.  
+*(This objective is visualized in the second three charts.)*
+
+**Objective 3:** To analyze how students of different genders are distributed across various academic courses.
+*(This objective is visualized in the last three charts.)*
+""")
+
 # Create a dummy DataFrame that matches the plot's data distribution
 data = {
     'Do you have Depression?': ['No', 'No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes'],
