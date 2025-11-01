@@ -112,3 +112,18 @@ fig = px.bar(
 )
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+# --- Summary Box ---
+st.markdown("### 🧾 Summary")
+st.success("""
+The visualizations focus on the experience of the students with **Panic Attacks**, which shows that **33%** 
+of all the surveyed students have had one, as shown in the general pie chart. The Bar Chart that presents the 
+number by gender shows that there is a **drastic difference** in the number of cases reported with **25 female 
+students** reporting to have a Panic Attack and **8 male students**. This demonstrates that **female students are 
+more likely to report a Panic Attack** compared to male students.  
+
+Moreover, the **Stacked Bar Chart** subdivides the cases of Panic Attacks into various courses, and the majority 
+of these reported cases are in the **Engineering** and **BIT** courses, which have the highest number of respondents.  
+It is important to note that other courses such as **Diploma Nursing, Human Resources, Law, Pendidikan Islam, and Psychology** 
+had students only stating “No” to a Panic Attack, while the **IT** course had a few students responding “Yes”.
+""")
