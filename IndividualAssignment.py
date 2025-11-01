@@ -15,18 +15,6 @@ academic courses, and mental health conditions such as depression, anxiety, and 
 This helps in understanding how different factors contribute to mental well-being among students.
 """)
 
-st.subheader("📌 Research Objectives")
-st.markdown("""
-**Objective 1:** To analyze the relationship between gender and the type of mental health issues such as depression, anxiety, and panic attacks among students.  
-*(This objective is visualized in the first three charts.)*
-
-**Objective 2:** To explore the frequency of panic attacks among students and how it relates to gender or course type.  
-*(This objective is visualized in the second three charts.)*
-
-**Objective 3:** To analyze how students of different genders are distributed across various academic courses.
-*(This objective is visualized in the last three charts.)*
-""")
-
 st.set_page_config(page_title="GitHub Data Loader", layout="wide")
 st.title("Student Mental Health")
 
@@ -46,6 +34,11 @@ try:
 except Exception as e:
     st.error(f"An error occurred while loading data: {e}")
     st.stop()
+
+st.subheader("📌 Research Objectives")
+st.markdown("""
+**Objective 1:** To analyze the relationship between gender and the type of mental health issues such as depression, anxiety, and panic attacks among students.  
+*(This objective is visualized in the first three charts.)*
 
 # Create a dummy DataFrame that matches the plot's data distribution
 data = {
