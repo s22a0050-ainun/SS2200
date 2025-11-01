@@ -120,4 +120,3 @@ fig = px.pie(
 
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
-
