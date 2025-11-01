@@ -9,9 +9,6 @@ visualise = st.Page('tutorial3.py', title='Pencapaian Akademik Pelajar', icon=":
 
 visualise = st.Page('IndividualAssignment.py', title='Student Mental Health', icon=":material/school:")
 
-
-visualise = st.Page('IndividualAssignment.py', title='Objectives', icon=":material/school:")
-
 home = st.Page('home.py', title='Homepage', default=True, icon=":material/home:")
 
 pg = st.navigation(
