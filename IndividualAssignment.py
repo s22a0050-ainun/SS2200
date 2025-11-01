@@ -11,7 +11,7 @@ st.header("Scientific Visualization : Individual Assignment", divider="gray")
 st.subheader("🎯 Objective Statement")
 st.write("""
 The purpose of this visualization is to analyze the relationship between students’ gender, 
-academic courses, and mental health conditions such as depression, anxiety, and panic attacks. 
+academic courses and mental health conditions such as depression, anxiety and panic attacks. 
 This helps in understanding how different factors contribute to mental well-being among students.
 """)
 
@@ -35,17 +35,13 @@ except Exception as e:
     st.error(f"An error occurred while loading data: {e}")
     st.stop()
 
-st.subheader("📌 Research Objectives")
-st.markdown("""
-**Objective 1:** To analyze the relationship between gender and the type of mental health issues such as depression, anxiety, and panic attacks among students.  
-*(This objective is visualized in the first three charts.)*
 
-**Objective 2:** To explore the frequency of panic attacks among students and how it relates to gender or course type.  
-*(This objective is visualized in the second three charts.)*
-
-**Objective 3:** To analyze how students of different genders are distributed across various academic courses.
-*(This objective is visualized in the last three charts.)*
+st.markdown("### 🎯 Objective 1")
+st.info("""
+To analyze the relationship between gender and the type of mental health issues such as 
+**depression, anxiety, and panic attacks** among students.
 """)
+
 
 # Create a dummy DataFrame that matches the plot's data distribution
 data = {
@@ -164,6 +160,12 @@ fig = px.pie(
 st.plotly_chart(fig, use_container_width=True)
 
 
+st.markdown("### 🎯 Objective 2")
+st.info("""
+To explore the frequency of panic attacks among students and how it relates 
+to **gender** or **course type**.
+""")
+
 
 # Create dummy data that simulates the distribution shown in the image
 courses = ['BIT'] * 10 + ['Diploma Nursing'] * 1 + ['Engineering'] * 17 + ['Human Resources'] * 1 + ['IT'] * 1 + ['Law'] * 1 + ['Pendidikan Islam'] * 1 + ['Psychology'] * 1
@@ -265,6 +267,11 @@ fig = px.bar(
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
+
+st.markdown("### 🎯 Objective 3")
+st.info("""
+To analyze how students of different genders are distributed across various academic courses.
+""")
 
 
 # Create dummy data that simulates the distribution 
