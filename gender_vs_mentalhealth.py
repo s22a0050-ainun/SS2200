@@ -1,3 +1,11 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+st.title("Gender vs Mental Health")
+
+df = pd.read_csv("Student_Mental_Health.csv")
+
 st.markdown("### 🎯 Objective 1")
 st.info("""
 To analyze the relationship between gender and the type of mental health issues such as 
