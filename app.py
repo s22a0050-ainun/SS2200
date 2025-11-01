@@ -14,6 +14,12 @@ home = st.Page(
     default=True
 )
 
+tutorial3 = st.Page(
+    "tutorial3.py",
+    title="Pencapaian Akademik Pelajar",
+    icon=":material/school:"
+)
+
 individual = st.Page(
     "IndividualAssignment.py",
     title="Individual Assignment",
