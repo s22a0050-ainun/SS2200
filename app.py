@@ -1,13 +1,23 @@
 import streamlit as st
 
-# Page configuration
-st.set_page_config(page_title="Student Mental Health Dashboard")
+st.set_page_config(
 
-# 🧭 Navigation setup
-home = st.Page("home.py", title="Home", icon="🏠")
-objectives = st.Page("objectives.py", title="Objectives", icon="🎯")
-IndividualAssignment = st.Page("IndividualAssignment.py", title="Visualization (IndividualAssignment)", icon="📊")
+    page_title="Student Mental Health"
+)
 
-# Navigation menu
-pg = st.navigation([home, objectives, IndividualAssignment])
+visualise = st.Page('tutorial3.py', title='Pencapaian Akademik Pelajar', icon=":material/school:"),
+
+visualise = st.Page('IndividualAssignment.py', title='Student Mental Health', icon=":material/school:")
+
+
+visualise = st.Page('IndividualAssignment.py', title='Objectives', icon=":material/school:")
+
+home = st.Page('home.py', title='Homepage', default=True, icon=":material/home:")
+
+pg = st.navigation(
+        {
+            "Menu": [home, visualise]
+        }
+    )
+
 pg.run()
