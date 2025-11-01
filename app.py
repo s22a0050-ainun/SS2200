@@ -40,7 +40,7 @@ home = st.Page(
 
 # Navigation
 pg = st.navigation({
-    "Main Menu": [home, IndividualAssignment, page1, page2, page3]
+    "Main Menu": [home, IndividualAssignment.py, page1, page2, page3]
 })
 
 pg.run()
