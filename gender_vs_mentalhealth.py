@@ -2,6 +2,48 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+
+# --- Summary Metric Calculation ---
+
+# 1. Total Number of Students (based on the first dummy DataFrame)
+total_students = len(mental_df_depression)
+
+# 2. Total with Depression
+total_with_depression = (mental_df_depression['Do you have Depression?'] == 'Yes').sum()
+
+# 3. Percentage with Depression
+percent_with_depression = (total_with_depression / total_students) * 100 if total_students > 0 else 0
+
+
+# --- Displaying Metrics ---
+st.markdown("### 📊 Key Summary Metrics")
+
+# Use st.columns to display metrics side-by-side
+col1, col2, col3 = st.columns(3)
+
+# Metric 1: Total Students
+col1.metric(
+    label="Total Students Analyzed",
+    value=total_students
+)
+
+# Metric 2: Students with Depression
+col2.metric(
+    label="Total With Depression (Sample)",
+    value=total_with_depression,
+    delta=f"{round(percent_with_depression)}% of total", # Delta shows context for the value
+    delta_color="inverse" # Use 'inverse' to highlight a high number of issues (optional)
+)
+
+# Metric 3: Students without Depression
+col3.metric(
+    label="Total Without Depression (Sample)",
+    value=(total_students - total_with_depression)
+)
+
+st.markdown("---") # Add a separator
+
+
 st.title("Gender vs Mental Health")
 
 df = pd.read_csv("Student_Mental_Health.csv")
