@@ -132,14 +132,13 @@ st.plotly_chart(fig, use_container_width=True)
 
 # --- Summary Box ---
 st.markdown("### 🧾 Summary")
-st.success("""
-Although the Pie Chart reveals that **75% of students who have overall mental health problems are female**, 
-the Stacked Bar Chart offers a more complicated structure of particular aspects. The second chart shows that 
-**4 females and 2 males experienced Depression**, **4 females and 1 male experienced Anxiety**, and 
-**2 females and 3 males experienced a Panic Attack**. This shows females gave more answers to the questions 
-about **Depression** and **Anxiety**, while males gave slightly more responses to the question about **Panic Attack**.  
-This trend is indeed verified by the third chart, which specifically dealt with Depression, and the results 
-showed that of the students who responded “Yes” to having Depression, there were **3 female students and 1 male student**.  
-On the whole, there is a much higher percentage of **mental health cases in females**, mainly due to increased cases of 
-**Depression and Anxiety**.
-""")
+st.success(
+    """
+As a summary, the three graphs collectively highlight a clear gender difference in the currency of mental health issues among students. 
+The bar and stacked bar charts show that female students consistently report higher numbers of depression, anxiety and panic attacks compared 
+to male students. While both genders experience these conditions, females influence across all categories, particularly in depression and anxiety. 
+The pie chart revealing that 75% of students with mental health issues are female while only 25% are male. These visualizations show that female 
+students are more affected by report mental health challenges than males, demonstrating a strong relationship between gender and the occurrence 
+of mental health issues among students.
+    """
+)
