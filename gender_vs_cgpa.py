@@ -163,3 +163,15 @@ fig = px.bar(
 )
 # Streamlit Display (Fixes plt.show() issue) ---
 st.plotly_chart(fig, use_container_width=True)
+
+
+# --- Interpretation ---
+st.markdown("### 🧾 Interpretation")
+st.success(
+    "The three visualizations collectively highlight the gender distribution patterns among students across academic courses and performance levels. "
+    "The overall gender proportion pie chart reveals a strong female with 91.3% of the surveyed students being female and only 8.75% male. "
+    "The stacked bar chart by course further supports this trend showing that most programs such as Diploma Nursing, Human Resources, IT, Law, Pendidikan Islam and Psychology consist of female students while only BIT and Engineering show a mixed gender composition with a higher percentage of females. "
+    "The grouped bar chart of CGPA by gender shows that both male and female students are focus in the higher CGPA categories for 3.00–4.00 but female students consistently across all performance levels. "
+    "These findings align with the objective of analyzing students of different genders are distributed across various academic courses, revealing that female students active in academic achievement."
+)
+
