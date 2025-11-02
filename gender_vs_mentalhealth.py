@@ -30,7 +30,7 @@ total_with_depression = (mental_df_depression['Do you have Depression?'] == 'Yes
 percent_with_depression = (total_with_depression / total_students) * 100 if total_students > 0 else 0
 
 # 3. Display Metrics
-st.markdown("### 📊 Key Summary Metrics (Based on Depression Sample)")
+st.markdown("### 📊 Key Summary Metrics")
 
 # Use st.columns to display metrics side-by-side
 col1, col2, col3 = st.columns(3)
