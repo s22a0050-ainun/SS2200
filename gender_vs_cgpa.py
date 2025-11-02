@@ -32,7 +32,7 @@ male_percent = (male_count / total_students) * 100
 
 
 # 2. Display Metrics
-st.markdown("### 📊 Key Summary Metrics")
+st.markdown("### 📊 Summary Box")
 
 # Use st.columns to display metrics side-by-side
 col1, col2, col3 = st.columns(3)
