@@ -4,6 +4,7 @@ import plotly.express as px
 
 st.title("Gender vs Mental Health")
 
+# Load the main DataFrame (df is not directly used for the metrics/charts below)
 df = pd.read_csv("Student_Mental_Health.csv")
 
 st.markdown("### 🎯 Objective 1")
@@ -12,79 +13,52 @@ To analyze the relationship between gender and the type of mental health issues 
 **depression, anxiety, and panic attacks** among students.
 """)
 
-
 # =================================================================
-# ✅ INSERT SUMMARY METRICS CODE HERE
+# 📊 SUMMARY METRICS BLOCK 📊
 # =================================================================
 
-# Create a dummy DataFrame that matches the plot's data distribution
+# 1. Define the first dummy DataFrame used for Depression vs Gender
 data_depression = {
     'Do you have Depression?': ['No', 'No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes'],
     'Choose your gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Female', 'Female', 'Female']
 }
 mental_df_depression = pd.DataFrame(data_depression)
 
-# --- Summary Metric Calculation (Using the first dummy data) ---
+# 2. Calculate Key Figures
 total_students = len(mental_df_depression)
 total_with_depression = (mental_df_depression['Do you have Depression?'] == 'Yes').sum()
 percent_with_depression = (total_with_depression / total_students) * 100 if total_students > 0 else 0
 
-# --- Displaying Metrics ---
-st.markdown("### 📊 Key Summary Metrics")
+# 3. Display Metrics
+st.markdown("### 📊 Key Summary Metrics (Based on Depression Sample)")
 
 # Use st.columns to display metrics side-by-side
 col1, col2, col3 = st.columns(3)
 
-# Metric 1: Total Students
 col1.metric(
-    label="Total Students Analyzed",
+    label="Total Students Analyzed (Sample)",
     value=total_students
 )
-
-# Metric 2: Students with Depression
 col2.metric(
-    label="Total With Depression (Sample)",
+    label="Students with Depression",
     value=total_with_depression,
-    delta=f"{round(percent_with_depression)}% of total", # Delta shows context for the value
-    delta_color="inverse" # Use 'inverse' to highlight issues
+    # Show the percentage as a delta for context
+    delta=f"{round(percent_with_depression)}% of total", 
+    delta_color="inverse" # Highlights a concerning metric in red
 )
-
-# Metric 3: Students without Depression
 col3.metric(
-    label="Total Without Depression (Sample)",
+    label="Students without Depression",
     value=(total_students - total_with_depression)
 )
 
-st.markdown("---") # Add a separator before the charts start
+st.markdown("---") 
 
 # =================================================================
-# REST OF YOUR CODE (CHARTS) FOLLOWS BELOW
+# 📉 CHART 1: DEPRESSION VS GENDER
 # =================================================================
 
-# Create a dummy DataFrame that matches the plot's data distribution
-# Use the dataframe defined above for consistency
+# Use the dataframe defined for metrics
 mental_df = mental_df_depression 
-
-# Female/No: ~46, Male/No: ~20
-# Female/Yes: ~29, Male/Yes: ~6
-
-# Count the occurrences and convert to a DataFrame for Plotly
-depression_gender_counts = mental_df.groupby(['Do you have Depression?', 'Choose your gender']).size().reset_index(name='Count')
-depression_gender_counts.rename(columns={'Choose your gender': 'Gender'}, inplace=True) # Rename for cleaner legend
-
-# Create a grouped bar chart using Plotly Express
-fig = px.bar(
-# ... (rest of the first chart code)
-
-# Create a dummy DataFrame that matches the plot's data distribution
-data = {
-    'Do you have Depression?': ['No', 'No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes'],
-    'Choose your gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Female', 'Female', 'Female']
-}
-mental_df = pd.DataFrame(data)
-
-# Female/No: ~46, Male/No: ~20
-# Female/Yes: ~29, Male/Yes: ~6
 
 # Count the occurrences and convert to a DataFrame for Plotly
 depression_gender_counts = mental_df.groupby(['Do you have Depression?', 'Choose your gender']).size().reset_index(name='Count')
@@ -107,7 +81,9 @@ fig = px.bar(
 st.plotly_chart(fig, use_container_width=True)
 
 
-
+# =================================================================
+# 📉 CHART 2: ALL CONDITIONS STACKED BAR
+# =================================================================
 
 # Create dummy data that simulates the long-format data needed for the plot
 data = {
@@ -137,7 +113,6 @@ conditions_melted = mental_df.melt(
 conditions_yes = conditions_melted[conditions_melted['Response'] == 'Yes']
 
 # Create the stacked bar chart using Plotly Express
-# Plotly automatically counts the occurrences when mapping 'Condition' to x and 'Choose your gender' to color
 fig = px.bar(
     conditions_yes,
     x='Condition',
@@ -152,6 +127,10 @@ fig = px.bar(
 st.plotly_chart(fig, use_container_width=True)
 
 
+
+# =================================================================
+# 📉 CHART 3: OVERALL ISSUES PIE CHART
+# =================================================================
 
 # Create dummy data that simulates students with and without mental health issues
 data = {
@@ -191,17 +170,3 @@ fig = px.pie(
 
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
-
-
-# --- Summary Box ---
-st.markdown("### 🧾 Summary")
-st.success(
-    """
-As a summary, the three graphs collectively highlight a clear gender difference in the currency of mental health issues among students. 
-The bar and stacked bar charts show that female students consistently report higher numbers of depression, anxiety and panic attacks compared 
-to male students. While both genders experience these conditions, females influence across all categories, particularly in depression and anxiety. 
-The pie chart revealing that 75% of students with mental health issues are female while only 25% are male. These visualizations show that female 
-students are more affected by report mental health challenges than males, demonstrating a strong relationship between gender and the occurrence 
-of mental health issues among students.
-    """
-)
