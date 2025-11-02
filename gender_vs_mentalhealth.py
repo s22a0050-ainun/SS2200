@@ -2,18 +2,32 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+st.title("Gender vs Mental Health")
 
-# --- Summary Metric Calculation ---
+df = pd.read_csv("Student_Mental_Health.csv")
 
-# 1. Total Number of Students (based on the first dummy DataFrame)
+st.markdown("### 🎯 Objective 1")
+st.info("""
+To analyze the relationship between gender and the type of mental health issues such as 
+**depression, anxiety, and panic attacks** among students.
+""")
+
+
+# =================================================================
+# ✅ INSERT SUMMARY METRICS CODE HERE
+# =================================================================
+
+# Create a dummy DataFrame that matches the plot's data distribution
+data_depression = {
+    'Do you have Depression?': ['No', 'No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes'],
+    'Choose your gender': ['Female', 'Male', 'Female', 'Female', 'Male', 'Female', 'Female', 'Female']
+}
+mental_df_depression = pd.DataFrame(data_depression)
+
+# --- Summary Metric Calculation (Using the first dummy data) ---
 total_students = len(mental_df_depression)
-
-# 2. Total with Depression
 total_with_depression = (mental_df_depression['Do you have Depression?'] == 'Yes').sum()
-
-# 3. Percentage with Depression
 percent_with_depression = (total_with_depression / total_students) * 100 if total_students > 0 else 0
-
 
 # --- Displaying Metrics ---
 st.markdown("### 📊 Key Summary Metrics")
@@ -32,7 +46,7 @@ col2.metric(
     label="Total With Depression (Sample)",
     value=total_with_depression,
     delta=f"{round(percent_with_depression)}% of total", # Delta shows context for the value
-    delta_color="inverse" # Use 'inverse' to highlight a high number of issues (optional)
+    delta_color="inverse" # Use 'inverse' to highlight issues
 )
 
 # Metric 3: Students without Depression
@@ -41,19 +55,26 @@ col3.metric(
     value=(total_students - total_with_depression)
 )
 
-st.markdown("---") # Add a separator
+st.markdown("---") # Add a separator before the charts start
 
+# =================================================================
+# REST OF YOUR CODE (CHARTS) FOLLOWS BELOW
+# =================================================================
 
-st.title("Gender vs Mental Health")
+# Create a dummy DataFrame that matches the plot's data distribution
+# Use the dataframe defined above for consistency
+mental_df = mental_df_depression 
 
-df = pd.read_csv("Student_Mental_Health.csv")
+# Female/No: ~46, Male/No: ~20
+# Female/Yes: ~29, Male/Yes: ~6
 
-st.markdown("### 🎯 Objective 1")
-st.info("""
-To analyze the relationship between gender and the type of mental health issues such as 
-**depression, anxiety, and panic attacks** among students.
-""")
+# Count the occurrences and convert to a DataFrame for Plotly
+depression_gender_counts = mental_df.groupby(['Do you have Depression?', 'Choose your gender']).size().reset_index(name='Count')
+depression_gender_counts.rename(columns={'Choose your gender': 'Gender'}, inplace=True) # Rename for cleaner legend
 
+# Create a grouped bar chart using Plotly Express
+fig = px.bar(
+# ... (rest of the first chart code)
 
 # Create a dummy DataFrame that matches the plot's data distribution
 data = {
