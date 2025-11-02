@@ -158,7 +158,7 @@ st.plotly_chart(fig, use_container_width=True)
 # --- Interpretation ---
 st.markdown("### 🧾 Interpretation")
 st.success(
-    "As a summary, the three visualizations collectively highlight key patterns related to panic attacks among students across gender and academic courses. "
+    "The three visualizations collectively highlight key patterns related to panic attacks among students across gender and academic courses. "
     "The bar chart comparing gender and panic attacks reveals that female students represent the majority in both categories with more females for 25 than males for 8 reporting panic attacks, showing a higher currency among female students. "
     "The pie chart shows that 33% of the overall student population reported experiencing panic attacks, while 67% did not suggesting that although most students are unaffected, a significant portion still faces this issue. "
     "Meanwhile, the stacked bar chart by course demonstrates that panic attack cases are most common among students in Engineering and BIT programs with minimal cases in other courses. "
