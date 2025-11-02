@@ -170,3 +170,17 @@ fig = px.pie(
 
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+# --- Interpretation ---
+st.markdown("### 🧾 Interpretation")
+st.success(
+    """
+The three graphs collectively highlight a clear gender difference in the currency of mental health issues among students. 
+The bar and stacked bar charts show that female students consistently report higher numbers of depression, anxiety and panic attacks compared 
+to male students. While both genders experience these conditions, females influence across all categories, particularly in depression and anxiety. 
+The pie chart revealing that 75% of students with mental health issues are female while only 25% are male. These visualizations show that female 
+students are more affected by report mental health challenges than males, demonstrating a strong relationship between gender and the occurrence 
+of mental health issues among students.
+    """
+)
+
