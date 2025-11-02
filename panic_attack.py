@@ -27,7 +27,7 @@ st.markdown("### 📊 Summary Box")
 col1, col2, col3 = st.columns(3)
 
 col1.metric(
-    label="Total Students Analyzed (Sample)",
+    label="Total Students",
     value=total_students_sample
 )
 col2.metric(
