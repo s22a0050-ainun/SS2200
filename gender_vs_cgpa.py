@@ -11,6 +11,56 @@ st.info("""
 To analyze students of different genders are distributed across various academic courses. 
 """)
 
+# =================================================================
+# 📊 SUMMARY METRICS BLOCK 📊
+# =================================================================
+
+# 1. Calculate overall gender counts and percentages (based on the data used for the pie chart)
+# Create a consolidated DataFrame to calculate overall metrics
+data_combined = {
+    'What is your course?': ['BIT'] * 10 + ['Diploma Nursing'] * 10 + ['Engineering'] * 10 + ['Human Resources'] * 10 + ['IT'] * 10 + ['Law'] * 10 + ['Pendidikan Islam'] * 10 + ['Psychology'] * 10,
+    'Choose your gender': (['Female'] * 6 + ['Male'] * 4) + (['Female'] * 10) + (['Female'] * 7 + ['Male'] * 3) + (['Female'] * 10) + (['Female'] * 10) + (['Female'] * 10) + (['Female'] * 10) + (['Female'] * 10)
+}
+mental_df_overall = pd.DataFrame(data_combined)
+
+total_students = len(mental_df_overall)
+female_count = (mental_df_overall['Choose your gender'] == 'Female').sum()
+male_count = (mental_df_overall['Choose your gender'] == 'Male').sum()
+
+female_percent = (female_count / total_students) * 100
+male_percent = (male_count / total_students) * 100
+
+
+# 2. Display Metrics
+st.markdown("### 📊 Key Summary Metrics")
+
+# Use st.columns to display metrics side-by-side
+col1, col2, col3 = st.columns(3)
+
+col1.metric(
+    label="Total Students Analyzed (Sample)",
+    value=total_students
+)
+col2.metric(
+    label="Female Students",
+    value=female_count,
+    # Show the percentage as a delta
+    delta=f"{round(female_percent)}% of total", 
+    delta_color="normal" # Green for the majority group
+)
+col3.metric(
+    label="Male Students",
+    value=male_count,
+    # Show the percentage as a delta
+    delta=f"{round(male_percent)}% of total",
+    delta_color="inverse" # Highlights the small proportion
+)
+
+st.markdown("---") 
+
+# =================================================================
+# 📉 CHART 1: GENDER DISTRIBUTION ACROSS COURSES
+# =================================================================
 
 # Create dummy data that simulates the distribution 
 courses = ['BIT', 'Diploma Nursing', 'Engineering', 'Human Resources', 'IT', 'Law', 'Pendidikan Islam', 'Psychology']
@@ -56,8 +106,10 @@ fig = px.bar(
 st.plotly_chart(fig, use_container_width=True)
 
 
+# =================================================================
+# 📉 CHART 2: OVERALL GENDER PROPORTION PIE CHART
+# =================================================================
 
-## 📊 Plotly Pie Chart for Streamlit
 gender_counts = mental_df['Choose your gender'].value_counts().reset_index()
 gender_counts.columns = ['Gender', 'Count']
 
@@ -66,20 +118,21 @@ fig = px.pie(
     values='Count', 
     names='Gender', 
     title='Pie Chart : Overall Gender Proportion',
-    # Optional: Customize colors and text
-    color_discrete_sequence=px.colors.qualitative.Safe
+    # Match colors to be consistent with the bar chart
+    color_discrete_map={'Female': 'blue', 'Male': 'orange'}
 )
 
 # Display the chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
 
-
-
+# =================================================================
+# 📉 CHART 3: CGPA BY GENDER
+# =================================================================
 
 data = {
     'What is your CGPA?': ['3.50 - 4.00'] * 40 + ['3.00 - 3.49'] * 30 + ['2.50 - 2.99'] * 4 + ['2.00 - 2.49'] * 1 + ['0 - 1.99'] * 2 +
-                           ['3.50 - 4.00'] * 10 + ['3.00 - 3.49'] * 14 + ['2.50 - 2.99'] * 0 + ['2.00 - 2.49'] * 1 + ['0 - 1.99'] * 2,
+                            ['3.50 - 4.00'] * 10 + ['3.00 - 3.49'] * 14 + ['2.50 - 2.99'] * 0 + ['2.00 - 2.49'] * 1 + ['0 - 1.99'] * 2,
     'Choose your gender': ['Female'] * 77 + ['Male'] * 27
 }
 
@@ -101,26 +154,12 @@ cgpa_gender_counts = cgpa_gender_counts.sort_values('CGPA')
 
 fig = px.bar(
     cgpa_gender_counts, 
-    x='CGPA',        
-    y='Count',       
-    color='Gender',  
+    x='CGPA', 
+    y='Count', 
+    color='Gender', 
     barmode='group', # Displays bars side-by-side
     title='Group Bar Chart : Count of Students per CGPA by Gender',
     labels={'CGPA': 'CGPA', 'Count': 'Number of Students'}
 )
 # Streamlit Display (Fixes plt.show() issue) ---
 st.plotly_chart(fig, use_container_width=True)
-
-# --- Summary Box ---
-st.markdown("### 🧾 Summary")
-st.success("""
-The surveyed student population shows that **female students make up 91.3%** of the total gender ratio, 
-while **male students form only 8.7%**. This gender imbalance is reflected across all courses, with females 
-representing **100% of students** in **Diploma Nursing, Human Resources, IT, Law, Pendidikan Islam, and Psychology**, 
-and also being the majority in **BIT (60%)** and **Engineering (70%)**.
-
-In terms of academic achievement, female students also dominate the higher CGPA ranges. In the **top CGPA range of 3.50–4.00**, 
-there are **40 female students** compared to only **10 male students**. In the **3.00–3.49 CGPA range**, there are 
-**30 female students** to **14 male students**. This indicates that **female students outperform their male peers** 
-academically and represent the stronger academic group overall.
-""")
