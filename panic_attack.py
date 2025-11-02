@@ -11,6 +11,42 @@ st.info("""
 To explore the frequency of panic attacks among students and relates to gender or course type
 """)
 
+# =================================================================
+# 📊 SUMMARY METRICS BLOCK 📊
+# =================================================================
+
+# We will use the data from the overall panic attack pie chart for the general summary metrics.
+total_students_sample = 100
+num_no = int(total_students_sample * 0.673)
+num_yes = total_students_sample - num_no # 33
+
+# --- Displaying Metrics ---
+st.markdown("### 📊 Key Summary Metrics")
+
+# Use st.columns to display metrics side-by-side
+col1, col2, col3 = st.columns(3)
+
+col1.metric(
+    label="Total Students Analyzed (Sample)",
+    value=total_students_sample
+)
+col2.metric(
+    label="Students with Panic Attack",
+    value=num_yes,
+    # Show the percentage as a delta for context (33% is the target)
+    delta=f"{num_yes}% of total", 
+    delta_color="inverse" # Highlights a concerning metric in red
+)
+col3.metric(
+    label="Students without Panic Attack",
+    value=num_no
+)
+
+st.markdown("---") 
+
+# =================================================================
+# 📉 CHART 1: PANIC ATTACK BY COURSE
+# =================================================================
 
 # Create dummy data that simulates the distribution shown in the image
 courses = ['BIT'] * 10 + ['Diploma Nursing'] * 1 + ['Engineering'] * 17 + ['Human Resources'] * 1 + ['IT'] * 1 + ['Law'] * 1 + ['Pendidikan Islam'] * 1 + ['Psychology'] * 1
@@ -51,6 +87,9 @@ fig = px.bar(
 st.plotly_chart(fig, use_container_width=True)
 
 
+# =================================================================
+# 📉 CHART 2: OVERALL PERCENTAGE PIE CHART
+# =================================================================
 
 # Create dummy data that simulates the 67.3% No and 32.7% Yes split
 total_students = 100
@@ -79,6 +118,9 @@ fig = px.pie(
 st.plotly_chart(fig, use_container_width=True)
 
 
+# =================================================================
+# 📉 CHART 3: PANIC ATTACK BY GENDER
+# =================================================================
 
 # Create dummy data that simulates the distribution shown in the image (approximate counts)
 # Female/No: ~50, Male/No: ~18
@@ -111,18 +153,3 @@ fig = px.bar(
 )
 # Display the Plotly chart in Streamlit
 st.plotly_chart(fig, use_container_width=True)
-
-# --- Summary Box ---
-st.markdown("### 🧾 Summary")
-st.success("""
-The visualizations focus on the experience of the students with **Panic Attacks**, which shows that **33%** 
-of all the surveyed students have had one, as shown in the general pie chart. The Bar Chart that presents the 
-number by gender shows that there is a **drastic difference** in the number of cases reported with **25 female 
-students** reporting to have a Panic Attack and **8 male students**. This demonstrates that **female students are 
-more likely to report a Panic Attack** compared to male students.  
-
-Moreover, the **Stacked Bar Chart** subdivides the cases of Panic Attacks into various courses, and the majority 
-of these reported cases are in the **Engineering** and **BIT** courses, which have the highest number of respondents.  
-It is important to note that other courses such as **Diploma Nursing, Human Resources, Law, Pendidikan Islam, and Psychology** 
-had students only stating “No” to a Panic Attack, while the **IT** course had a few students responding “Yes”.
-""")
