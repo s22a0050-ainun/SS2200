@@ -21,7 +21,7 @@ num_no = int(total_students_sample * 0.673)
 num_yes = total_students_sample - num_no # 33
 
 # --- Displaying Metrics ---
-st.markdown("### 📊 Key Summary Metrics")
+st.markdown("### 📊 Summary Box")
 
 # Use st.columns to display metrics side-by-side
 col1, col2, col3 = st.columns(3)
