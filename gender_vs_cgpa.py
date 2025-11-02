@@ -8,7 +8,7 @@ df = pd.read_csv("Student_Mental_Health.csv")
 
 st.markdown("### 🎯 Objective 3")
 st.info("""
-To analyze how students of different genders are distributed across various academic courses.
+To analyze students of different genders are distributed across various academic courses. 
 """)
 
 
