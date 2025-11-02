@@ -10,9 +10,9 @@ st.header("Scientific Visualization : Individual Assignment", divider="gray")
 
 st.subheader("🎯 Objective Statement")
 st.write("""
-The purpose of this visualization is to analyze the relationship between students’ gender, 
+The purpose of this visualization is to analyze the relationship between student's gender, 
 academic courses and mental health conditions such as depression, anxiety and panic attacks. 
-This helps in understanding how different factors contribute to mental well-being among students.
+This can help in understanding how different factors contribute to mental well-being among students.
 """)
 
 st.set_page_config(page_title="GitHub Data Loader", layout="wide")
