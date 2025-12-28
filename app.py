@@ -44,9 +44,16 @@ cgpa = st.Page(
     icon=":material/school:"
 )
 
+# Add the new page for Project Scientific Visualization
+scientific_visualization = st.Page(
+    "scientific_visualization.py",  # Replace with the actual filename
+    title="Project Scientific Visualization",
+    icon=":material/assessment:"  # Choose an icon for the page
+)
+
 # Create navigation menu
 pg = st.navigation({
-    "Menu": [home, individual, gender_mental, panic, cgpa]
+    "Menu": [home, individual, gender_mental, panic, cgpa, scientific_visualization]
 })
 
 pg.run()
