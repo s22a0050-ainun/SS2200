@@ -3,26 +3,26 @@ import pandas as pd
 import plotly.express as px
 
 st.set_page_config(
-    page_title=" Project Group : Scientific Visualization "
+    page_title="Scientific Visualization : Project Group"
 )
 
-st.header("Project Group : Scientific Visualization", divider="gray")
+st.header("Scientific Visualization : Project Group", divider="gray")
 
 st.subheader("🎯 Objective Statement")
 st.write("""
-The purpose of this visualization is to identify demographic differences in mental health experiences among students
+The purpose of this visualization is to identify Demographic Differences in Mental Health Experiences among students
 """)
 
 st.set_page_config(page_title="GitHub Data Loader", layout="wide")
 st.title("Exploring Internet Use and Suicidality")
 
-url = 'Exploring Internet Use and Suicidality in Mental Health Populations.csv'
+url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Student_Mental_Health.csv'
 
 # Streamlit page setup
-st.set_page_config(page_title=" Exploring Internet Use and Suicidality Dashboard")
+st.set_page_config(page_title="Exploring Internet Use and Suicidality Dashboard")
 
 # Load data from GitHub
-url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Exploring%20Internet%20Use%20and%20Suicidality%20in%20Mental%20Health%20Populations.csv''
+url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/main/Student_Mental_Health.csv'
 
 try:
     df = pd.read_csv(url)
