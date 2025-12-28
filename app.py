@@ -50,7 +50,7 @@ project = st.Page(
     icon=":material/menu_book:"
 )  
 
-individual = st.Page(
+individual_visualizations = st.Page(
     "Individual_Visualizations.py",
     title="Individual Visualizations",
     icon="📊"
@@ -58,7 +58,7 @@ individual = st.Page(
 
 # Create navigation menu
 pg = st.navigation({
-    "Menu": [home, individual, gender_mental, panic, cgpa, project, individual]
+    "Menu": [home, individual, gender_mental, panic, cgpa, project, individual_visualizations]
 })
 
 pg.run()
