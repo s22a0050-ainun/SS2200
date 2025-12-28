@@ -1,3 +1,5 @@
+change this code to add one more page for Project Scientific Visualization
+
 import streamlit as st
 
 st.set_page_config(
@@ -44,17 +46,15 @@ cgpa = st.Page(
     icon=":material/school:"
 )
 
-# Add the new page for Project Scientific Visualization
-scientific_visualization = st.Page(
-    "scientific_visualization.py",  # Replace with the actual filename
+project = st.Page(
+    "ProjectSciVis.py",
     title="Project Scientific Visualization",
-    icon=":material/assessment:"  # Choose an icon for the page
+    icon=":material/menu_book:"
 )
 
 # Create navigation menu
 pg = st.navigation({
-    "Menu": [home, individual, gender_mental, panic, cgpa, scientific_visualization]
+    "Menu": [home, individual, gender_mental, panic, cgpa, project]
 })
 
 pg.run()
-
