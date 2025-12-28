@@ -50,8 +50,8 @@ project = st.Page(
     icon=":material/menu_book:"
 )
 
-individual = st.Page(
-    "Individual_Visualizations.py",  
+visualization = st.Page(
+    "Visualizations.py",  
     title="Individual Visualizations",
     icon=":material/insert_chart:"  
 
