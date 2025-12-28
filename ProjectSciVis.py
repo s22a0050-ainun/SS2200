@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Load the main DataFrame (df is not directly used for the metrics/charts below)
+# Load the main DataFrame 
 df = pd.read_csv("/content/Exploring Internet Use and Suicidality in Mental Health Populations.csv")
 
 st.markdown("### 🎯 Objective")
