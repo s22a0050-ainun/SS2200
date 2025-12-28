@@ -48,12 +48,7 @@ project = st.Page(
     "Project_Scientific_Visualization.py",
     title="Project Scientific Visualization",
     icon=":material/menu_book:"
-)
-
-visualization = st.Page(
-    "Visualizations.py",  
-    title="Individual Visualizations",
-    icon=":material/insert_chart:"  
+)  
 
 # Create navigation menu
 pg = st.navigation({
