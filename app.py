@@ -54,7 +54,6 @@ individual = st.Page(
     "Individual_Visualizations.py",
     title="Individual Visualizations",
     icon="material/insert_chart:"
-
 )
 
 # Create navigation menu
