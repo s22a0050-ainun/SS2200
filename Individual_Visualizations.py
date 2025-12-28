@@ -19,17 +19,17 @@ st.write(df.isna().sum())
 st.write("Data Types in Data:")
 st.write(df.dtypes)
 
-# Ensure the columns exist before dropping NaN values
+# Check for columns' existence and spelling
 columns_to_check = ['Year_of_Study', 'Gender', 'Social_Media_Positive_Impact_on_Wellbeing']
-
-# Check if all necessary columns are in the dataframe
 missing_columns = [col for col in columns_to_check if col not in df.columns]
 
 if not missing_columns:
+    # Drop rows with missing values in the specified columns
     df = df.dropna(subset=columns_to_check)
     df['Year_of_Study'] = df['Year_of_Study'].astype(str)
     df['Gender'] = df['Gender'].astype(str)
 else:
+    # Display error message if columns are missing
     st.error(f"Missing columns: {', '.join(missing_columns)}")
     st.stop()  # Stop execution if any column is missing
 
