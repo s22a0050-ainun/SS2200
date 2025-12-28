@@ -53,7 +53,7 @@ project = st.Page(
 individual_visualizations = st.Page(
     "Individual_Visualizations.py",
     title="Individual Visualizations",
-    icon="📊"
+    icon=":📊:"
 )
 
 # Create navigation menu
