@@ -28,13 +28,13 @@ fig = px.histogram(
     barmode='group',
     category_orders={"Year_of_Study": sorted(df['Year_of_Study'].unique())}, # Ensures years are in order
     color_discrete_sequence=px.colors.qualitative.Set2,
-    labels={'Year_of_Study': 'Year of Study', 'count': 'Number of Respondents'},
+    labels={'Year_of_Study': 'Year_of_Study', 'count': 'Number of Respondents'},
     title='Gender Distribution Across Year of Study'
 )
 
 # Update layout to match your matplotlib styling
 fig.update_layout(
-    xaxis_title="Year of Study",
+    xaxis_title="Year_of_Study",
     yaxis_title="Number of Respondents",
     legend_title="Gender",
     xaxis={'tickangle': 45}
@@ -59,13 +59,13 @@ fig = px.imshow(
     year_living_crosstab,
     text_auto=True,                # Equivalent to annot=True
     color_continuous_scale='YlGnBu', # Matches your cmap
-    labels=dict(x="Living Situation", y="Year of Study", color="Count"),
+    labels=dict(x="Current_Living_Situation", y="Year of Study", color="Count"),
     title='Heatmap: Year of Study vs Current Living Situation'
 )
 
 # 3. Update layout for better readability
 fig.update_layout(
-    xaxis_title='Living Situation',
+    xaxis_title='Current Living Situation',
     yaxis_title='Year of Study',
 )
 
@@ -92,7 +92,7 @@ fig = px.bar(
     x='Gender', 
     y=gender_impact.columns,  # Plot all impact categories
     title='Gender vs. Social Media Impact on Wellbeing',
-    labels={'value': 'Number of Respondents', 'variable': 'Social Media Impact'},
+    labels={'value': 'Number of Respondents', 'variable': 'Social_Media_Positive_Impact_on_Wellbeing'},
     color_discrete_sequence=['lightgreen', 'salmon'], # Matches your original colors
     template='plotly_white'
 )
@@ -148,7 +148,7 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 # =================================================================
-# 📉 VISUALIZATION : GENDER VS DIFFICULTY SLEEPING DUE TO UNIVERSITY PRESSURE
+# 📉 VISUALIZATION 5 : GENDER VS DIFFICULTY SLEEPING DUE TO UNIVERSITY PRESSURE
 # =================================================================
 
 # Streamlit Title
