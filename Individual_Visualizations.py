@@ -7,8 +7,11 @@ st.title("Individual Visualizations")
 # Load the main DataFrame
 df = pd.read_csv("Exploring Internet Use and Suicidality in Mental Health Populations.csv")
 
-# Check column names and data types
-st.write("Dataframe Columns:")
+# Clean up column names by stripping extra spaces
+df.columns = df.columns.str.strip()
+
+# Check the exact column names
+st.write("Dataframe Columns (cleaned):")
 st.write(df.columns)
 
 # Check for missing values
@@ -19,8 +22,10 @@ st.write(df.isna().sum())
 st.write("Data Types in Data:")
 st.write(df.dtypes)
 
-# Check for columns' existence and spelling
+# Ensure the columns exist before dropping NaN values
 columns_to_check = ['Year_of_Study', 'Gender', 'Social_Media_Positive_Impact_on_Wellbeing']
+
+# Check if all necessary columns are in the dataframe
 missing_columns = [col for col in columns_to_check if col not in df.columns]
 
 if not missing_columns:
