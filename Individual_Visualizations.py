@@ -16,166 +16,150 @@ To identify demographic differences in mental health experiences
 # 📉 VISUALIZATION 1: GENDER DISTRIBUTION ACROSS YEAR OF STUDY
 # =================================================================
 
-# Streamlit Title
-st.title("Group Bar Chart : Gender Distribution Across Year of Study")
+import plotly.express as px
+import streamlit as st
 
-# Plotting Grouped Bar Chart for Gender vs Year of Study
-# In Plotly, px.histogram with a categorical X axis acts like a countplot
-fig = px.histogram(
-    df, 
-    x='Year_of_Study', 
-    color='Gender', 
-    barmode='group',
-    category_orders={"Year_of_Study": sorted(df['Year_of_Study'].unique())}, # Ensures years are in order
-    color_discrete_sequence=px.colors.qualitative.Set2,
-    labels={'Year_of_Study': 'Year_of_Study', 'count': 'Number of Respondents'},
-    title='Gender Distribution Across Year of Study'
-)
+# Assuming 'df' is your DataFrame
+fig = px.bar(df, 
+             x='Year_of_Study', 
+             color='Gender', 
+             title='Gender Distribution Across Year of Study', 
+             labels={'Year_of_Study': 'Year of Study', 'Gender': 'Gender'},
+             color_discrete_sequence=px.colors.sequential.Pastel)
 
-# Update layout to match your matplotlib styling
+# Update layout for better readability
 fig.update_layout(
-    xaxis_title="Year_of_Study",
-    yaxis_title="Number of Respondents",
-    legend_title="Gender",
-    xaxis={'tickangle': 45}
+    xaxis_tickangle=45,
+    xaxis_title='Year of Study',
+    yaxis_title='Number of Respondents',
+    legend_title='Gender'
 )
 
 # Display the plot in Streamlit
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig)
 
 # =================================================================
 # 📉 VISUALIZATION 2: YEAR OF STUDY VS CURRENT LIVING SITUATION
 # =================================================================
 
-# Title for the Streamlit app
-st.title("Heatmap : Year of Study vs Current Living Situation")
+import plotly.express as px
+import pandas as pd
+import streamlit as st
 
-# 1. Create the crosstab (same as your original logic)
+# Assuming 'df' is your DataFrame and pd.crosstab has been calculated
 year_living_crosstab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
 
-# 2. Create the Heatmap using Plotly Express
-# px.imshow is the standard way to display heatmaps/matrices in Plotly
-fig = px.imshow(
-    year_living_crosstab,
-    text_auto=True,                # Equivalent to annot=True
-    color_continuous_scale='YlGnBu', # Matches your cmap
-    labels=dict(x="Current_Living_Situation", y="Year of Study", color="Count"),
-    title='Heatmap: Year of Study vs Current Living Situation'
-)
+# Plotting Heatmap for Year of Study vs Current Living Situation using Plotly
+fig = px.imshow(year_living_crosstab,
+                labels={'x': 'Living Situation', 'y': 'Year of Study'},
+                title='Heatmap: Year of Study vs Current Living Situation',
+                color_continuous_scale='YlGnBu',
+                text_auto=True)
 
-# 3. Update layout for better readability
+# Update layout for better readability
 fig.update_layout(
-    xaxis_title='Current Living Situation',
-    yaxis_title='Year of Study',
+    xaxis_title='Living Situation',
+    yaxis_title='Year of Study'
 )
 
-# 4. Display in Streamlit
-st.plotly_chart(fig, use_container_width=True)
+# Display the heatmap in Streamlit
+st.plotly_chart(fig)
 
 # =================================================================
 # 📉 VISUALIZATION 3: GENDER VS SOCIAL MEDIA IMPACT ON WELLBEING
 # =================================================================
 
-# Streamlit Title
-st.title("Stacked Bar Chart : Gender vs Social Media Impact on Wellbeing")
+import plotly.graph_objects as go
+import pandas as pd
+import streamlit as st
 
-# 1. Create the crosstab (keeps your original data structure)
+# Assuming 'df' is your DataFrame and pd.crosstab has been calculated
 gender_impact = pd.crosstab(df['Gender'], df['Social_Media_Positive_Impact_on_Wellbeing'])
 
-# 2. Reset index to make 'Gender' a column for Plotly
-# Plotly prefers "long" format data for its 'x' and 'y' arguments
-gender_impact_reset = gender_impact.reset_index()
+# Create a stacked bar chart using Plotly
+fig = go.Figure()
 
-# 3. Create the Stacked Bar Chart
-fig = px.bar(
-    gender_impact_reset, 
-    x='Gender', 
-    y=gender_impact.columns,  # Plot all impact categories
-    title='Gender vs. Social Media Impact on Wellbeing',
-    labels={'value': 'Number of Respondents', 'variable': 'Social_Media_Positive_Impact_on_Wellbeing'},
-    color_discrete_sequence=['lightgreen', 'salmon'], # Matches your original colors
-    template='plotly_white'
-)
+# Add traces for each category (Positive Impact, Negative Impact)
+fig.add_trace(go.Bar(
+    x=gender_impact.index,
+    y=gender_impact[1],  # Assuming '1' corresponds to Positive Impact
+    name='Positive Impact',
+    marker_color='lightgreen'
+))
 
-# 4. Refine the layout
+fig.add_trace(go.Bar(
+    x=gender_impact.index,
+    y=gender_impact[0],  # Assuming '0' corresponds to Negative Impact
+    name='Negative Impact',
+    marker_color='salmon'
+))
+
+# Update layout
 fig.update_layout(
+    title='Gender vs. Social Media Impact on Wellbeing',
     xaxis_title='Gender',
     yaxis_title='Number of Respondents',
+    xaxis=dict(
+        tickmode='array',
+        tickvals=[0, 1, 2],  # These are the indices for 'Female', 'Male', 'Other'
+        ticktext=['Female', 'Male', 'Other']
+    ),
+    barmode='stack',  # Stacked bars
     legend_title='Social Media Impact',
-    barmode='stack'
+    legend=dict(title='Social Media Impact', x=0, y=1)
 )
 
-# Change Legend Labels manually if needed (matches your 'labels' list)
-new_names = {'0': 'Positive Impact', '1': 'Negative Impact'}
-fig.for_each_trace(lambda t: t.update(name = new_names.get(t.name, t.name)))
-
-# 5. Display in Streamlit
-st.plotly_chart(fig, use_container_width=True)
+# Display the chart in Streamlit
+st.plotly_chart(fig)
 
 # =================================================================
 # 📉 VISUALIZATION 4: RACE VS SOCIAL MEDIA AS PART OF DAILY ROUTINE
 # =================================================================
 
-# Streamlit Title
-st.title("Group Bar Chart : Race vs Social Media as Part of Daily Routine")
+import plotly.express as px
+import streamlit as st
 
-# Creating the Grouped Bar Chart
-# px.histogram with a categorical X acts as a Seaborn countplot
-fig = px.histogram(
-    filtered_data, 
-    x='Social_Media_Daily_Routine', 
-    color='Race', 
-    barmode='group', # Side-by-side bars (like hue in Seaborn)
-    color_discrete_sequence=px.colors.qualitative.Set3,
-    title='Race vs. Social Media as Part of Daily Routine',
-    labels={
-        'Social_Media_Daily_Routine': 'Daily Routine Status',
-        'count': 'Number of Respondents',
-        'Race': 'Race/Ethnicity'
-    }
-)
+# Assuming 'filtered_data' is your DataFrame
+fig = px.histogram(filtered_data, 
+                   x='Social_Media_Daily_Routine', 
+                   color='Race', 
+                   title='Race vs. Social Media as Part of Daily Routine', 
+                   labels={'Social_Media_Daily_Routine': 'Social Media as Part of Daily Routine'},
+                   color_discrete_sequence=px.colors.qualitative.Set3)
 
-# Refine the layout and axes
+# Update layout for better readability
 fig.update_layout(
     xaxis_title='Social Media as Part of Daily Routine',
     yaxis_title='Number of Respondents',
-    legend_title='Race',
-    xaxis={'tickangle': 45},
-    hovermode='x unified' # Shows all race counts in one tooltip when hovering
+    xaxis_tickangle=45,  # Rotate x-axis labels
+    legend_title='Race'
 )
 
-# Display the plot in the Streamlit app
-st.plotly_chart(fig, use_container_width=True)
+# Display the plot in Streamlit
+st.plotly_chart(fig)
 
 # =================================================================
 # 📉 VISUALIZATION 5 : GENDER VS DIFFICULTY SLEEPING DUE TO UNIVERSITY PRESSURE
 # =================================================================
 
-# Streamlit Title
-st.title("Bar Chart : Gender vs Difficulty Sleeping due to University Pressure")
+import plotly.express as px
+import streamlit as st
 
-# Create the grouped bar chart
-fig = px.histogram(
-    filtered_data, 
-    x='Difficulty_Sleeping_University_Pressure', 
-    color='Gender', 
-    barmode='group', # Ensures bars are side-by-side rather than stacked
-    color_discrete_sequence=px.colors.qualitative.Set3, # Matches your palette
-    title='Gender vs. Difficulty Sleeping Due to University Pressure',
-    labels={
-        'Difficulty_Sleeping_University_Pressure': 'Difficulty Sleeping Score',
-        'count': 'Number of Respondents'
-    }
-)
+# Assuming 'filtered_data' is your DataFrame
+fig = px.histogram(filtered_data, 
+                   x='Difficulty_Sleeping_University_Pressure', 
+                   color='Gender', 
+                   title='Gender vs. Difficulty Sleeping Due to University Pressure', 
+                   labels={'Difficulty_Sleeping_University_Pressure': 'Difficulty Sleeping Due to University Pressure'},
+                   color_discrete_sequence=px.colors.qualitative.Set3)
 
-# Refine the layout
+# Update layout for better readability
 fig.update_layout(
     xaxis_title='Difficulty Sleeping Due to University Pressure',
     yaxis_title='Number of Respondents',
-    legend_title='Gender',
-    xaxis={'tickangle': 45},
-    hovermode='x unified'
+    xaxis_tickangle=45,  # Rotate x-axis labels
+    legend_title='Gender'
 )
 
-# Display in Streamlit
-st.plotly_chart(fig, use_container_width=True)
+# Display the plot in Streamlit
+st.plotly_chart(fig)
