@@ -2,11 +2,22 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+st.title("Gender vs Mental Health")
+
+# Load the main DataFrame (df is not directly used for the metrics/charts below)
+df = pd.read_csv("Student_Mental_Health.csv")
+
+st.markdown("### 🎯 Objective 1")
+st.info("""
+To analyze the relationship between gender and the type of mental health issues such as 
+**depression, anxiety, and panic attacks** among students.
+""")
+
 # =================================================================
 # 📉 CHART 1: GENDER VS YEAR OF STUDY
 # =================================================================
 
-# **Gender vs Year of Study Visualization: Grouped Bar Chart**
+# **1. Gender vs Year of Study Visualization: Grouped Bar Chart**
 st.title('Visualization 1: Gender Distribution Across Year of Study')
 
 # Plotting Grouped Bar Chart for Gender vs Year of Study
@@ -52,11 +63,12 @@ fig = px.imshow(
 # Display in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
+
 # =================================================================
 # 📉 CHART 3: GENDER VS SOCIAL MEDIA IMPACT ON WELLBEING
 # =================================================================
 
-# **Gender vs Social Media Impact on Wellbeing: Stacked Bar Chart**
+# **3. Gender vs Social Media Impact on Wellbeing: Stacked Bar Chart**
 st.title('Visualization 3: Gender vs Social Media Impact on Wellbeing')
 
 # Plotting Stacked Bar Chart
@@ -87,7 +99,7 @@ st.plotly_chart(fig, use_container_width=True)
 # 📉 CHART 4: RACE VS SOCIAL MEDIA AS PART OF DAILY ROUTINE
 # =================================================================
 
-# **Race vs Social Media as Part of Daily Routine: Grouped Bar Chart**
+# **4. Race vs Social Media as Part of Daily Routine: Grouped Bar Chart**
 st.title('Visualization 4: Race vs Social Media as Part of Daily Routine')
 
 # Plotting Grouped Bar Chart for Race vs Social Media Routine
@@ -116,11 +128,12 @@ fig.update_layout(
 # Display the interactive chart in the Streamlit app
 st.plotly_chart(fig, use_container_width=True)
 
+
 # =================================================================
 # 📉 CHART 5: GENDER VS DIFFICULTY SLEEPING DUE TO UNIVERSITY PRESSURE
 # =================================================================
 
-# **Gender vs Difficulty Sleeping Due to University Pressure: Grouped Bar Chart**
+# **5. Gender vs Difficulty Sleeping Due to University Pressure: Grouped Bar Chart**
 st.title('Visualization 5: Gender vs Difficulty Sleeping Due to University Pressure')
 
 # Plotting Grouped Bar Chart for Gender vs Difficulty Sleeping
