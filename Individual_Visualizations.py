@@ -9,7 +9,7 @@ df = pd.read_csv("Exploring Internet Use and Suicidality in Mental Health Popula
 
 st.markdown("### 🎯 Objective ")
 st.info("""
-To identify demographic differences in mental health experiences
+"The purpose of this visualization is to identify and analyze the demographic differences in mental health experiences among students, with a particular focus on how factors such as gender, age, race and year of study influence student's perceptions and experiences of mental health challenges."
 """)
 
 # =================================================================
