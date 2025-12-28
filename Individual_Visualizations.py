@@ -19,10 +19,19 @@ st.write(df.isna().sum())
 st.write("Data Types in Data:")
 st.write(df.dtypes)
 
-# Fix missing data or type issues
-df = df.dropna(subset=['Year_of_Study', 'Gender', 'Social_Media_Positive_Impact_on_Wellbeing'])
-df['Year_of_Study'] = df['Year_of_Study'].astype(str)
-df['Gender'] = df['Gender'].astype(str)
+# Debug: Check if required columns are in the DataFrame
+required_columns = ['Year_of_Study', 'Gender', 'Social_Media_Positive_Impact_on_Wellbeing']
+missing_columns = [col for col in required_columns if col not in df.columns]
+
+if missing_columns:
+    st.error(f"Missing columns: {', '.join(missing_columns)}")
+else:
+    # If all required columns exist, proceed with handling missing data
+    df = df.dropna(subset=required_columns)
+
+    # Fix data types if necessary
+    df['Year_of_Study'] = df['Year_of_Study'].astype(str)
+    df['Gender'] = df['Gender'].astype(str)
 
 # =================================================================
 # 📉 VISUALIZATION 1: GENDER DISTRIBUTION ACROSS YEAR OF STUDY
