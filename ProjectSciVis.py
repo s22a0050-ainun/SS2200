@@ -1,7 +1,14 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import plotly.express as px
+
+# Load the main DataFrame (df is not directly used for the metrics/charts below)
+df = pd.read_csv("/content/Exploring Internet Use and Suicidality in Mental Health Populations.csv")
+
+st.markdown("### 🎯 Objective")
+st.info("""
+To Identify Demographic Differences in Mental Health Experiences
+""")
 
 # Load data from GitHub 
 url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Exploring%20Internet%20Use%20and%20Suicidality%20in%20Mental%20Health%20Populations.csv'
