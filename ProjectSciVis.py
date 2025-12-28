@@ -14,7 +14,7 @@ df = pd.read_csv(url)
 
 # Data Collection Page
 st.title('Data Collection')
-st.write("Dataset: Exploring Internet Use and Suicidality in Mental Health Populations")
+st.write("/content/Exploring Internet Use and Suicidality in Mental Health Populations.csv")
 st.write(df.head())  # Show the first few rows of the dataset
 
 # **1. Gender vs Year of Study Visualization: Grouped Bar Chart**
