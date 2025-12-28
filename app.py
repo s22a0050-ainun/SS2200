@@ -58,7 +58,7 @@ individual = st.Page(
 
 # Create navigation menu
 pg = st.navigation({
-    "Menu": [home, individual, gender_mental, panic, cgpa, project, individual]
+    "Menu": [home, individual, gender_mental, panic, cgpa, project]
 })
 
 pg.run()
