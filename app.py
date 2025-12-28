@@ -1,5 +1,3 @@
-change this code to add one more page for Project Scientific Visualization
-
 import streamlit as st
 
 st.set_page_config(
