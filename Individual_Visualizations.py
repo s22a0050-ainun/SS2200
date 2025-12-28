@@ -16,9 +16,6 @@ To identify demographic differences in mental health experiences
 # 📉 VISUALIZATION 1: GENDER DISTRIBUTION ACROSS YEAR OF STUDY
 # =================================================================
 
-import plotly.express as px
-import streamlit as st
-
 # Assuming 'df' is your DataFrame
 fig = px.bar(df, 
              x='Year_of_Study', 
@@ -42,10 +39,6 @@ st.plotly_chart(fig)
 # 📉 VISUALIZATION 2: YEAR OF STUDY VS CURRENT LIVING SITUATION
 # =================================================================
 
-import plotly.express as px
-import pandas as pd
-import streamlit as st
-
 # Assuming 'df' is your DataFrame and pd.crosstab has been calculated
 year_living_crosstab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
 
@@ -68,10 +61,6 @@ st.plotly_chart(fig)
 # =================================================================
 # 📉 VISUALIZATION 3: GENDER VS SOCIAL MEDIA IMPACT ON WELLBEING
 # =================================================================
-
-import plotly.graph_objects as go
-import pandas as pd
-import streamlit as st
 
 # Assuming 'df' is your DataFrame and pd.crosstab has been calculated
 gender_impact = pd.crosstab(df['Gender'], df['Social_Media_Positive_Impact_on_Wellbeing'])
@@ -116,9 +105,6 @@ st.plotly_chart(fig)
 # 📉 VISUALIZATION 4: RACE VS SOCIAL MEDIA AS PART OF DAILY ROUTINE
 # =================================================================
 
-import plotly.express as px
-import streamlit as st
-
 # Assuming 'filtered_data' is your DataFrame
 fig = px.histogram(filtered_data, 
                    x='Social_Media_Daily_Routine', 
@@ -141,9 +127,6 @@ st.plotly_chart(fig)
 # =================================================================
 # 📉 VISUALIZATION 5 : GENDER VS DIFFICULTY SLEEPING DUE TO UNIVERSITY PRESSURE
 # =================================================================
-
-import plotly.express as px
-import streamlit as st
 
 # Assuming 'filtered_data' is your DataFrame
 fig = px.histogram(filtered_data, 
