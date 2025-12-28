@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+st.title("Individual Visualizations")
+
 # Load the main DataFrame
 df = pd.read_csv("Exploring Internet Use and Suicidality in Mental Health Populations.csv")
 
