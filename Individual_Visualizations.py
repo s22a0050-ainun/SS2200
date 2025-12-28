@@ -28,7 +28,7 @@ fig = px.histogram(
     barmode='group',
     category_orders={"Year_of_Study": sorted(df['Year_of_Study'].unique())}, # Ensures years are in order
     color_discrete_sequence=px.colors.qualitative.Set2,
-    labels={'Year of Study': 'Year of Study', 'count': 'Number of Respondents'},
+    labels={'Year_of_Study': 'Year of Study', 'count': 'Number of Respondents'},
     title='Gender Distribution Across Year of Study'
 )
 
