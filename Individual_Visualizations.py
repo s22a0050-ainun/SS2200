@@ -16,13 +16,16 @@ To identify demographic differences in mental health experiences
 # 📉 VISUALIZATION 1: GENDER DISTRIBUTION ACROSS YEAR OF STUDY
 # =================================================================
 
+import plotly.express as px
+import streamlit as st
+
 # Assuming 'df' is your DataFrame
 fig = px.bar(df, 
              x='Year_of_Study', 
              color='Gender', 
              title='Gender Distribution Across Year of Study', 
              labels={'Year_of_Study': 'Year of Study', 'Gender': 'Gender'},
-             color_discrete_sequence=px.colors.qualitative.Set3)  # Changed to qualitative color scale
+            color_discrete_sequence=px.colors.qualitative.Set3)
 
 # Update layout for better readability
 fig.update_layout(
