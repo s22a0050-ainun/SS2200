@@ -14,8 +14,8 @@ To identify demographic differences in mental health experiences
 # 📉 CHART 1: GENDER VS YEAR OF STUDY
 # =================================================================
 
-# **1. Gender vs Year of Study Visualization: Grouped Bar Chart**
-st.title('Visualization 1: Gender Distribution Across Year of Study')
+# **Gender vs Year of Study Visualization: Grouped Bar Chart**
+st.title('Group Bar Chart : Gender Distribution Across Year of Study')
 
 # Plotting Grouped Bar Chart for Gender vs Year of Study
 fig = px.histogram(
@@ -25,12 +25,11 @@ fig = px.histogram(
     barmode='group',
     color_discrete_sequence=px.colors.qualitative.Set2,
     title='Gender Distribution Across Year of Study',
-    labels={'Year_of_Study': 'Year of Study', 'count': 'Number of Respondents'}
+    labels={'Year_of_Study': 'Year_of_Study', 'count': 'Number of Respondents'}
 )
 
-# Optional: Improve the layout
 fig.update_layout(
-    xaxis_title="Year of Study",
+    xaxis_title="Year_of_Study",
     yaxis_title="Number of Respondents",
     legend_title="Gender"
 )
