@@ -22,7 +22,7 @@ fig = px.bar(df,
              color='Gender', 
              title='Gender Distribution Across Year of Study', 
              labels={'Year_of_Study': 'Year of Study', 'Gender': 'Gender'},
-             color_discrete_sequence=px.colors.sequential.Pastel)
+             color_discrete_sequence=px.colors.qualitative.Set3)  # Changed to qualitative color scale
 
 # Update layout for better readability
 fig.update_layout(
