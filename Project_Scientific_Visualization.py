@@ -10,7 +10,7 @@ st.header("Scientific Visualization : Project Group", divider="gray")
 
 st.subheader("🎯 Objective Statement")
 st.write("""
-"The purpose of this visualization is to identify and analyze the demographic differences in mental health experiences among students, with a particular focus on how factors such as gender, age, race and year of study influence student's perceptions and experiences of mental health challenges.
+"The purpose of this visualization is to identify and analyze the demographic differences in mental health experiences among students, with a particular focus on how factors such as gender, age, race and year of study influence student's perceptions and experiences of mental health challenges."
 """)
 
 st.set_page_config(page_title="GitHub Data Loader", layout="wide")
