@@ -2,15 +2,12 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-st.title("Gender vs Mental Health")
+# Load the main DataFrame
+df = pd.read_csv("Exploring Internet Use and Suicidality in Mental Health Populations.csv")
 
-# Load the main DataFrame (df is not directly used for the metrics/charts below)
-df = pd.read_csv("Student_Mental_Health.csv")
-
-st.markdown("### 🎯 Objective 1")
+st.markdown("### 🎯 Objective ")
 st.info("""
-To analyze the relationship between gender and the type of mental health issues such as 
-**depression, anxiety, and panic attacks** among students.
+To identify demographic differences in mental health experiences
 """)
 
 # =================================================================
