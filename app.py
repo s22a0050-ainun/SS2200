@@ -45,7 +45,7 @@ cgpa = st.Page(
 )
 
 project = st.Page(
-    "ProjectSciVis.py",
+    "Project_Scientific_Visualization.py",
     title="Project Scientific Visualization",
     icon=":material/menu_book:"
 )
