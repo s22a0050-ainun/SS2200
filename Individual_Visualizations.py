@@ -2,7 +2,11 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# **1. Gender vs Year of Study Visualization: Grouped Bar Chart**
+# =================================================================
+# 📉 CHART 1: GENDER VS YEAR OF STUDY
+# =================================================================
+
+# **Gender vs Year of Study Visualization: Grouped Bar Chart**
 st.title('Visualization 1: Gender Distribution Across Year of Study')
 
 # Plotting Grouped Bar Chart for Gender vs Year of Study
@@ -26,7 +30,11 @@ fig.update_layout(
 # Display the plot in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
-# **2. Heatmap: Year of Study vs Living Situation**
+# =================================================================
+# 📉 CHART 2: YEAR OF STUDY VS LIVING SITUATION
+# =================================================================
+
+# **Heatmap: Year of Study vs Living Situation**
 st.title('Visualization 2: Heatmap of Year of Study vs Current Living Situation')
 
 # Create the crosstab for heatmap
@@ -44,7 +52,11 @@ fig = px.imshow(
 # Display in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
-# **3. Gender vs Social Media Impact on Wellbeing: Stacked Bar Chart**
+# =================================================================
+# 📉 CHART 3: GENDER VS SOCIAL MEDIA IMPACT ON WELLBEING
+# =================================================================
+
+# **Gender vs Social Media Impact on Wellbeing: Stacked Bar Chart**
 st.title('Visualization 3: Gender vs Social Media Impact on Wellbeing')
 
 # Plotting Stacked Bar Chart
@@ -71,7 +83,11 @@ fig.update_layout(
 # Display in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
-# **4. Race vs Social Media as Part of Daily Routine: Grouped Bar Chart**
+# =================================================================
+# 📉 CHART 4: RACE VS SOCIAL MEDIA AS PART OF DAILY ROUTINE
+# =================================================================
+
+# **Race vs Social Media as Part of Daily Routine: Grouped Bar Chart**
 st.title('Visualization 4: Race vs Social Media as Part of Daily Routine')
 
 # Plotting Grouped Bar Chart for Race vs Social Media Routine
@@ -100,7 +116,11 @@ fig.update_layout(
 # Display the interactive chart in the Streamlit app
 st.plotly_chart(fig, use_container_width=True)
 
-# **5. Gender vs Difficulty Sleeping Due to University Pressure: Grouped Bar Chart**
+# =================================================================
+# 📉 CHART 5: GENDER VS DIFFICULTY SLEEPING DUE TO UNIVERSITY PRESSURE
+# =================================================================
+
+# **Gender vs Difficulty Sleeping Due to University Pressure: Grouped Bar Chart**
 st.title('Visualization 5: Gender vs Difficulty Sleeping Due to University Pressure')
 
 # Plotting Grouped Bar Chart for Gender vs Difficulty Sleeping
