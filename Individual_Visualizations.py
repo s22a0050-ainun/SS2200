@@ -2,8 +2,27 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Using the filtered_data as the base for consistency
-df = filtered_data 
+st.title("Individual Visualizations")
+
+# Load the main DataFrame
+df = pd.read_csv("Exploring Internet Use and Suicidality in Mental Health Populations.csv")
+
+# Check column names and data types
+st.write("Dataframe Columns:")
+st.write(df.columns)
+
+# Check for missing values
+st.write("Missing Values in Data:")
+st.write(df.isna().sum())
+
+# Check the data types of columns
+st.write("Data Types in Data:")
+st.write(df.dtypes)
+
+# Fix missing data or type issues
+df = df.dropna(subset=['Year_of_Study', 'Gender', 'Social_Media_Positive_Impact_on_Wellbeing'])
+df['Year_of_Study'] = df['Year_of_Study'].astype(str)
+df['Gender'] = df['Gender'].astype(str)
 
 # =================================================================
 # 📉 VISUALIZATION 1: GENDER DISTRIBUTION ACROSS YEAR OF STUDY
