@@ -47,9 +47,9 @@ df = pd.read_csv("https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/h
 st.subheader("Gender Distribution Across Year of Study")
 
 gender_year_counts = (
-    df.groupby(['Year_of_Study', 'Gender'])
-      .size()
-      .reset_index(name='Count')
+    filtered_data.groupby(['Year_of_Study', 'Gender'])
+    .size()
+    .reset_index(name='Count')
 )
 
 fig1 = px.bar(
