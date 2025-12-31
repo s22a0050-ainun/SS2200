@@ -36,8 +36,33 @@ except Exception as e:
 filtered_data = df.copy()
 
 # ==================================================
-# 1️⃣ Gender vs Year of Study
+# 🔒 SAFETY FIX: Standardise column names
 # ==================================================
+
+# Make a copy to avoid modifying original data
+df = df.copy()
+
+# Clean column names: strip spaces
+df.columns = df.columns.str.strip()
+
+# Rename ONLY if the original column exists
+rename_map = {
+    "Year of Study": "Year_of_Study",
+    "Current Living Situation": "Current_Living_Situation",
+    "Social Media Positive Impact on Wellbeing": "Social_Media_Positive_Impact_on_Wellbeing",
+    "Social Media Daily Routine": "Social_Media_Daily_Routine",
+    "Difficulty Sleeping Due to University Pressure": "Difficulty_Sleeping_University_Pressure"
+}
+
+df.rename(columns={k: v for k, v in rename_map.items() if k in df.columns}, inplace=True)
+
+# Safe alias
+filtered_data = df.copy()
+
+# Debug (can remove later)
+st.write("✅ Columns detected:", df.columns.tolist())
+
+
 st.subheader("1️⃣ Gender Distribution Across Year of Study")
 
 fig1 = px.histogram(
@@ -56,9 +81,6 @@ fig1.update_layout(
 
 st.plotly_chart(fig1, use_container_width=True)
 
-# ==================================================
-# 2️⃣ Heatmap: Year of Study vs Living Situation
-# ==================================================
 st.subheader("2️⃣ Heatmap: Year of Study vs Current Living Situation")
 
 year_living_crosstab = pd.crosstab(
@@ -81,9 +103,7 @@ fig2.update_layout(
 
 st.plotly_chart(fig2, use_container_width=True)
 
-# ==================================================
-# 3️⃣ Gender vs Social Media Impact (STACKED BAR – FIXED)
-# ==================================================
+
 st.subheader("3️⃣ Gender vs Social Media Impact on Wellbeing")
 
 gender_impact = pd.crosstab(
@@ -108,9 +128,7 @@ fig3 = px.bar(
 
 st.plotly_chart(fig3, use_container_width=True)
 
-# ==================================================
-# 4️⃣ Race vs Social Media Daily Routine
-# ==================================================
+
 st.subheader("4️⃣ Race vs Social Media as Part of Daily Routine")
 
 fig4 = px.histogram(
@@ -130,9 +148,7 @@ fig4.update_layout(
 
 st.plotly_chart(fig4, use_container_width=True)
 
-# ==================================================
-# 5️⃣ Gender vs Difficulty Sleeping
-# ==================================================
+
 st.subheader("5️⃣ Gender vs Difficulty Sleeping Due to University Pressure")
 
 fig5 = px.histogram(
@@ -151,3 +167,6 @@ fig5.update_layout(
 )
 
 st.plotly_chart(fig5, use_container_width=True)
+
+
+
