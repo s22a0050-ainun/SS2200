@@ -39,21 +39,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-st.title("📊 Student Demographics & Wellbeing Analysis")
+st.title("📊 Individual Visualizations : Ainun")
 
 df = pd.read_csv("https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Exploring%20Internet%20Use%20and%20Suicidality%20in%20Mental%20Health%20Populations.csv")
 
-gender_counts = mental_df['Choose your gender'].value_counts().reset_index()
-gender_counts.columns = ['Gender', 'Count']
-
-fig = px.pie(
-    gender_counts, 
-    values='Count', 
-    names='Gender', 
-    title='Pie Chart : Overall Gender Proportion',
-    # Match colors to be consistent with the bar chart
-    color_discrete_map={'Female': 'blue', 'Male': 'orange'}
-)
-
-# Display the chart in Streamlit
-st.plotly_chart(fig, use_container_width=True)
