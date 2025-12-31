@@ -40,17 +40,10 @@ st.title("📊 Individual Visualizations : Ainun")
 
 df = pd.read_csv("https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Exploring%20Internet%20Use%20and%20Suicidality%20in%20Mental%20Health%20Populations.csv")
 
-# =================================================================
-# 📉 VISUALIZATION 1 : GENDER DISTRIBUTION ACROSS COURSES
-# =================================================================
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-
-# Title of the app
-st.title("Internet Use and Suicidality Analysis Dashboard")
 
 # 1. Load Data
 @st.cache_data
@@ -99,6 +92,11 @@ filtered_data = df[['Gender', 'Year_of_Study', 'Current_Living_Situation',
 
 # --- VISUALIZATIONS ---
 
+
+# =================================================================
+# 📉 VISUALIZATION 1 : GENDER DISTRIBUTION ACROSS COURSES
+# =================================================================
+
 st.header("Data Visualizations")
 
 # 1. Gender Distribution Across Year of Study
@@ -112,6 +110,7 @@ st.plotly_chart(fig1)
 # =================================================================
 # 📉 VISUALIZATION 2 : GENDER DISTRIBUTION ACROSS COURSES
 # =================================================================
+
 # 2. Year of Study vs Current Living Situation (Heatmap)
 st.subheader("2. Heatmap: Year of Study vs Current Living Situation")
 year_living_crosstab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
