@@ -126,38 +126,62 @@ with col1:
                        color_discrete_sequence=px.colors.qualitative.Set2)
     st.plotly_chart(fig1, use_container_width=True)
 
-    # VISUALIZATION 2 : Gender vs. Social Media Impact
-    st.subheader("Gender vs. Social Media Impact")
-
-    # VISUALIZATION 2 : Gender vs. Social Media Impact (Stacked Bar Chart)
-    st.subheader("Gender vs. Social Media Impact")
+    # METRIC 2: Negative Impact Percentage
+    neg_impact_count = len(df[df['Social_Media_Positive_Impact_on_Wellbeing'] == 'Negative impact'])
+    neg_impact_pct = (neg_impact_count / total_respondents) * 100
+    st.metric("Negative Impact Rate", f"{neg_impact_pct:.1f}%", "Impact on wellbeing")
+    
     fig3 = px.histogram(df, x='Gender', color='Social_Media_Positive_Impact_on_Wellbeing', 
                        barmode='stack', 
                        color_discrete_map={'Positive impact': 'lightgreen', 'Negative impact': 'salmon', 'No impact': 'grey'})
     st.plotly_chart(fig3, use_container_width=True)
 
-    # VISUALIZATION 3 : Gender vs. Difficulty Sleeping (Bar Chart)
+    # VISUALIZATION 3 : Gender vs. Difficulty Sleeping
     st.subheader("Gender vs. Difficulty Sleeping")
+    
+    # METRIC 3: High Difficulty Sleeping Count
+    # Assuming "Strongly agree" and "Agree" are the high-stress indicators
+    high_difficulty = filtered_data[filtered_data['Difficulty_Sleeping_University_Pressure'].isin(['Strongly agree', 'Agree'])]
+    difficulty_pct = (len(high_difficulty) / len(filtered_data)) * 100
+    st.metric("Sleep Difficulty Rate", f"{difficulty_pct:.1f}%", "Due to Uni pressure")
+    
     fig5 = px.histogram(filtered_data, x='Difficulty_Sleeping_University_Pressure', color='Gender', 
                        barmode='group', color_discrete_sequence=px.colors.qualitative.Set3)
     st.plotly_chart(fig5, use_container_width=True)
 
 with col2:
-    # VISUALIZATION 4 : Year of Study vs Current Living Situation (Heatmap)
+    # VISUALIZATION 4 : Year of Study vs Current Living Situation
     st.subheader("Heatmap: Year vs Living Situation")
+    
+    # METRIC 4: Most Common Living Situation
+    top_living = df['Current_Living_Situation'].mode()[0]
+    st.metric("Primary Living Situation", top_living)
+    
     year_living_xtab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
     fig2 = px.imshow(year_living_xtab, text_auto=True, color_continuous_scale='YlGnBu')
     st.plotly_chart(fig2, use_container_width=True)
 
-    # VISUALIZATION 5 : Race vs. Social Media Routine (Group Bar Chart)
+    # VISUALIZATION 5 : Race vs. Social Media Routine
     st.subheader("Race vs. Social Media Routine")
+    
+    # METRIC 5: Daily Routine Integration
+    # Calculating how many people say SM is an important part of their routine
+    routine_important = filtered_data[filtered_data['Social_Media_Daily_Routine'].isin(['Strongly agree', 'Agree'])]
+    routine_pct = (len(routine_important) / len(filtered_data)) * 100
+    st.metric("High SM Integration", f"{routine_pct:.1f}%", "Part of daily routine")
+    
     fig4 = px.histogram(filtered_data, x='Social_Media_Daily_Routine', color='Race', 
                        barmode='group', color_discrete_sequence=px.colors.qualitative.Set3)
     st.plotly_chart(fig4, use_container_width=True)
 
-    # VISUALIZATION 6 : Employment Status (Pie Chart) 
+    # VISUALIZATION 6 : Employment Status
     st.subheader("Employment Status Distribution")
-    # We use the original 'Employment_Status' column so the labels are text, not numbers
+    
+    # METRIC 6: Full-time Student Percentage
+    ft_student_count = len(df[df['Employment_Status'] == 'Full-time student'])
+    ft_student_pct = (ft_student_count / total_respondents) * 100
+    st.metric("Full-time Students", f"{ft_student_pct:.1f}%", "Of total population")
+    
     fig6 = px.pie(df, names='Employment_Status', 
                  color_discrete_sequence=px.colors.qualitative.Pastel) 
     fig6.update_traces(textposition='inside', textinfo='percent+label')
