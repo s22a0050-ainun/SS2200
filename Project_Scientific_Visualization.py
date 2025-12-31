@@ -150,6 +150,7 @@ Female students consistently outnumber male students across most years.
                        color_discrete_map={'Positive impact': 'lightgreen', 'Negative impact': 'salmon', 'No impact': 'grey'})
     st.plotly_chart(fig3, use_container_width=True)
 
+   
     # VISUALIZATION 3 : Gender vs. Difficulty Sleeping
     st.subheader("Gender vs. Difficulty Sleeping")
     
@@ -163,6 +164,7 @@ Female students consistently outnumber male students across most years.
                        barmode='group', color_discrete_sequence=px.colors.qualitative.Set3)
     st.plotly_chart(fig5, use_container_width=True)
 
+
 with col2:
     # VISUALIZATION 4 : Year of Study vs Current Living Situation
     st.subheader("Heatmap: Year vs Living Situation")
@@ -174,6 +176,7 @@ with col2:
     year_living_xtab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
     fig2 = px.imshow(year_living_xtab, text_auto=True, color_continuous_scale='YlGnBu')
     st.plotly_chart(fig2, use_container_width=True)
+
 
     # VISUALIZATION 5 : Race vs. Social Media Routine
     st.subheader("Race vs. Social Media Routine")
@@ -187,6 +190,7 @@ with col2:
     fig4 = px.histogram(filtered_data, x='Social_Media_Daily_Routine', color='Race', 
                        barmode='group', color_discrete_sequence=px.colors.qualitative.Set3)
     st.plotly_chart(fig4, use_container_width=True)
+
 
     # VISUALIZATION 6 : Employment Status
     st.subheader("Employment Status Distribution")
