@@ -41,9 +41,8 @@ st.title("📊 Individual Visualizations : Ainun")
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 
-# 1. Load Data
+# --- 1. DATA LOADING & MAPPING ---
 @st.cache_data
 def load_data():
     # Load the uploaded CSV
@@ -54,6 +53,7 @@ def load_data():
         'Gender / Jantina:': 'Gender',
         'Year of Study / Tahun Belajar:': 'Year_of_Study',
         'Current living situation / Keadaan hidup sekarang:': 'Current_Living_Situation',
+        'Employment Status / Status Pekerjaan:': 'Employment_Status',
         'Race / Bangsa:': 'Race',
         'Social media has a generally positive impact on my wellbeing. / Media sosial secara amnya mempunyai kesan positif terhadap kesejahteraan saya.': 'Social_Media_Positive_Impact_on_Wellbeing',
         'I have difficulty sleeping due to university-related pressure. / Saya sukar tidur kerana tekanan berkaitan universiti.': 'Difficulty_Sleeping_University_Pressure',
@@ -62,94 +62,95 @@ def load_data():
     df = df.rename(columns=column_mapping)
     return df
 
-df = load_data()
+df_original = load_data()
+df = df_original.copy()
 
-# 2. Transformation Logic
-# Cleaning strings to match your map (e.g., "Off-campus (rental)" -> "Off-campus")
-df['Current_Living_Situation'] = df['Current_Living_Situation'].str.replace(r' \(.*\)', '', regex=True)
-df['Race'] = df['Race'].replace('Others', 'Other')
+# --- 2. TRANSFORMATION LOGIC (Your Logic) ---
 
-# Applying your specific numeric mapping
+# Mapping Gender
+gender_map = {0: 'Female', 1: 'Male', 2: 'Other'}
 df['Gender_Num'] = df['Gender'].map({'Female': 0, 'Male': 1, 'Other': 2}).fillna(2)
+
+# Mapping Year of Study
+year_map = {1: 'Year 1', 2: 'Year 2', 3: 'Year 3', 4: 'Year 4', 5: 'Year 5', 0: 'Unknown'}
 df['Year_of_Study_Num'] = df['Year_of_Study'].map({'Year 1': 1, 'Year 2': 2, 'Year 3': 3, 'Year 4': 4, 'Year 5': 5}).fillna(0)
+
+# Mapping Living Situation
+living_map = {0: 'With family', 1: 'On-campus', 2: 'Off-campus', 3: 'Other'}
 df['Current_Living_Situation_Num'] = df['Current_Living_Situation'].map({
-    'With family': 0, 'On-campus': 1, 'Off-campus': 2, 'Other': 3
+    'With family': 0, 'On-campus': 1, 'Off-campus (rental)': 2, 'Off-campus': 2, 'Other': 3
 }).fillna(3)
 
-# Note: If your raw data is Likert (1-5), you may need to group them into 'Yes'/'No' first.
-# Here we apply your requested string-to-numeric mapping:
-df['Impact_Num'] = df['Social_Media_Positive_Impact_on_Wellbeing'].map({'Positive impact': 1, 'Negative impact': 0, 'No impact': 2}).fillna(2)
-df['Sleep_Pressure_Num'] = df['Difficulty_Sleeping_University_Pressure'].map({'Yes': 1, 'No': 0}).fillna(0)
-df['Race_Num'] = df['Race'].map({'Malay': 0, 'Chinese': 1, 'Indian': 2, 'Other': 3}).fillna(3)
-df['Routine_Num'] = df['Social_Media_Daily_Routine'].map({'Important part of daily routine': 1, 'Not important part of daily routine': 0}).fillna(0)
+# Mapping Employment (Clean string variations from CSV)
+df['Employment_Status_Num'] = df['Employment_Status'].map({
+    'Full-time student': 3,
+    'In paid employment (including part-time, self-employed)': 2,
+    'Internship': 1,
+    'Unemployed': 0
+}).fillna(2)
 
-# Create filtered_data for specific plots
+# Mapping Impact
+impact_map = {1: 'Positive Impact', 0: 'Negative Impact', 2: 'No impact'}
+df['Social_Media_Positive_Impact_on_Wellbeing_Num'] = df['Social_Media_Positive_Impact_on_Wellbeing'].map({
+    'Positive impact': 1, 'Negative impact': 0, 'No impact': 2
+}).fillna(2)
+
+# Mapping Race
+race_map = {0: 'Malay', 1: 'Chinese', 2: 'Indian', 3: 'Other'}
+df['Race_Num'] = df['Race'].map({'Malay': 0, 'Chinese': 1, 'Indian': 2, 'Others': 3, 'Other': 3}).fillna(3)
+
+# Filtered data subset
 filtered_data = df[['Gender', 'Year_of_Study', 'Current_Living_Situation', 
-                    'Social_Media_Positive_Impact_on_Wellbeing', 'Difficulty_Sleeping_University_Pressure', 
-                    'Race', 'Social_Media_Daily_Routine']].dropna()
+                    'Social_Media_Positive_Impact_on_Wellbeing', 
+                    'Difficulty_Sleeping_University_Pressure', 'Race', 
+                    'Social_Media_Daily_Routine', 'Employment_Status']].dropna()
 
-# --- VISUALIZATIONS ---
+# --- 3. DASHBOARD VISUALIZATIONS ---
 
+# Layout into two columns
+col1, col2 = st.columns(2)
 
-# =================================================================
-# 📉 VISUALIZATION 1 : GENDER DISTRIBUTION ACROSS COURSES
-# =================================================================
+with col1:
+    # 1. Gender Distribution Across Year of Study
+    st.subheader("Gender Distribution Across Year of Study")
+    fig1 = px.histogram(df, x='Year_of_Study', color='Gender', barmode='group',
+                       category_orders={"Year_of_Study": ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5"]},
+                       color_discrete_sequence=px.colors.qualitative.Set2)
+    st.plotly_chart(fig1, use_container_width=True)
 
-st.header("Data Visualizations")
+    # 3. Gender vs. Social Media Impact (Stacked Bar)
+    st.subheader("Gender vs. Social Media Impact")
+    fig3 = px.histogram(df, x='Gender', color='Social_Media_Positive_Impact_on_Wellbeing', 
+                       barmode='stack', 
+                       color_discrete_map={'Positive impact': 'lightgreen', 'Negative impact': 'salmon', 'No impact': 'grey'})
+    st.plotly_chart(fig3, use_container_width=True)
 
-# 1. Gender Distribution Across Year of Study
-st.subheader("1. Gender Distribution Across Year of Study")
-fig1 = px.histogram(df, x='Year_of_Study', color='Gender', barmode='group',
-                   title='Gender Distribution Across Year of Study',
-                   color_discrete_sequence=px.colors.qualitative.Set2)
-fig1.update_layout(xaxis_title='Year of Study', yaxis_title='Number of Respondents')
-st.plotly_chart(fig1)
+    # 5. Gender vs. Difficulty Sleeping
+    st.subheader("Gender vs. Difficulty Sleeping")
+    fig5 = px.histogram(filtered_data, x='Difficulty_Sleeping_University_Pressure', color='Gender', 
+                       barmode='group', color_discrete_sequence=px.colors.qualitative.Set3)
+    st.plotly_chart(fig5, use_container_width=True)
 
-# =================================================================
-# 📉 VISUALIZATION 2 : YEAR OF STUDY VS CURRENT LIVING SITUATION
-# =================================================================
+with col2:
+    # 2. Year of Study vs Current Living Situation (Heatmap)
+    st.subheader("Heatmap: Year vs Living Situation")
+    year_living_xtab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
+    fig2 = px.imshow(year_living_xtab, text_auto=True, color_continuous_scale='YlGnBu')
+    st.plotly_chart(fig2, use_container_width=True)
 
-# 2. Year of Study vs Current Living Situation (Heatmap)
-st.subheader("2. Heatmap: Year of Study vs Current Living Situation")
-year_living_crosstab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
-fig2 = px.imshow(year_living_crosstab, text_auto=True, color_continuous_scale='YlGnBu',
-                title='Heatmap: Year of Study vs Current Living Situation')
-fig2.update_layout(xaxis_title='Living Situation', yaxis_title='Year of Study')
-st.plotly_chart(fig2)
+    # 4. Race vs. Social Media Routine
+    st.subheader("Race vs. Social Media Routine")
+    fig4 = px.histogram(filtered_data, x='Social_Media_Daily_Routine', color='Race', 
+                       barmode='group', color_discrete_sequence=px.colors.qualitative.Set3)
+    st.plotly_chart(fig4, use_container_width=True)
 
-# =================================================================
-# 📉 VISUALIZATION 3 : GENDER VS SOCIAL MEDIA IMPACT ON WELLBEING
-# =================================================================
+    # 6. Employment Status (Pie Chart)
+    st.subheader("Employment Status Distribution")
+    fig6 = px.pie(df, names='Employment_Status', title='', 
+                 color_discrete_sequence=px.colors.qualitative.Paired)
+    fig6.update_traces(textposition='inside', textinfo='percent+label')
+    st.plotly_chart(fig6, use_container_width=True)
 
-# 3. Gender vs. Social Media Impact on Wellbeing (Stacked Bar)
-st.subheader("3. Gender vs. Social Media Impact on Wellbeing")
-# For Plotly, it's easier to use the original categorical columns for labels
-fig3 = px.histogram(df, x='Gender', color='Social_Media_Positive_Impact_on_Wellbeing', 
-                   title='Gender vs. Social Media Impact on Wellbeing',
-                   barmode='stack', color_discrete_map={'Positive impact': 'lightgreen', 'Negative impact': 'salmon'})
-fig3.update_layout(yaxis_title='Number of Respondents')
-st.plotly_chart(fig3)
-
-# =================================================================
-# 📉 VISUALIZATION 4 : RACE VS SOCIAL MEDIA AS PART OF DAILY ROUTINE
-# =================================================================
-
-# 4. Race vs. Social Media as Part of Daily Routine
-st.subheader("4. Race vs. Social Media as Part of Daily Routine")
-fig4 = px.histogram(filtered_data, x='Social_Media_Daily_Routine', color='Race', 
-                   barmode='group', title='Race vs. Social Media as Part of Daily Routine',
-                   color_discrete_sequence=px.colors.qualitative.Set3)
-fig4.update_layout(xaxis_title='Social Media as Part of Daily Routine', yaxis_title='Number of Respondents')
-st.plotly_chart(fig4)
-
-# =================================================================
-# 📉 VISUALIZATION 5 : GENDER DISTRIBUTION ACROSS COURSES
-# =================================================================
-
-# 5. Gender vs. Difficulty Sleeping Due to University Pressure
-st.subheader("5. Gender vs. Difficulty Sleeping Due to University Pressure")
-fig5 = px.histogram(filtered_data, x='Difficulty_Sleeping_University_Pressure', color='Gender', 
-                   barmode='group', title='Gender vs. Difficulty Sleeping Due to University Pressure',
-                   color_discrete_sequence=px.colors.qualitative.Set3)
-fig5.update_layout(xaxis_title='Difficulty Sleeping Due to University Pressure', yaxis_title='Number of Respondents')
-st.plotly_chart(fig5)
+st.divider()
+st.write("### Data Preview")
+st.dataframe(df[['Gender', 'Year_of_Study', 'Race', 'Employment_Status']].head(10))
