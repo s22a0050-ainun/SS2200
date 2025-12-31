@@ -38,14 +38,14 @@ filtered_data = df.copy()
 st.markdown("### 1️⃣ Gender Distribution Across Year of Study")
 
 gender_year_counts = (
-    df.groupby(['Year_of_Study', 'Gender'])
+    df.groupby(['Year of Study', 'Gender'])
       .size()
       .reset_index(name='Count')
 )
 
 fig1 = px.bar(
     gender_year_counts,
-    x='Year_of_Study',
+    x='Year of Study',
     y='Count',
     color='Gender',
     barmode='group',
@@ -58,11 +58,12 @@ fig1 = px.bar(
 
 st.plotly_chart(fig1, use_container_width=True)
 
+
 st.markdown("### 2️⃣ Year of Study vs Current Living Situation")
 
 year_living_crosstab = pd.crosstab(
-    df['Year_of_Study'],
-    df['Current_Living_Situation']
+    df['Year of Study'],
+    df['Current Living Situation']
 )
 
 fig2 = px.imshow(
