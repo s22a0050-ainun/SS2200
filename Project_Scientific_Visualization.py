@@ -2,17 +2,11 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# ==================================================
-# PAGE CONFIG (ONLY ONCE)
-# ==================================================
 st.set_page_config(
     page_title="Scientific Visualization : Project Group",
     layout="wide"
 )
 
-# ==================================================
-# HEADER & OBJECTIVE
-# ==================================================
 st.header("Scientific Visualization : Project Group", divider="gray")
 
 st.subheader("🎯 Objective Statement")
@@ -25,9 +19,6 @@ perceptions and experiences of mental health challenges.
 
 st.title("Exploring Internet Use and Suicidality in Mental Health Populations")
 
-# ==================================================
-# LOAD DATA (CACHED)
-# ==================================================
 @st.cache_data
 def load_data():
     url = "https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Exploring%20Internet%20Use%20and%20Suicidality%20in%20Mental%20Health%20Populations.csv"
