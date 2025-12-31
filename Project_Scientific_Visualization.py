@@ -73,9 +73,9 @@ fig.update_layout(
 # Render the plot in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
-import streamlit as st
-import plotly.express as px
-import pandas as pd
+# =================================================================
+# 📉 CHART 2 : GENDER DISTRIBUTION ACROSS COURSES
+# =================================================================
 
 # 1. Prepare the data (Crosstab)
 year_living_crosstab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
@@ -93,9 +93,10 @@ fig = px.imshow(
 # 3. Display in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
-import streamlit as st
-import plotly.express as px
-import pandas as pd
+
+# =================================================================
+# 📉 CHART 3: GENDER DISTRIBUTION ACROSS COURSES
+# =================================================================
 
 # 1. Prepare the crosstab data
 gender_impact = pd.crosstab(df['Gender'], df['Social_Media_Positive_Impact_on_Wellbeing'])
@@ -107,7 +108,7 @@ fig = px.bar(
     barmode='stack',
     color_discrete_map={'Positive Impact': 'lightgreen', 'Negative Impact': 'salmon'},
     title='Gender vs. Social Media Impact on Wellbeing',
-    labels={'value': 'Number of Respondents', 'Gender': 'Gender', 'Social_Media_Positive_Impact_on_Wellbeing': 'Impact Type'}
+    labels={'value': 'Number of Respondents', 'Gender': 'Gender', 'Social media has a generally positive impact on my wellbeing': 'Impact Type'}
 )
 
 # 3. Refine Layout (Optional)
