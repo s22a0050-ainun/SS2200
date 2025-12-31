@@ -108,7 +108,7 @@ fig1.update_layout(xaxis_title='Year of Study', yaxis_title='Number of Responden
 st.plotly_chart(fig1)
 
 # =================================================================
-# 📉 VISUALIZATION 2 : GENDER DISTRIBUTION ACROSS COURSES
+# 📉 VISUALIZATION 2 : YEAR OF STUDY VS CURRENT LIVING SITUATION
 # =================================================================
 
 # 2. Year of Study vs Current Living Situation (Heatmap)
@@ -120,7 +120,7 @@ fig2.update_layout(xaxis_title='Living Situation', yaxis_title='Year of Study')
 st.plotly_chart(fig2)
 
 # =================================================================
-# 📉 VISUALIZATION 3 : GENDER DISTRIBUTION ACROSS COURSES
+# 📉 VISUALIZATION 3 : GENDER VS SOCIAL MEDIA IMPACT ON WELLBEING
 # =================================================================
 
 # 3. Gender vs. Social Media Impact on Wellbeing (Stacked Bar)
@@ -133,7 +133,7 @@ fig3.update_layout(yaxis_title='Number of Respondents')
 st.plotly_chart(fig3)
 
 # =================================================================
-# 📉 VISUALIZATION 4 : GENDER DISTRIBUTION ACROSS COURSES
+# 📉 VISUALIZATION 4 : RACE VS SOCIAL MEDIA AS PART OF DAILY ROUTINE
 # =================================================================
 
 # 4. Race vs. Social Media as Part of Daily Routine
@@ -155,3 +155,19 @@ fig5 = px.histogram(filtered_data, x='Difficulty_Sleeping_University_Pressure', 
                    color_discrete_sequence=px.colors.qualitative.Set3)
 fig5.update_layout(xaxis_title='Difficulty Sleeping Due to University Pressure', yaxis_title='Number of Respondents')
 st.plotly_chart(fig5)
+
+# =================================================================
+# 📉 VISUALIZATION 6 : EMPLOYMENT STATUS DISTRIBUTION
+# =================================================================
+
+# 6. Employment Status Distribution (Pie Chart)
+st.subheader("6. Employment Status Distribution")
+# Count values for the pie chart
+emp_counts = df['Employment_Status'].value_counts().reset_index()
+emp_counts.columns = ['Employment_Status', 'Count']
+
+fig6 = px.pie(emp_counts, values='Count', names='Employment_Status', 
+             title='Employment Status Distribution',
+             color_discrete_sequence=px.colors.qualitative.Paired)
+fig6.update_traces(textposition='inside', textinfo='percent+label')
+st.plotly_chart(fig6)
