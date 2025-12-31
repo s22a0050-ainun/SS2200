@@ -2,188 +2,150 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+# --------------------------------------------------
+# Page Configuration (ONLY ONCE)
+# --------------------------------------------------
 st.set_page_config(
-    page_title="Scientific Visualization : Project Group"
+    page_title="Scientific Visualization : Project Group",
+    layout="wide"
 )
 
+# --------------------------------------------------
+# Header & Objective
+# --------------------------------------------------
 st.header("Scientific Visualization : Project Group", divider="gray")
 
 st.subheader("🎯 Objective Statement")
 st.write("""
-"The purpose of this visualization is to identify and analyze the demographic differences in mental health experiences among students, with a particular focus on how factors such as gender, age, race and year of study influence student's perceptions and experiences of mental health challenges."
+The purpose of this visualization is to identify and analyze the demographic 
+differences in mental health experiences among students, with a particular focus 
+on how factors such as gender, age, race, and year of study influence students' 
+perceptions and experiences of mental health challenges.
 """)
 
-st.set_page_config(page_title="GitHub Data Loader", layout="wide")
 st.title("Exploring Internet Use and Suicidality in Mental Health Populations")
 
-url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Exploring%20Internet%20Use%20and%20Suicidality%20in%20Mental%20Health%20Populations.csv'
-
-# Streamlit page setup
-st.set_page_config(page_title="Exploring Internet Use and Suicidality in Mental Health Populations Dashboard")
-
-# Load data from GitHub
-url = 'https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Exploring%20Internet%20Use%20and%20Suicidality%20in%20Mental%20Health%20Populations.csv'
+# --------------------------------------------------
+# Load Data from GitHub
+# --------------------------------------------------
+url = "https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Exploring%20Internet%20Use%20and%20Suicidality%20in%20Mental%20Health%20Populations.csv"
 
 try:
     df = pd.read_csv(url)
     st.success("✅ Data loaded successfully from GitHub!")
-    st.write("Dataset of Exploring Internet Use and Suicidality in Mental Health Populations")
     st.dataframe(df.head())
 except Exception as e:
-    st.error(f"An error occurred while loading data: {e}")
+    st.error(f"❌ Error loading data: {e}")
     st.stop()
 
-st.title("Individual Visualizations")
+st.markdown("---")
+st.title("📊 Individual Visualizations")
 
-# Load the main DataFrame
-df = pd.read_csv("Exploring Internet Use and Suicidality in Mental Health Populations.csv")
+# --------------------------------------------------
+# 1. Gender vs Year of Study (Grouped Bar Chart)
+# --------------------------------------------------
+st.subheader("1️⃣ Gender Distribution Across Year of Study")
 
-st.markdown("### 🎯 Objective ")
-st.info("""
-To identify demographic differences in mental health experiences
-""")
-
-# =================================================================
-# 📉 VISUALIZATION 1: GENDER DISTRIBUTION ACROSS YEAR OF STUDY
-# =================================================================
-
-# Streamlit Title
-st.title("Student Demographic Analysis")
-
-# Creating the Plotly Grouped Bar Chart
-# Note: px.histogram acts as a countplot when only an x-axis is provided
-fig = px.histogram(
-    df, 
-    x='Year_of_Study', 
-    color='Gender', 
-    barmode='group',
-    color_discrete_sequence=px.colors.qualitative.Set2,
-    title='Gender Distribution Across Year of Study',
-    labels={'Year_of_Study': 'Year of Study', 'count': 'Number of Respondents'}
+fig1 = px.bar(
+    df,
+    x="Year_of_Study",
+    color="Gender",
+    title="Gender Distribution Across Year of Study",
+    labels={
+        "Year_of_Study": "Year of Study",
+        "count": "Number of Respondents"
+    },
+    barmode="group"
 )
 
-# Optional: Update layout for better aesthetics
-fig.update_layout(
-    xaxis_title="Year of Study",
-    yaxis_title="Number of Respondents",
-    legend_title="Gender",
-    xaxis={'categoryorder':'category ascending'} # Ensures years are in order
+fig1.update_layout(xaxis_tickangle=45)
+st.plotly_chart(fig1, use_container_width=True)
+
+# --------------------------------------------------
+# 2. Heatmap: Year of Study vs Current Living Situation
+# --------------------------------------------------
+st.subheader("2️⃣ Heatmap: Year of Study vs Current Living Situation")
+
+year_living_crosstab = pd.crosstab(
+    df["Year_of_Study"],
+    df["Current_Living_Situation"]
 )
 
-# Render the plot in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
-# =================================================================
-# 📉 VISUALIZATION 2: YEAR OF STUDY VS CURRENT LIVING SITUATION
-# =================================================================
-
-# 1. Prepare the data (Crosstab)
-year_living_crosstab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
-
-# 2. Create the Heatmap using Plotly Express
-fig = px.imshow(
+fig2 = px.imshow(
     year_living_crosstab,
-    text_auto=True,                # Replaces annot=True (shows numbers)
-    aspect="auto",                 # Adjusts the cell size
-    color_continuous_scale='YlGnBu', # Matches your Seaborn cmap
-    labels=dict(x="Living Situation", y="Year of Study", color="Count"),
-    title='Heatmap: Year of Study vs Current Living Situation'
+    text_auto=True,
+    aspect="auto",
+    color_continuous_scale="YlGnBu",
+    title="Heatmap: Year of Study vs Current Living Situation"
 )
 
-# 3. Display in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
-# =================================================================
-# 📉 VISUALIZATION 3: GENDER VS SOCIAL MEDIA IMPACT ON WELLBEING
-# =================================================================
-
-# 1. Prepare the crosstab data
-gender_impact = pd.crosstab(df['Gender'], df['Social_Media_Positive_Impact_on_Wellbeing'])
-
-# 2. Create the Stacked Bar Chart in Plotly
-# We use .reset_index() because Plotly works best when columns are named
-fig = px.bar(
-    gender_impact, 
-    barmode='stack',
-    color_discrete_map={'Positive Impact': 'lightgreen', 'Negative Impact': 'salmon'},
-    title='Gender vs. Social Media Impact on Wellbeing',
-    labels={'value': 'Number of Respondents', 'Gender': 'Gender', 'Social_Media_Positive_Impact_on_Wellbeing': 'Impact Type'}
+fig2.update_layout(
+    xaxis_title="Living Situation",
+    yaxis_title="Year of Study"
 )
 
-# 3. Refine Layout (Optional)
-fig.update_layout(
-    xaxis_title="Gender",
-    yaxis_title="Number of Respondents",
-    legend_title="Social Media Impact",
-    xaxis={'categoryorder':'array', 'categoryarray':['Female', 'Male', 'Other']}
+st.plotly_chart(fig2, use_container_width=True)
+
+# --------------------------------------------------
+# 3. Gender vs Social Media Impact on Wellbeing (Stacked Bar)
+# --------------------------------------------------
+st.subheader("3️⃣ Gender vs Social Media Impact on Wellbeing")
+
+gender_impact = pd.crosstab(
+    df["Gender"],
+    df["Social_Media_Positive_Impact_on_Wellbeing"]
+).reset_index()
+
+gender_impact_melted = gender_impact.melt(
+    id_vars="Gender",
+    var_name="Social Media Impact",
+    value_name="Number of Respondents"
 )
 
-# 4. Display in Streamlit
-st.plotly_chart(fig, use_container_width=True)
+fig3 = px.bar(
+    gender_impact_melted,
+    x="Gender",
+    y="Number of Respondents",
+    color="Social Media Impact",
+    title="Gender vs Social Media Impact on Wellbeing",
+    barmode="stack"
+)
 
-# =================================================================
-# 📉 VISUALIZATION 4: RACE VS SOCIAL MEDIA AS PART OF DAILY ROUTINE
-# =================================================================
+st.plotly_chart(fig3, use_container_width=True)
 
-# 1. Title for the specific section
-st.subheader("Routine & Demographics")
+# --------------------------------------------------
+# 4. Race vs Social Media as Part of Daily Routine
+# --------------------------------------------------
+st.subheader("4️⃣ Race vs Social Media as Part of Daily Routine")
 
-# 2. Create the Plotly Grouped Bar Chart
-fig = px.histogram(
-    filtered_data, 
-    x='Social_Media_Daily_Routine', 
-    color='Race', 
-    barmode='group',
-    color_discrete_sequence=px.colors.qualitative.Set3,
-    title='Race vs. Social Media as Part of Daily Routine',
+fig4 = px.bar(
+    df,
+    x="Social_Media_Daily_Routine",
+    color="Race",
+    title="Race vs Social Media as Part of Daily Routine",
     labels={
-        'Social_Media_Daily_Routine': 'Daily Routine Integration', 
-        'count': 'Number of Respondents',
-        'Race': 'Race/Ethnicity'
+        "Social_Media_Daily_Routine": "Social Media as Part of Daily Routine"
     }
 )
 
-# 3. Clean up the axis and layout
-fig.update_layout(
-    xaxis_title="Social Media as Part of Daily Routine",
-    yaxis_title="Number of Respondents",
-    legend_title="Race",
-    xaxis={'categoryorder': 'total descending'} # Useful for ordering by most common response
-)
+fig4.update_layout(xaxis_tickangle=45)
+st.plotly_chart(fig4, use_container_width=True)
 
-# 4. Display in Streamlit
-st.plotly_chart(fig, use_container_width=True)
+# --------------------------------------------------
+# 5. Gender vs Difficulty Sleeping Due to University Pressure
+# --------------------------------------------------
+st.subheader("5️⃣ Gender vs Difficulty Sleeping Due to University Pressure")
 
-# =================================================================
-# 📉 VISUALIZATION 5 : GENDER VS DIFFICULTY SLEEPING DUE TO UNIVERSITY PRESSURE
-# =================================================================
-
-# 1. Section Header
-st.subheader("Health & Wellbeing Analysis")
-
-# 2. Create the Plotly Grouped Bar Chart
-fig = px.histogram(
-    filtered_data, 
-    x='Difficulty_Sleeping_University_Pressure', 
-    color='Gender', 
-    barmode='group',
-    color_discrete_sequence=px.colors.qualitative.Set3,
-    title='Gender vs. Difficulty Sleeping Due to University Pressure',
+fig5 = px.bar(
+    df,
+    x="Difficulty_Sleeping_University_Pressure",
+    color="Gender",
+    title="Gender vs Difficulty Sleeping Due to University Pressure",
     labels={
-        'Difficulty_Sleeping_University_Pressure': 'Difficulty Sleeping',
-        'count': 'Number of Respondents',
-        'Gender': 'Gender'
+        "Difficulty_Sleeping_University_Pressure": 
+        "Difficulty Sleeping Due to University Pressure"
     }
 )
 
-# 3. Enhance the layout
-fig.update_layout(
-    xaxis_title="Difficulty Sleeping Due to University Pressure",
-    yaxis_title="Number of Respondents",
-    legend_title="Gender",
-    xaxis={'categoryorder': 'category ascending'}, # Ensures "Low/Medium/High" or "Yes/No" order
-    hovermode="x unified"                          # Shows all gender values in one tooltip
-)
-
-# 4. Render in the Streamlit app
-st.plotly_chart(fig, use_container_width=True)
+fig5.update_layout(xaxis_tickangle=45)
+st.plotly_chart(fig5, use_container_width=True)
