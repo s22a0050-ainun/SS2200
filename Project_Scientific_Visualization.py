@@ -47,6 +47,8 @@ import plotly.express as px
 def load_data():
     # Load the uploaded CSV
     df = pd.read_csv('Exploring Internet Use and Suicidality in Mental Health Populations.csv')
+
+# --- 2. DATA FILTERING ---
     
     # Mapping raw long column names to the short names used in your logic
     column_mapping = {
@@ -65,7 +67,7 @@ def load_data():
 df_original = load_data()
 df = df_original.copy()
 
-# --- 2. TRANSFORMATION LOGIC (Your Logic) ---
+# --- 3. DATA TRANSFORMATION  ---
 
 # Mapping Gender
 gender_map = {0: 'Female', 1: 'Male', 2: 'Other'}
@@ -105,46 +107,46 @@ filtered_data = df[['Gender', 'Year_of_Study', 'Current_Living_Situation',
                     'Difficulty_Sleeping_University_Pressure', 'Race', 
                     'Social_Media_Daily_Routine', 'Employment_Status']].dropna()
 
-# --- 3. DASHBOARD VISUALIZATIONS ---
+# --- 4. INDIVIDUAL VISUALIZATIONS ( AINUN ) ---
 
 # Layout into two columns
 col1, col2 = st.columns(2)
 
 with col1:
-    # 1. Gender Distribution Across Year of Study
+    # VISUALIZATION 1 : Gender Distribution Across Year of Study (Group Bar Chart)
     st.subheader("Gender Distribution Across Year of Study")
     fig1 = px.histogram(df, x='Year_of_Study', color='Gender', barmode='group',
                        category_orders={"Year_of_Study": ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5"]},
                        color_discrete_sequence=px.colors.qualitative.Set2)
     st.plotly_chart(fig1, use_container_width=True)
 
-    # 3. Gender vs. Social Media Impact (Stacked Bar)
+    # VISUALIZATION 2 : Gender vs. Social Media Impact (Stacked Bar Chart)
     st.subheader("Gender vs. Social Media Impact")
     fig3 = px.histogram(df, x='Gender', color='Social_Media_Positive_Impact_on_Wellbeing', 
                        barmode='stack', 
                        color_discrete_map={'Positive impact': 'lightgreen', 'Negative impact': 'salmon', 'No impact': 'grey'})
     st.plotly_chart(fig3, use_container_width=True)
 
-    # 5. Gender vs. Difficulty Sleeping
+    # VISUALIZATION 3 : Gender vs. Difficulty Sleeping (Bar Chart)
     st.subheader("Gender vs. Difficulty Sleeping")
     fig5 = px.histogram(filtered_data, x='Difficulty_Sleeping_University_Pressure', color='Gender', 
                        barmode='group', color_discrete_sequence=px.colors.qualitative.Set3)
     st.plotly_chart(fig5, use_container_width=True)
 
 with col2:
-    # 2. Year of Study vs Current Living Situation (Heatmap)
+    # VISUALIZATION 4 : Year of Study vs Current Living Situation (Heatmap)
     st.subheader("Heatmap: Year vs Living Situation")
     year_living_xtab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
     fig2 = px.imshow(year_living_xtab, text_auto=True, color_continuous_scale='YlGnBu')
     st.plotly_chart(fig2, use_container_width=True)
 
-    # 4. Race vs. Social Media Routine
+    # VISUALIZATION 5 : Race vs. Social Media Routine (Group Bar Chart)
     st.subheader("Race vs. Social Media Routine")
     fig4 = px.histogram(filtered_data, x='Social_Media_Daily_Routine', color='Race', 
                        barmode='group', color_discrete_sequence=px.colors.qualitative.Set3)
     st.plotly_chart(fig4, use_container_width=True)
 
-    # 6. Employment Status (Pie Chart)
+    # VISUALIZATION 6 : Employment Status (Pie Chart)
     st.subheader("Employment Status Distribution")
     fig6 = px.pie(df, names='Employment_Status', title='', 
                  color_discrete_sequence=px.colors.qualitative.Paired)
