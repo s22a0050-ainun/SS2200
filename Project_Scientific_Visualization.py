@@ -113,12 +113,21 @@ filtered_data = df[['Gender', 'Year_of_Study', 'Current_Living_Situation',
 col1, col2 = st.columns(2)
 
 with col1:
-    # VISUALIZATION 1 : Gender Distribution Across Year of Study (Group Bar Chart)
+    # VISUALIZATION 1 : Gender Distribution Across Year of Study
     st.subheader("Gender Distribution Across Year of Study")
+    
+    # METRIC 1: Total Count and Dominant Gender
+    total_respondents = len(df)
+    dominant_gender = df['Gender'].mode()[0]
+    st.metric("Total Respondents", f"{total_respondents}", f"Majority: {dominant_gender}")
+    
     fig1 = px.histogram(df, x='Year_of_Study', color='Gender', barmode='group',
                        category_orders={"Year_of_Study": ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5"]},
                        color_discrete_sequence=px.colors.qualitative.Set2)
     st.plotly_chart(fig1, use_container_width=True)
+
+    # VISUALIZATION 2 : Gender vs. Social Media Impact
+    st.subheader("Gender vs. Social Media Impact")
 
     # VISUALIZATION 2 : Gender vs. Social Media Impact (Stacked Bar Chart)
     st.subheader("Gender vs. Social Media Impact")
