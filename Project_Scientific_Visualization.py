@@ -41,7 +41,7 @@ import plotly.express as px
 
 st.title("📊 Student Demographics & Wellbeing Analysis")
 
-df = pd.read_csv("Student_Mental_Health.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Exploring%20Internet%20Use%20and%20Suicidality%20in%20Mental%20Health%20Populations.csv")
 
 st.markdown("### 1️⃣ Gender Distribution Across Year of Study")
 
