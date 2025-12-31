@@ -132,6 +132,10 @@ with col1:
                        category_orders={"Year_of_Study": ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5"]},
                        color_discrete_sequence=px.colors.qualitative.Set2)
     st.plotly_chart(fig1, use_container_width=True)
+    st.markdown("""
+**Interpretation:** The data shows that **Year 1 students** have the highest participation rate. 
+Female students consistently outnumber male students across most years.
+""")
 
 
     # VISUALIZATION 2 : Gender vs. Social Media Impact
@@ -196,8 +200,3 @@ with col2:
                  color_discrete_sequence=px.colors.qualitative.Pastel) 
     fig6.update_traces(textposition='inside', textinfo='percent+label')
     st.plotly_chart(fig6, use_container_width=True)
-
-   # --- Interpretation ---
-st.markdown("### 🧾 Interpretation")
-st.success(
-    """ saya saya saya
