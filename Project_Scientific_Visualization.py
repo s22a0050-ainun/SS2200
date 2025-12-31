@@ -44,26 +44,39 @@ df = pd.read_csv("https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/h
 # 📉 CHART 1: GENDER DISTRIBUTION ACROSS COURSES
 # =================================================================
 
-st.subheader("Gender Distribution Across Year of Study")
+import pandas as pd
+import plotly.express as px
+import streamlit as st
 
-gender_year_counts = (
-    filtered_data.groupby(['Year of Study', 'Gender'])
+# Step 1: Filter only required columns (safe practice)
+filtered_df = df[['Year_of_Study', 'Gender']].dropna().copy()
+
+# Step 2: Count occurrences and convert to long format
+year_gender_counts = (
+    filtered_df.groupby(['Year_of_Study', 'Gender'])
     .size()
     .reset_index(name='Count')
 )
 
-fig1 = px.bar(
-    gender_year_counts,
-    x='Year of Study',
-    y='Count',
-    color='Gender',
-    barmode='group',
+# Step 3: Calculate percentage within each Year of Study
+total_counts = year_gender_counts.groupby('Year_of_Study')['Count'].transform('sum')
+year_gender_counts['Percentage'] = (year_gender_counts['Count'] / total_counts) * 100
+
+# Step 4: Create stacked bar chart using Plotly
+fig = px.bar(
+    year_gender_counts,
+    x='Year_of_Study',
+    y='Percentage',
+    color='Gender',  # stacked segments
+    title='Stacked Bar Chart: Percentage of Gender Across Year of Study',
     labels={
-        'Year of Study': 'Year of Study',
-        'Gender': 'Gender',
-        'Count': 'Number of Respondents'
+        'Year_of_Study': 'Year of Study',
+        'Percentage': 'Percentage of Respondents',
+        'Gender': 'Gender'
     },
-    title='Gender Distribution Across Year of Study'
+    barmode='stack'
 )
 
-st.plotly_chart(fig1, use_container_width=True)
+# Step 5: Display in Streamlit
+st.plotly_chart(fig, use_container_width=True)
+True)
