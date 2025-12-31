@@ -43,3 +43,26 @@ st.title("📊 Individual Visualizations : Ainun")
 
 df = pd.read_csv("https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Exploring%20Internet%20Use%20and%20Suicidality%20in%20Mental%20Health%20Populations.csv")
 
+st.subheader("Gender Distribution Across Year of Study")
+
+gender_year_counts = (
+    df.groupby(['Year_of_Study', 'Gender'])
+      .size()
+      .reset_index(name='Count')
+)
+
+fig1 = px.bar(
+    gender_year_counts,
+    x='Year_of_Study',
+    y='Count',
+    color='Gender',
+    barmode='group',
+    labels={
+        'Year_of_Study': 'Year of Study',
+        'Gender': 'Gender',
+        'Count': 'Number of Respondents'
+    },
+    title='Gender Distribution Across Year of Study'
+)
+
+st.plotly_chart(fig1, use_container_width=True)
