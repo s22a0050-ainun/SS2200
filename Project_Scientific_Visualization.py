@@ -35,6 +35,52 @@ except Exception as e:
 # Use df directly (no undefined filtered_data)
 filtered_data = df.copy()
 
+# =================================================================
+# 📊 SUMMARY METRICS BLOCK 📊
+# =================================================================
+
+# 1. Calculate Key Figures from your dataset
+total_students = len(df)
+
+# Logic for Sleep Difficulty (Assuming 'Strongly agree' and 'Agree' indicate a struggle)
+total_sleep_difficulty = len(df[df['Difficulty_Sleeping_University_Pressure'].isin(['Strongly agree', 'Agree'])])
+percent_sleep = (total_sleep_difficulty / total_students) * 100 if total_students > 0 else 0
+
+# Logic for Negative Social Media Impact
+total_neg_impact = len(df[df['Social_Media_Positive_Impact_on_Wellbeing'] == 'Negative impact'])
+percent_neg_impact = (total_neg_impact / total_students) * 100 if total_students > 0 else 0
+
+# 2. Display Metrics
+st.markdown("### 📊 Summary Box")
+
+# Use st.columns to display metrics side-by-side
+m_col1, m_col2, m_col3 = st.columns(3)
+
+m_col1.metric(
+    label="Total Respondents",
+    value=total_students
+)
+
+m_col2.metric(
+    label="Sleep Difficulty",
+    value=total_sleep_difficulty,
+    # Show the percentage as a delta for context
+    delta=f"{round(percent_sleep)}% of total", 
+    delta_color="inverse" # Highlights this in red as it's a negative trend
+)
+
+m_col3.metric(
+    label="Negative SM Impact",
+    value=total_neg_impact,
+    delta=f"{round(percent_neg_impact)}% of total",
+    delta_color="inverse"
+)
+
+st.markdown("---")
+
+# --- 4. INDIVIDUAL VISUALIZATIONS ( AINUN ) ---
+# (Your existing columns and plotly charts follow here...)
+
 
 st.title("📊 Individual Visualizations : Ainun")
 
