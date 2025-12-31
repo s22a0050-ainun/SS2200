@@ -42,13 +42,14 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# --- 1. DATA LOADING & MAPPING ---
+# --- 1. DATA LOADING ---
+
 @st.cache_data
 def load_data():
     # Load the uploaded CSV
     df = pd.read_csv('Exploring Internet Use and Suicidality in Mental Health Populations.csv')
 
-# --- 2. DATA FILTERING ---
+# --- 2. DATA MAPPING ---
     
     # Mapping raw long column names to the short names used in your logic
     column_mapping = {
@@ -101,13 +102,15 @@ df['Social_Media_Positive_Impact_on_Wellbeing_Num'] = df['Social_Media_Positive_
 race_map = {0: 'Malay', 1: 'Chinese', 2: 'Indian', 3: 'Other'}
 df['Race_Num'] = df['Race'].map({'Malay': 0, 'Chinese': 1, 'Indian': 2, 'Others': 3, 'Other': 3}).fillna(3)
 
+# --- 4. DATA FILTERING ---
+
 # Filtered data subset
 filtered_data = df[['Gender', 'Year_of_Study', 'Current_Living_Situation', 
                     'Social_Media_Positive_Impact_on_Wellbeing', 
                     'Difficulty_Sleeping_University_Pressure', 'Race', 
                     'Social_Media_Daily_Routine', 'Employment_Status']].dropna()
 
-# --- 4. INDIVIDUAL VISUALIZATIONS ( AINUN ) ---
+# --- 5. INDIVIDUAL VISUALIZATIONS ( AINUN ) ---
 
 # Layout into two columns
 col1, col2 = st.columns(2)
