@@ -45,24 +45,16 @@ df = pd.read_csv("https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/h
 
 st.markdown("### 1️⃣ Gender Distribution Across Year of Study")
 
-gender_year_counts = (
-    df.groupby(['Year_of_Study', 'Gender'])
-      .size()
-      .reset_index(name='Count')
-)
+clean_df = df[['Year_of_Study', 'Gender']].dropna()
+
+st.write("Clean data preview:")
+st.write(clean_df.head())
 
 fig1 = px.bar(
-    gender_year_counts,
+    clean_df,
     x='Year_of_Study',
-    y='Count',
     color='Gender',
-    barmode='group',
-    title='Gender Distribution Across Year of Study',
-    labels={
-        'Year_of_Study': 'Year of Study',
-        'Count': 'Number of Respondents'
-    }
+    title='Gender Distribution Across Year of Study'
 )
 
 st.plotly_chart(fig1, use_container_width=True)
-
