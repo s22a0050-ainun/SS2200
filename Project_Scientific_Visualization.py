@@ -146,14 +146,10 @@ with col2:
                        barmode='group', color_discrete_sequence=px.colors.qualitative.Set3)
     st.plotly_chart(fig4, use_container_width=True)
 
-    # 6. Employment Status (Pie Chart) 
+    # VISUALIZATION 6 : Employment Status (Pie Chart) 
     st.subheader("Employment Status Distribution")
     # We use the original 'Employment_Status' column so the labels are text, not numbers
     fig6 = px.pie(df, names='Employment_Status', 
-                 color_discrete_sequence=px.colors.qualitative.Pastel) # Changed from Paired to Pastel
+                 color_discrete_sequence=px.colors.qualitative.Pastel) 
     fig6.update_traces(textposition='inside', textinfo='percent+label')
     st.plotly_chart(fig6, use_container_width=True)
-
-st.divider()
-st.write("### Data Preview (Transformed)")
-st.dataframe(df[['Gender', 'Year_of_Study_Num', 'Race_Num', 'Employment_Status_Num']].head(10))
