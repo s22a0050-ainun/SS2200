@@ -33,11 +33,6 @@ except Exception as e:
     st.error(f"An error occurred while loading data: {e}")
     st.stop()
 
-
-import streamlit as st
-import pandas as pd
-import plotly.express as px
-
 st.title("Individual Visualizations")
 
 # Load the main DataFrame
@@ -51,9 +46,6 @@ To identify demographic differences in mental health experiences
 # =================================================================
 # 📉 VISUALIZATION 1: GENDER DISTRIBUTION ACROSS YEAR OF STUDY
 # =================================================================
-
-import streamlit as st
-import plotly.express as px
 
 # Streamlit Title
 st.title("Student Demographic Analysis")
@@ -85,10 +77,6 @@ st.plotly_chart(fig, use_container_width=True)
 # 📉 VISUALIZATION 2: YEAR OF STUDY VS CURRENT LIVING SITUATION
 # =================================================================
 
-import streamlit as st
-import plotly.express as px
-import pandas as pd
-
 # 1. Prepare the data (Crosstab)
 year_living_crosstab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
 
@@ -108,10 +96,6 @@ st.plotly_chart(fig, use_container_width=True)
 # =================================================================
 # 📉 VISUALIZATION 3: GENDER VS SOCIAL MEDIA IMPACT ON WELLBEING
 # =================================================================
-
-import streamlit as st
-import plotly.express as px
-import pandas as pd
 
 # 1. Prepare the crosstab data
 gender_impact = pd.crosstab(df['Gender'], df['Social_Media_Positive_Impact_on_Wellbeing'])
@@ -140,9 +124,6 @@ st.plotly_chart(fig, use_container_width=True)
 # =================================================================
 # 📉 VISUALIZATION 4: RACE VS SOCIAL MEDIA AS PART OF DAILY ROUTINE
 # =================================================================
-
-import streamlit as st
-import plotly.express as px
 
 # 1. Title for the specific section
 st.subheader("Routine & Demographics")
@@ -176,9 +157,6 @@ st.plotly_chart(fig, use_container_width=True)
 # =================================================================
 # 📉 VISUALIZATION 5 : GENDER VS DIFFICULTY SLEEPING DUE TO UNIVERSITY PRESSURE
 # =================================================================
-
-import streamlit as st
-import plotly.express as px
 
 # 1. Section Header
 st.subheader("Health & Wellbeing Analysis")
