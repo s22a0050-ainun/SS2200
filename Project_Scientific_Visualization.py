@@ -152,7 +152,3 @@ with col2:
                  color_discrete_sequence=px.colors.qualitative.Paired)
     fig6.update_traces(textposition='inside', textinfo='percent+label')
     st.plotly_chart(fig6, use_container_width=True)
-
-st.divider()
-st.write("### Data Preview")
-st.dataframe(df[['Gender', 'Year_of_Study', 'Race', 'Employment_Status']].head(10))
