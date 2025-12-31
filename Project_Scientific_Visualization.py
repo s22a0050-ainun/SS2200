@@ -35,13 +35,14 @@ except Exception as e:
 # Use df directly (no undefined filtered_data)
 filtered_data = df.copy()
 
-import streamlit as st
-import pandas as pd
-import plotly.express as px
 
 st.title("📊 Individual Visualizations : Ainun")
 
 df = pd.read_csv("https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/heads/main/Exploring%20Internet%20Use%20and%20Suicidality%20in%20Mental%20Health%20Populations.csv")
+
+# =================================================================
+# 📉 CHART 1: GENDER DISTRIBUTION ACROSS COURSES
+# =================================================================
 
 st.subheader("Gender Distribution Across Year of Study")
 
