@@ -35,18 +35,34 @@ except Exception as e:
 # Use df directly (no undefined filtered_data)
 filtered_data = df.copy()
 
-st.subheader("TEST GRAPH")
+import streamlit as st
+import pandas as pd
+import plotly.express as px
 
-test_df = df[['Year_of_Study', 'Gender']].dropna()
+st.title("📊 Student Demographics & Wellbeing Analysis")
 
-st.write(test_df.head())
+df = pd.read_csv("Student_Mental_Health.csv")
 
-fig = px.bar(
-    test_df,
-    x='Year_of_Study',
-    color='Gender',
-    title='TEST: Gender vs Year of Study'
+st.markdown("### 1️⃣ Gender Distribution Across Year of Study")
+
+gender_year_counts = (
+    df.groupby(['Year_of_Study', 'Gender'])
+      .size()
+      .reset_index(name='Count')
 )
 
-st.plotly_chart(fig, use_container_width=True)
+fig1 = px.bar(
+    gender_year_counts,
+    x='Year_of_Study',
+    y='Count',
+    color='Gender',
+    barmode='group',
+    title='Gender Distribution Across Year of Study',
+    labels={
+        'Year_of_Study': 'Year of Study',
+        'Count': 'Number of Respondents'
+    }
+)
+
+st.plotly_chart(fig1, use_container_width=True)
 
