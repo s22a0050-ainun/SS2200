@@ -129,6 +129,9 @@ with col1:
                        color_discrete_sequence=px.colors.qualitative.Set2)
     st.plotly_chart(fig1, use_container_width=True)
 
+    # VISUALIZATION 2 : Gender vs. Social Media Impact
+    st.subheader("Gender vs. Social Media Impact")
+    
     # METRIC 2: Negative Impact Percentage
     neg_impact_count = len(df[df['Social_Media_Positive_Impact_on_Wellbeing'] == 'Negative impact'])
     neg_impact_pct = (neg_impact_count / total_respondents) * 100
