@@ -44,22 +44,31 @@ df = pd.read_csv("https://raw.githubusercontent.com/s22a0050-ainun/SS2200/refs/h
 # 📉 CHART 1: GENDER DISTRIBUTION ACROSS COURSES
 # =================================================================
 
+import streamlit as st
+import plotly.express as px
+
+# Streamlit Title
 st.title("Student Demographic Analysis")
 
+# Creating the Plotly Grouped Bar Chart
+# Note: px.histogram acts as a countplot when only an x-axis is provided
 fig = px.histogram(
-    df,
-    x="Year_of_Study",
-    color="Gender",
-    barmode="group",
+    df, 
+    x='Year_of_Study', 
+    color='Gender', 
+    barmode='group',
     color_discrete_sequence=px.colors.qualitative.Set2,
-    title="Gender Distribution Across Year of Study"
+    title='Gender Distribution Across Year of Study',
+    labels={'Year_of_Study': 'Year of Study', 'count': 'Number of Respondents'}
 )
 
+# Optional: Update layout for better aesthetics
 fig.update_layout(
     xaxis_title="Year of Study",
     yaxis_title="Number of Respondents",
     legend_title="Gender",
-    xaxis=dict(categoryorder="category ascending")
+    xaxis={'categoryorder':'category ascending'} # Ensures years are in order
 )
 
+# Render the plot in Streamlit
 st.plotly_chart(fig, use_container_width=True)
