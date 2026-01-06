@@ -35,10 +35,11 @@ except Exception as e:
 # Use df directly (no undefined filtered_data)
 filtered_data = df.copy()
 
-
-# --- 4. INDIVIDUAL VISUALIZATIONS ( AINUN ) ---
-# (Your existing columns and plotly charts follow here...)
-
+    st.markdown("""
+**Summary:** The visualizations show clear demographic differences in student's mental health experiences. 
+Female students report greater effects from academic pressure and social media while higher-year students like to live more independently off-campus.
+Most respondents are full-time students, showing that academic demands are a key factor influencing student wellbeing.
+""")
 
 st.title("📊 Individual Visualizations : Ainun")
 
@@ -114,7 +115,7 @@ filtered_data = df[['Gender', 'Year_of_Study', 'Current_Living_Situation',
                     'Difficulty_Sleeping_University_Pressure', 'Race', 
                     'Social_Media_Daily_Routine', 'Employment_Status']].dropna()
 
-# --- 5. INDIVIDUAL VISUALIZATIONS ( AINUN ) ---
+# --- 5. INDIVIDUAL VISUALIZATIONS ---
 
 # Layout into two columns
 col1, col2 = st.columns(2)
@@ -134,7 +135,7 @@ with col1:
     st.plotly_chart(fig1, use_container_width=True)
     st.markdown("""
 **Interpretation:** The data shows that **Year 1 students** have the highest participation rate. 
-Female students consistently outnumber male students across most years.
+The female students always have the majority over the male students in majority of the years.
 """)
 
 
@@ -149,6 +150,10 @@ Female students consistently outnumber male students across most years.
                        barmode='stack', 
                        color_discrete_map={'Positive impact': 'lightgreen', 'Negative impact': 'salmon', 'No impact': 'grey'})
     st.plotly_chart(fig3, use_container_width=True)
+     st.markdown("""
+**Interpretation:** The data show that the Year 1 students primarily live in the campus but Year 3 and Year 4 students are mainly off-campus.
+This implies a change towards the independent living as students mature in their education.
+""")
 
    
     # VISUALIZATION 3 : Gender vs. Difficulty Sleeping
@@ -163,6 +168,10 @@ Female students consistently outnumber male students across most years.
     fig5 = px.histogram(filtered_data, x='Difficulty_Sleeping_University_Pressure', color='Gender', 
                        barmode='group', color_discrete_sequence=px.colors.qualitative.Set3)
     st.plotly_chart(fig5, use_container_width=True)
+    st.markdown("""
+**Interpretation:** The data display that the female students show more positive and negative effects of social media than the male students.
+This implies that the overall impact of social media on the wellbeing of female students is more high.
+""")
 
 
 with col2:
@@ -176,6 +185,10 @@ with col2:
     year_living_xtab = pd.crosstab(df['Year_of_Study'], df['Current_Living_Situation'])
     fig2 = px.imshow(year_living_xtab, text_auto=True, color_continuous_scale='YlGnBu')
     st.plotly_chart(fig2, use_container_width=True)
+    st.markdown("""
+**Interpretation:** The data shows that Malay students also mention social media most commonly as a part of their day to day lives particularly at higher levels.
+Some other racial groups demonstrate less and less consistent daily use of social media.
+""")
 
 
     # VISUALIZATION 5 : Race vs. Social Media Routine
@@ -190,6 +203,10 @@ with col2:
     fig4 = px.histogram(filtered_data, x='Social_Media_Daily_Routine', color='Race', 
                        barmode='group', color_discrete_sequence=px.colors.qualitative.Set3)
     st.plotly_chart(fig4, use_container_width=True)
+    st.markdown("""
+**Interpretation:** The data shows that Malay students also mention social media most commonly as a part of their day to day lives particularly at higher levels.
+Some other racial groups demonstrate less and less consistent daily use of social media.
+""")
 
 
     # VISUALIZATION 6 : Employment Status
@@ -204,3 +221,7 @@ with col2:
                  color_discrete_sequence=px.colors.qualitative.Pastel) 
     fig6.update_traces(textposition='inside', textinfo='percent+label')
     st.plotly_chart(fig6, use_container_width=True)
+    st.markdown("""
+**Interpretation:** The data shows that most of the respondents were full-time students and smaller percentage of them were taken up with paid jobs or internships.
+This shows that the majority of students are basically interested in their studies and less are doing academics and career related activities.
+""")
