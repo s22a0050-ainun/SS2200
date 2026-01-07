@@ -117,7 +117,6 @@ with col4:
 # ==================================================
 left, right = st.columns(2)
 
-# ---------------- LEFT ----------------
 with left:
     st.subheader("1️⃣ Gender Distribution Across Year of Study")
 
@@ -132,9 +131,7 @@ with left:
 
     st.markdown("""
     **Interpretation:**  
-    Female students are generally more represented across all years, especially 
-    in higher years. This may indicate gender-based differences in academic engagement 
-    or reporting patterns related to mental health experiences.
+   The data shows that students in Year 1 are the most active. The female students always have the majority over the male students in majority of the years.
     """)
 
     st.subheader("2️⃣ Gender vs Social Media Impact")
@@ -150,9 +147,9 @@ with left:
 
     st.markdown("""
     **Interpretation:**  
-    Female students tend to report a stronger positive impact from social media 
-    on wellbeing, while male students show more variation. This could reflect 
-    gender differences in how online social environments affect mental health.
+   The data shows that the Year 1 students primarily stay in the campus but Year 3 and Year 4 students are mainly off-campus.
+   This implies a change towards the independent living as students mature in their education.
+
     """)
 
     st.subheader("3️⃣ Gender vs Difficulty Sleeping")
@@ -172,7 +169,6 @@ with left:
     pressure. Sleep disturbances may be linked to academic stress and social factors.
     """)
 
-# ---------------- RIGHT ----------------
 with right:
     st.subheader("4️⃣ Year of Study vs Living Situation")
 
@@ -191,8 +187,8 @@ with right:
 
     st.markdown("""
     **Interpretation:**  
-    Students in higher years tend to live off-campus or independently, whereas 
-    lower-year students are more likely to live with family or in dormitories.
+    The data shows that Malay students also mention social media most commonly as a part of their day to lives particularly at higher levels of agreement.
+    Some other racial groups demonstrate less and less consistent daily use of social media.
     """)
 
     st.subheader("5️⃣ Race vs Social Media Routine")
@@ -209,7 +205,7 @@ with right:
     st.markdown("""
     **Interpretation:**  
     Usage of social media as part of the daily routine varies slightly across races, 
-    suggesting that cultural or social norms may influence online engagement.
+    suggesting that cultural or social normal may influence online engagement.
     """)
 
     st.subheader("6️⃣ Employment Status Distribution")
@@ -224,23 +220,16 @@ with right:
     st.markdown("""
     **Interpretation:**  
     Most respondents are full-time students. Part-time employment is less common, 
-    indicating that academic commitments dominate daily routines.
+    showing that academic commitments influence daily routines.
     """)
 
 # ==================================================
 # SUMMARY
 # ==================================================
 st.markdown("""
-### 📌 Overall Summary
+### 📌 Summary
 
-Out of **101 total respondents**, the filtered results highlight clear demographic 
-differences in students’ mental health experiences:  
-
-- **Gender:** Female students are more represented and report higher effects 
-  from social media and academic pressure.  
-- **Year of Study:** Higher-year students are more independent in living arrangements.  
-- **Race & Social Media:** Slight differences exist in daily social media usage.  
-- **Employment:** Majority are full-time students, emphasizing the role of academic workload.  
-
-These insights can help design targeted mental health interventions and student support programs.
+The visualizations show clear demographic differences in student's mental health experiences. Female students report greater 
+effects from academic pressure and social media while higher-year students like to live more independently off-campus.
+Most respondents are full-time students, showing that academic demands are a key factor influencing student wellbeing.
 """)
