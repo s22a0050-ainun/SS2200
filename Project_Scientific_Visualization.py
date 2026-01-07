@@ -2,9 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-import streamlit as st
-import pandas as pd
-
 # ==================================================
 # PAGE CONFIG
 # ==================================================
@@ -54,7 +51,6 @@ def load_data():
 
 df = load_data()
 st.success("✅ Data loaded successfully")
-st.dataframe(df.head())
 
 # ==================================================
 # DATA TRANSFORMATION
@@ -76,24 +72,24 @@ df["Race_Num"] = df["Race"].map({
 })
 
 # ==================================================
-# DATA FILTERING (SIDEBAR)
+# DATA FILTERING (NO RESPONDENTS REMOVED)
 # ==================================================
 st.sidebar.header("🔍 Data Filtering")
 
 gender_filter = st.sidebar.multiselect(
-    "Select Gender",
+    "Gender",
     options=df["Gender"].dropna().unique(),
     default=df["Gender"].dropna().unique()
 )
 
 year_filter = st.sidebar.multiselect(
-    "Select Year of Study",
+    "Year of Study",
     options=df["Year_of_Study"].dropna().unique(),
     default=df["Year_of_Study"].dropna().unique()
 )
 
 race_filter = st.sidebar.multiselect(
-    "Select Race",
+    "Race",
     options=df["Race"].dropna().unique(),
     default=df["Race"].dropna().unique()
 )
@@ -102,10 +98,10 @@ filtered_data = df[
     (df["Gender"].isin(gender_filter)) &
     (df["Year_of_Study"].isin(year_filter)) &
     (df["Race"].isin(race_filter))
-].dropna()
+]
 
 # ==================================================
-# SUMMARY METRIC BOXES
+# SUMMARY METRIC BOXES (SHOWS 101)
 # ==================================================
 st.subheader("📊 Summary Metrics")
 
@@ -115,14 +111,22 @@ with col1:
     st.metric("Total Respondents", len(filtered_data))
 
 with col2:
-    st.metric("Majority Gender", filtered_data["Gender"].mode()[0])
+    st.metric(
+        "Majority Gender",
+        filtered_data["Gender"].mode(dropna=True)[0]
+    )
 
 with col3:
-    st.metric("Most Common Race", filtered_data["Race"].mode()[0])
+    st.metric(
+        "Most Common Race",
+        filtered_data["Race"].mode(dropna=True)[0]
+    )
 
 with col4:
-    st.metric("Dominant Year of Study", filtered_data["Year_of_Study"].mode()[0])
-
+    st.metric(
+        "Dominant Year of Study",
+        filtered_data["Year_of_Study"].mode(dropna=True)[0]
+    )
 
 # ==================================================
 # VISUALIZATIONS
