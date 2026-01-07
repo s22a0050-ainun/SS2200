@@ -35,58 +35,82 @@ df = load_data()
 # ✅ TOTAL RESPONDENTS (RAW DATA)
 total_respondents = len(df)  # = 101
 
-# --------------------------------------------------
+# ==================================================
 # DATA TRANSFORMATION
-# --------------------------------------------------
+# ==================================================
+df["Gender_Num"] = df["Gender"].map({
+    "Female": 0,
+    "Male": 1,
+    "Other": 2
+})
 
-# Likert scale mapping
-likert_map = {
-    "Strongly disagree": 1,
-    "Disagree": 2,
-    "Neutral": 3,
-    "Agree": 4,
-    "Strongly agree": 5
-}
+df["Year_Num"] = df["Year_of_Study"].str.extract(r"(\d)").astype(float)
 
-df["Stress_Index_Num"] = df[
-    "I have difficulty sleeping due to university-related pressure. / Saya sukar tidur kerana tekanan berkaitan universiti."
-].map(likert_map)
+df["Race_Num"] = df["Race"].map({
+    "Malay": 0,
+    "Chinese": 1,
+    "Indian": 2,
+    "Other": 3,
+    "Others": 3
+})
 
-df["SM_Routine_Num"] = df[
-    "Using social media is an important part of my daily routine. / Menggunakan media sosial adalah bahagian penting dalam rutin harian saya."
-].map(likert_map)
+# ==================================================
+# DATA FILTERING (NO RESPONDENTS REMOVED)
+# ==================================================
+st.sidebar.header("🔍 Data Filtering")
 
-# --------------------------------------------------
-# DATA FILTERING (ONLY FOR ANALYSIS)
-# --------------------------------------------------
+gender_filter = st.sidebar.multiselect(
+    "Gender",
+    options=df["Gender"].dropna().unique(),
+    default=df["Gender"].dropna().unique()
+)
+
+year_filter = st.sidebar.multiselect(
+    "Year of Study",
+    options=df["Year_of_Study"].dropna().unique(),
+    default=df["Year_of_Study"].dropna().unique()
+)
+
+race_filter = st.sidebar.multiselect(
+    "Race",
+    options=df["Race"].dropna().unique(),
+    default=df["Race"].dropna().unique()
+)
+
 filtered_data = df[
-    ["Gender / Jantina:",
-     "Year of Study / Tahun Belajar:",
-     "Race / Bangsa:",
-     "Stress_Index_Num",
-     "SM_Routine_Num"]
-].dropna()
+    (df["Gender"].isin(gender_filter)) &
+    (df["Year_of_Study"].isin(year_filter)) &
+    (df["Race"].isin(race_filter))
+]
 
-# --------------------------------------------------
-# SUMMARY METRICS (BOXED)
-# --------------------------------------------------
+# ==================================================
+# SUMMARY METRIC BOXES (SHOWS 101)
+# ==================================================
 st.subheader("📊 Summary Metrics")
 
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric("Total Respondents", total_respondents)
+    st.metric("Total Respondents", len(filtered_data))
 
 with col2:
-    st.metric("Avg Stress Index", round(filtered_data["Stress_Index_Num"].mean(), 2))
+    st.metric(
+        "Majority Gender",
+        filtered_data["Gender"].mode(dropna=True)[0]
+    )
 
 with col3:
-    st.metric("Avg Social Media Usage", round(filtered_data["SM_Routine_Num"].mean(), 2))
+    st.metric(
+        "Most Common Race",
+        filtered_data["Race"].mode(dropna=True)[0]
+    )
 
 with col4:
-    high_usage_pct = (filtered_data["SM_Routine_Num"] >= 4).mean() * 100
-    st.metric("High Usage (%)", f"{high_usage_pct:.1f}%")
-
+    st.metric(
+        "Dominant Year of Study",
+        filtered_data["Year_of_Study"].mode(dropna=True)[0]
+    )
+    
 # ==================================================
 # VISUALIZATIONS
 # ==================================================
